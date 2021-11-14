@@ -1,0 +1,689 @@
+﻿<UserControl
+    x:Class="NFS.Robot.Views.EnvironmentData"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NFS.Robot.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <Grid Background="#FF434343">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Margin="20,10,0,0"
+            Orientation="Horizontal">
+            <materialDesign:PackIcon
+                Width="35"
+                Height="35"
+                Background="#FF434343"
+                Foreground="#FFBBBBBB"
+                Kind="ViewGrid" />
+            <TextBlock
+                Margin="15,10,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                FontSize="14"
+                Foreground="#FFBBBBBB"
+                Text="机器人 &gt; 环境数据" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="15,20,0,0"
+                VerticalAlignment="Top"
+                FontSize="14"
+                Foreground="#FFBBBBBB"
+                Text="巡检线路:" />
+            <ComboBox
+                Width="150"
+                Height="30"
+                Margin="30,15"
+                Padding="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                Background="#FF434343"
+                BorderBrush="Gray"
+                BorderThickness="0.5"
+                DisplayMemberPath="LineName"
+                FontFamily="Arial Black"
+                FontSize="14"
+                Foreground="#FF7F7F7F"
+                ItemsSource="{Binding SimplifyLineList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedIndex="0"
+                SelectedItem="{Binding CmbSimplifyItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+            <TextBlock
+                Margin="15,20,0,0"
+                VerticalAlignment="Top"
+                FontSize="14"
+                Foreground="#FFBBBBBB"
+                Text="机器人:" />
+            <ComboBox
+                Width="150"
+                Height="30"
+                Margin="20,15"
+                Padding="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                Background="#FF434343"
+                BorderBrush="Gray"
+                BorderThickness="0.5"
+                DisplayMemberPath="RobotName"
+                FontFamily="Arial Black"
+                FontSize="14"
+                Foreground="#FF7F7F7F"
+                ItemsSource="{Binding SimplifyRobotList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedIndex="0"
+                SelectedItem="{Binding CmbSimplifyRobotItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Border
+                Width="1600"
+                Height="50"
+                Margin="20,5,20,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Background="#FF1F2E35">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Margin="40,0"
+                        VerticalAlignment="Center"
+                        FontFamily="Arial"
+                        FontSize="18"
+                        Foreground="White"
+                        Text="09月15日 周三 农历八月初九" />
+                    <TextBlock
+                        Margin="300,0"
+                        VerticalAlignment="Center"
+                        FontFamily="Arial"
+                        FontSize="18"
+                        Foreground="White"
+                        Text="13:58" />
+                </StackPanel>
+            </Border>
+        </Grid>
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <materialDesign:PackIcon
+                Grid.Row="1"
+                Width="35"
+                Height="35"
+                Margin="0,15,10,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Foreground="White"
+                Kind="WhiteBalanceSunny" />
+            <TextBlock
+                Grid.Row="1"
+                Margin="0,23,40,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="top"
+                FontFamily="Arial"
+                FontSize="16"
+                Foreground="White"
+                Text="晴 东南风 1级" />
+        </StackPanel>
+        <!--  内容区  -->
+        <Grid
+            Grid.Row="2"
+            Grid.RowSpan="5"
+            Height="700"
+            Margin="20,0,20,0"
+            VerticalAlignment="Top"
+            Background="#FF343434">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid
+                Grid.Row="0"
+                Grid.Column="0"
+                Width="173"
+                Height="100"
+                Margin="30,60,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <Border
+                    Margin="10"
+                    Background="#FF3B3B3B"
+                    BorderBrush="#FF323232"
+                    BorderThickness="2"
+                    CornerRadius="5">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Image
+                            Width="45"
+                            Height="45"
+                            Margin="15,0"
+                            VerticalAlignment="Center"
+                            Source="/Resource/Image/temperature.png" />-->
+                        <!--  温度计图标  -->
+                        <Grid Margin="10,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Path
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                Width="40"
+                                Height="45"
+                                Data="M586.088 859.234a384.906 384.906 0 0 1-125.455 24.488C247.794 889.308 70.637 721.2 65.051 508.339s162.512-390.029 375.35-395.615c212.895-5.586 390.051 162.522 395.637 375.395 0.022 0.693-0.011 1.374 0 2.067 18.389 2.726 36.096 7.406 52.931 13.953 0.067-5.787 0.134-11.574-0.022-17.405-6.346-242.064-207.812-433.253-449.92-426.896C196.941 66.184 5.798 267.672 12.154 509.746c6.356 242.041 207.8 433.219 449.875 426.873 55.566-1.464 108.396-13.306 156.824-33.447a248.135 248.135 0 0 1-32.765-43.938z"
+                                Fill="#FF12CC46"
+                                Stretch="Fill" />
+                            <Path
+                                Grid.Column="1"
+                                Width="20"
+                                Height="30"
+                                Data="M544.519 565.737c-10.456-18.745-24.867-35-42.071-47.646l0.961-227.061v-1.329c0-0.224-4.29-81.026-85.417-85.271H414.036c-81.194 4.245-85.417 85.048-85.417 85.271v1.329l0.983 227.061c-17.271 12.646-31.705 28.9-42.139 47.646-12.043 21.528-18.835 46.239-18.835 72.503 0 40.709 16.399 77.709 42.965 104.654 26.566 26.901 63.432 43.781 104.186 44.307h0.446c40.754-0.525 77.575-17.405 104.23-44.307 26.498-26.945 42.965-63.945 42.965-104.654 0.001-26.263-6.881-50.974-18.901-72.503z m-53.667 148.045c-19.148 19.36-45.603 31.525-74.871 31.973-29.225-0.447-55.701-12.612-74.782-31.973-19.192-19.405-31.012-46.071-31.012-75.542 0-19.125 4.915-36.899 13.518-52.338a107.985 107.985 0 0 1 37.491-39.223l9.942-6.1-0.066-11.652-1.051-236.835c0.09-2.044 3.352-43.893 45.96-46.194 42.697 2.302 45.848 44.15 46.004 46.194l-1.05 236.835-0.022 11.652 9.875 6.1c15.596 9.651 28.555 23.146 37.536 39.223 8.603 15.438 13.45 33.213 13.45 52.338-0.001 29.471-11.753 56.137-30.922 75.542z"
+                                Fill="#FF12CC46"
+                                Stretch="Fill" />
+                            <Path
+                                Grid.Column="1"
+                                Width="20"
+                                Height="20"
+                                Margin="10,0,0,0"
+                                Data="M437.765 576.239c25.561 8.669 44.016 32.877 44.016 61.398 0 35.771-29.068 64.749-64.84 64.749-35.748 0-64.749-28.979-64.749-64.749 0-28.521 18.433-52.729 43.971-61.398V352.91c0-11.462 9.295-20.79 20.778-20.79 11.507 0 20.824 9.328 20.824 20.79v223.329zM539.09 498.072c-7.709 0-13.897-6.167-13.897-13.875 0-7.642 6.188-13.864 13.897-13.864h79.451c7.687 0 13.875 6.223 13.875 13.864a13.831 13.831 0 0 1-13.875 13.875H539.09zM539.09 413.136a13.854 13.854 0 0 1-13.897-13.897c0-7.652 6.188-13.819 13.897-13.819h79.451c7.687 0 13.875 6.167 13.875 13.819a13.85 13.85 0 0 1-13.875 13.897H539.09zM539.09 328.165a13.86 13.86 0 0 1-13.897-13.886c0-7.63 6.188-13.864 13.897-13.864h79.451c7.687 0 13.875 6.234 13.875 13.864a13.854 13.854 0 0 1-13.875 13.886H539.09z"
+                                Fill="#FF12CC46"
+                                Stretch="Fill" />
+                            <Path
+                                Grid.Column="3"
+                                Width="20"
+                                Height="20"
+                                Margin="-10,27,0,0"
+                                VerticalAlignment="Center"
+                                Data="M806.468 528.995c-113.524 0-205.533 92.008-205.533 205.532 0 113.502 92.009 205.521 205.533 205.521 113.502 0 205.532-92.02 205.532-205.521 0-113.524-92.03-205.532-205.532-205.532zM685.749 690.222c-25.896-1.464-39.592-15.148-41.044-41.066 2.212-25.203 15.863-38.854 41.044-41.078 25.873 1.509 39.591 15.205 41.065 41.078-1.474 25.917-15.192 39.602-41.065 41.066z m175.615 189.925c-76.793-1.608-115.982-43.971-117.591-127.153 1.608-83.977 42.005-127.165 121.21-129.556 50.115 0.805 85.261 25.191 105.459 73.173l-43.636 11.998c-11.328-30.386-32.71-46.372-64.236-47.992-47.68 2.413-72.726 33.201-75.161 92.377 0.804 59.979 25.046 90.768 72.726 92.365 37.983 0.805 61.421-18.779 70.313-58.773l44.843 10.792c-14.546 55.991-52.528 83.562-113.927 82.769z"
+                                Fill="#FF12CC46"
+                                Stretch="Fill" />
+                        </Grid>
+                        <TextBlock
+                            Margin="10,20,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="30"
+                            Foreground="White"
+                            Text="25" />
+                        <TextBlock
+                            Margin="0,30,0,0"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="White"
+                            Text="℃" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <Grid
+                Grid.Row="1"
+                Grid.Column="0"
+                Width="173"
+                Height="100"
+                Margin="30,40,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <Border
+                    Margin="10"
+                    Background="#FF3B3B3B"
+                    BorderBrush="#FF323232"
+                    BorderThickness="2"
+                    CornerRadius="5">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<materialDesign:PackIcon
+                            Width="40"
+                            Height="40"
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FF0293CA"
+                            Kind="Water" />-->
+                        <!--<Image
+                            Width="40"
+                            Height="40"
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Source="/Resource/Image/humidity.png" />-->
+                        <Path
+                            Width="15"
+                            Height="20"
+                            Margin="10,0,0,10"
+                            Data="M906.509581 528.418837a149.108118 149.108118 0 0 1-37.751465 77.231228 143.889334 143.889334 0 0 1-240.301287-44.630771 151.683622 151.683622 0 0 1-1.728299-102.986266 567.288612 567.288612 0 0 1 53.204488-118.439289 1183.85068 1183.85068 0 0 1 72.08022-108.137274c10.166463-12.030314 10.166463-12.030314 20.60403 0a783.800377 783.800377 0 0 1 118.43929 204.244233 285.745375 285.745375 0 0 1 13.724724 51.476189 316.48198 316.48198 0 0 1 1.728299 41.208062z m0 0"
+                            Fill="#FF009DD9"
+                            Stretch="Fill" />
+                        <Path
+                            Width="15"
+                            Height="20"
+                            Margin="-2,15,0,0"
+                            Data="M247.553364 158.52904a978.860906 978.860906 0 0 1 92.684251 138.941655 420.213787 420.213787 0 0 1 48.053479 121.997551 143.990998 143.990998 0 0 1-130.435715 169.915478 147.786478 147.786478 0 0 1-154.496343-118.439289 6.303207 6.303207 0 0 0-1.728298-5.151007v-41.208062a60.998776 60.998776 0 0 0 3.388821-17.147434 510.288645 510.288645 0 0 1 49.781778-118.439289A762.213588 762.213588 0 0 1 243.995102 158.52904z m0 0"
+                            Fill="#FF009DD9"
+                            Stretch="Fill" />
+                        <Path
+                            Width="15"
+                            Height="20"
+                            Margin="-2,0,0,10"
+                            Data="M475.858226 868.453122a154.903002 154.903002 0 0 1-75.536818-36.057054 145.719297 145.719297 0 0 1-41.208061-154.462454 567.491942 567.491942 0 0 1 68.65751-145.888739 800.947811 800.947811 0 0 1 61.812093-87.533242c6.777642-8.573717 8.573717-8.573717 13.724724 0a841.07145 841.07145 0 0 1 123.590297 211.123539 169.102161 169.102161 0 0 1 10.166463 104.714565 145.719297 145.719297 0 0 1-115.01658 108.137274 6.269319 6.269319 0 0 0-5.151008 1.728298 329.969487 329.969487 0 0 0-41.208062-1.728298z m0 0"
+                            Fill="#FF009DD9"
+                            Stretch="Fill" />
+                        <TextBlock
+                            Margin="20,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="30"
+                            Foreground="White"
+                            Text="27" />
+                        <TextBlock
+                            Margin="0,10,0,0"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="White"
+                            Text="%" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <Grid
+                Grid.Row="2"
+                Grid.Column="0"
+                Width="173"
+                Height="100"
+                Margin="30,40,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <Border
+                    Margin="10"
+                    Background="#FF3B3B3B"
+                    BorderBrush="#FF323232"
+                    BorderThickness="2"
+                    CornerRadius="5">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<materialDesign:PackIcon
+                            Width="40"
+                            Height="40"
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FFFE921B"
+                            Kind="DotsGrid" />-->
+                        <Image
+                            Width="40"
+                            Height="40"
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Source="/Resource/Image/dust.png" />
+                        <!--<Path
+                            Width="5"
+                            Height="5"
+                            VerticalAlignment="Center"
+                            Data="M352 672m-32 0a32 32 0 1 0 64 0 32 32 0 1 0-64 0Z"
+                            Fill="#FFF1B512"
+                            Stretch="Fill" />-->
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="30"
+                            Foreground="White"
+                            Text="25" />
+                        <TextBlock
+                            Margin="0,10,0,0"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="White"
+                            Text="mg/m³" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!--  Lat Long  -->
+            <Grid Grid.Row="2" Grid.Column="0">
+                <Border
+                    Width="275"
+                    Height="28"
+                    Margin="48,0"
+                    HorizontalAlignment="Left"
+                    Background="#FF3B3B3B"
+                    BorderBrush="#FF323232">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            Foreground="White"
+                            Text="Lat" />
+                        <TextBlock
+                            Margin="5,0"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            Foreground="White"
+                            Text="22.978486" />
+                        <TextBlock
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            Foreground="White"
+                            Text="Long" />
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            Foreground="White"
+                            Text="113.115049" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="0">
+                <Border
+                    Width="445"
+                    Height="37"
+                    Margin="48,80,0,0"
+                    HorizontalAlignment="Left"
+                    Background="#FF3B3B3B"
+                    BorderBrush="#FF323232">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Width="30"
+                            Height="30"
+                            VerticalAlignment="Center"
+                            Foreground="White"
+                            Kind="ChevronTripleUp" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            Foreground="White"
+                            Text="10Km" />
+                        <materialDesign:PackIcon
+                            Width="30"
+                            Height="30"
+                            Margin="50,0,0,0"
+                            VerticalAlignment="Center"
+                            Foreground="White"
+                            Kind="Map" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            Foreground="White"
+                            Text="500m" />
+                        <materialDesign:PackIcon
+                            Width="30"
+                            Height="30"
+                            Margin="50,0,0,0"
+                            VerticalAlignment="Center"
+                            Foreground="White"
+                            Kind="Speedometer" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            Foreground="White"
+                            Text="1m/s" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid
+                Grid.Row="0"
+                Grid.Column="2"
+                Width="173"
+                Height="100"
+                Margin="0,60,30,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top">
+                <Border
+                    Margin="10"
+                    Background="#FF3B3B3B"
+                    BorderBrush="#FF323232"
+                    BorderThickness="2"
+                    CornerRadius="5">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<materialDesign:PackIcon
+                            Width="40"
+                            Height="40"
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FF009DD9"
+                            Kind="DotsGrid" />-->
+                        <!--<Image
+                            Width="40"
+                            Height="40"
+                            Margin="15,0"
+                            VerticalAlignment="Center"
+                            Source="/Resource/Image/CarbonMonoxide.png" />-->
+                        <Path
+                            Width="8"
+                            Height="32"
+                            Margin="5,0,0,0"
+                            Data="M374.140906 884.69596a39.937535 39.937535 0 0 1-28.116025-11.82151 511.200451 511.200451 0 0 1 0-721.112136 40.001435 40.001435 0 0 1 56.55155 56.55155 430.68638 430.68638 0 0 0 0 607.050535 39.937535 39.937535 0 0 1-28.116025 68.05356z"
+                            Fill="#FF18A3E5"
+                            Stretch="Fill" />
+                        <Path
+                            Width="8"
+                            Height="22"
+                            Data="M374.140906 884.69596a39.937535 39.937535 0 0 1-28.116025-11.82151 511.200451 511.200451 0 0 1 0-721.112136 40.001435 40.001435 0 0 1 56.55155 56.55155 430.68638 430.68638 0 0 0 0 607.050535 39.937535 39.937535 0 0 1-28.116025 68.05356z"
+                            Fill="#FF18A3E5"
+                            Stretch="Fill" />
+                        <Path
+                            Width="15"
+                            Height="12"
+                            VerticalAlignment="Center"
+                            Data="M693.641188 323.333965a151.443133 151.443133 0 0 1 53.995547 99.045088h-65.497558a95.850084 95.850084 0 0 0-38.340033-58.468552 122.368608 122.368608 0 0 0-70.609563-18.531016 112.144599 112.144599 0 0 0-95.850084 44.410539 178.600657 178.600657 0 0 0-30.033027 110.547097 182.754161 182.754161 0 0 0 29.394026 111.505599 118.215104 118.215104 0 0 0 98.086587 39.618035 117.256603 117.256603 0 0 0 71.887563-19.809018 127.800113 127.800113 0 0 0 41.535037-70.290062h65.497557a181.15666 181.15666 0 0 1-63.900056 112.7836 176.683656 176.683656 0 0 1-113.7421 38.020533 183.073661 183.073661 0 0 1-153.040635-63.900056 231.318204 231.318204 0 0 1-43.771539-148.248131 231.318204 231.318204 0 0 1 43.771539-149.526132 179.559158 179.559158 0 0 1 150.165132-63.900056 184.032162 184.032162 0 0 1 120.451607 36.742532zM1133.273575 346.337986a221.094195 221.094195 0 0 1 51.759046 153.040635 219.496693 219.496693 0 0 1-51.759046 152.082134 189.463667 189.463667 0 0 1-148.567631 60.385553 188.505166 188.505166 0 0 1-148.248131-60.385553 220.774695 220.774695 0 0 1-51.120045-151.762634 221.094195 221.094195 0 0 1 51.120045-152.401634 184.990663 184.990663 0 0 1 148.567631-61.663555 188.185666 188.185666 0 0 1 148.248131 60.705054z m-247.293218 41.535036a170.932651 170.932651 0 0 0-31.950028 111.505599 170.29365 170.29365 0 0 0 31.950028 110.866597 121.090607 121.090607 0 0 0 98.725587 41.215537 122.049108 122.049108 0 0 0 98.406087-40.896036 171.252151 171.252151 0 0 0 33.86703-112.7836 175.725155 175.725155 0 0 0-33.86703-114.0616 120.451606 120.451606 0 0 0-98.406087-40.896036 120.451606 120.451606 0 0 0-99.045087 45.049539z"
+                            Fill="#FF18A3E5"
+                            Stretch="Fill" />
+                        <Path
+                            Width="8"
+                            Height="22"
+                            Data="M1314.110734 1023.998083a39.937535 39.937535 0 0 1-28.435525-68.37306 627.818053 627.818053 0 0 0 0-886.613282A40.001435 40.001435 0 1 1 1342.226759 12.460191a707.693124 707.693124 0 0 1 0 999.716382 39.937535 39.937535 0 0 1-28.116025 11.82151z"
+                            Fill="#FF18A3E5"
+                            Stretch="Fill" />
+                        <Path
+                            Width="8"
+                            Height="32"
+                            Data="M1314.110734 1023.998083a39.937535 39.937535 0 0 1-28.435525-68.37306 627.818053 627.818053 0 0 0 0-886.613282A40.001435 40.001435 0 1 1 1342.226759 12.460191a707.693124 707.693124 0 0 1 0 999.716382 39.937535 39.937535 0 0 1-28.116025 11.82151z"
+                            Fill="#FF18A3E5"
+                            Stretch="Fill" />
+
+                        <TextBlock
+                            Margin="5,5,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="30"
+                            Foreground="White"
+                            Text="20" />
+                        <TextBlock
+                            Margin="0,10,0,0"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="White"
+                            Text="mg/m³" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <Grid
+                Grid.Row="1"
+                Grid.Column="2"
+                Width="173"
+                Height="100"
+                Margin="0,40,30,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top">
+                <Border
+                    Margin="10"
+                    Background="#FF3B3B3B"
+                    BorderBrush="#FF323232"
+                    BorderThickness="2"
+                    CornerRadius="5">
+                    <StackPanel Orientation="Horizontal">
+
+                        <!--<materialDesign:PackIcon
+                            Width="30"
+                            Height="30"
+                            Margin="30,10,0,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FFEC3131"
+                            Kind="VolumeHigh" />
+                        <materialDesign:PackIcon
+                            Width="40"
+                            Height="40"
+                            Margin="-45,5,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Foreground="#FF12CC46"
+                            Kind="EarHearingOff" />-->
+                        <!--<Image
+                            Width="40"
+                            Height="40"
+                            Margin="10,5,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Source="/Resource/Image/db.png" />-->
+                        <Path
+                            Width="35"
+                            Height="35"
+                            Margin="10,5,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Data="M128 608h32v288h-32zM192 640h32v256h-32zM256 608h32v288h-32zM320 704h32v192h-32zM384 640h32v256h-32zM448 640h32v256h-32zM512 448h32v448h-32zM576 576h32v320h-32zM640 608h32v288h-32zM704 640h32v256h-32zM768 544h32v352h-32zM832 640h32v256h-32zM160 672h32v224h-32zM224 576h32v320h-32zM288 640h32v256h-32zM352 672h32v224h-32zM416 576h32v320h-32zM480 544h32v352h-32zM544 512h32v384h-32zM608 640h32v256h-32zM672 672h32v224h-32zM736 576h32v320h-32zM800 608h32v288h-32zM864 608h32v288h-32zM481.64 128v256.208h-49.416v-21.128c-5.104 8.648-11.344 15.248-18.72 19.8a45.784 45.784 0 0 1-24.536 6.824c-7.544 0-14.392-1.352-20.544-4.08a42.512 42.512 0 0 1-15.552-11.56c-4.768-5.992-8.128-14-10.064-24.04-1.944-10.04-2.912-28.864-2.912-56.48 0-43.48 3.664-72.064 10.984-85.768s20.464-20.544 39.432-20.544c8.096 0 15.192 1.808 21.296 5.408 6.096 3.6 11.584 9.176 16.472 16.72V128h53.56z m-69.88 104.984c-6.768 0-11.4 3.496-13.888 10.48s-3.744 22.464-3.744 46.416c0 24.952 1.168 40.512 3.496 46.664s6.6 9.232 12.808 9.232c7.096 0 12-3.72 14.72-11.144 2.72-7.432 4.08-27.008 4.08-58.728 0-16.304-1.304-27.536-3.912-33.688-2.608-6.16-7.128-9.232-13.56-9.232zM520.904 384.208V128h64.384c19.512 0 33.52 0.776 42.008 2.328s15.832 4.16 22.048 7.816c9.2 5.552 16.16 12.872 20.88 21.96 4.712 9.096 7.072 19.856 7.072 32.28 0 11.088-2.2 20.96-6.568 29.616-4.384 8.648-11.4 17.08-21.048 25.288 11.424 5.768 20.016 13.616 25.784 23.544 5.768 9.928 8.648 21.816 8.648 35.688 0 11.424-1.944 22.232-5.824 32.44-3.888 10.208-9.32 18.912-16.304 26.12-6.656 6.984-14.864 11.92-24.624 14.808-9.768 2.888-24.848 4.328-45.256 4.328h-71.2z m59.888-156.056h3.824c11.752 0 20.432-2.472 26.04-7.4 5.6-4.936 8.4-12.56 8.4-22.872 0-8.984-2.776-15.888-8.32-20.712-5.552-4.824-13.48-7.24-23.792-7.24-1.664 0-2.944 0.024-3.824 0.08a17.896 17.896 0 0 0-2.16 0.248l-0.168 57.896z m0 110.808h5.16c12.528 0 21.96-2.936 28.28-8.816 6.32-5.88 9.48-14.64 9.48-26.288 0-10.872-3.112-18.824-9.32-23.872-6.216-5.048-16.032-7.568-29.448-7.568h-4.16v66.544z"
+                            Fill="#FFD81E06"
+                            Stretch="Fill" />
+
+                        <TextBlock
+                            Margin="10,15,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="30"
+                            Foreground="White"
+                            Text="35" />
+                        <TextBlock
+                            Margin="0,25,0,0"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="White"
+                            Text="dB" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <Grid
+                Grid.Row="2"
+                Grid.Column="2"
+                Width="173"
+                Height="100"
+                Margin="0,40,30,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top">
+                <Border
+                    Margin="10"
+                    Background="#FF3B3B3B"
+                    BorderBrush="#FF323232"
+                    BorderThickness="2"
+                    CornerRadius="5">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<materialDesign:PackIcon
+                            Width="40"
+                            Height="40"
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Foreground="#FFF1B512"
+                            Kind="SortAscending" />-->
+                        <!--<Image
+                            Width="40"
+                            Height="40"
+                            Margin="15,0"
+                            VerticalAlignment="Center"
+                            Source="/Resource/Image/vibration.png" />-->
+                        <Path
+                            Width="35"
+                            Height="35"
+                            Margin="15,0"
+                            VerticalAlignment="Center"
+                            Data="M194.901333 214.698667l-68.266666-68.266667A33.9968 33.9968 0 1 0 78.506667 194.56L122.538667 238.933333l-44.373334 44.032a33.9968 33.9968 0 0 0 0 48.128l44.373334 44.373334-44.032 44.032a33.9968 33.9968 0 0 0 0 48.128L122.538667 512 78.506667 556.032a33.9968 33.9968 0 0 0 0 48.128L122.538667 648.533333 78.506667 692.565333a33.9968 33.9968 0 0 0 0 48.128L122.538667 785.066667 78.506667 829.098667a33.9968 33.9968 0 0 0 0 48.128c6.485333 6.826667 15.018667 10.24 23.893333 10.24s17.408-3.413333 24.234667-9.898667l68.266666-68.266667a33.9968 33.9968 0 0 0 0-48.128L150.528 716.8l44.032-44.032a33.9968 33.9968 0 0 0 0-48.128L150.528 580.266667l44.032-44.032a33.9968 33.9968 0 0 0 0-48.128L150.528 443.733333l44.032-44.032a33.9968 33.9968 0 0 0 0-48.128L150.528 307.2 194.56 263.168c13.653333-13.312 13.653333-35.157333 0.341333-48.469333z m750.933334 68.266666L901.461333 238.933333l44.032-44.032a33.9968 33.9968 0 1 0-48.128-48.128l-68.266666 68.266667a33.9968 33.9968 0 0 0 0 48.128L873.472 307.2l-44.032 44.032a33.9968 33.9968 0 0 0 0 48.128l44.032 44.373333-44.032 44.032a33.9968 33.9968 0 0 0 0 48.128l44.032 44.373334-44.032 44.032a33.9968 33.9968 0 0 0 0 48.128l44.032 44.373333-44.032 44.032a33.9968 33.9968 0 0 0 0 48.128l68.266667 68.266667c6.485333 6.826667 15.018667 10.24 23.893333 10.24s17.408-3.413333 24.234667-9.898667a33.9968 33.9968 0 0 0 0-48.128l-44.373334-44.373333 44.032-44.032a33.9968 33.9968 0 0 0 0-48.128L901.461333 648.533333l44.032-44.032a33.9968 33.9968 0 0 0 0-48.128L901.461333 512l44.032-44.032a33.9968 33.9968 0 0 0 0-48.128L901.461333 375.466667l44.032-44.032c13.653333-13.312 13.653333-35.157333 0.341334-48.469334zM716.8 68.266667H307.2c-18.773333 0-34.133333 15.36-34.133333 34.133333v819.2c0 18.773333 15.36 34.133333 34.133333 34.133333h409.6c18.773333 0 34.133333-15.36 34.133333-34.133333V102.4c0-18.773333-15.36-34.133333-34.133333-34.133333z m-34.133333 819.2H341.333333V136.533333h341.333334v750.933334z"
+                            Fill="#FFF1B512"
+                            Stretch="Fill" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="30"
+                            Foreground="White"
+                            Text="25" />
+                        <TextBlock
+                            Margin="0,10,0,0"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="White"
+                            Text="mg/m³" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="2"
+                Margin="0,160,100,0"
+                HorizontalAlignment="Right"
+                FontFamily="Arial"
+                FontSize="16"
+                Foreground="White"
+                Text="N" />
+            <Border
+                Grid.Row="2"
+                Grid.Column="2"
+                Width="100"
+                Height="100"
+                Margin="60,200"
+                HorizontalAlignment="Right"
+                Background="White"
+                BorderBrush="Black"
+                BorderThickness="3"
+                CornerRadius="1000">
+                <Border
+                    Grid.Column="2"
+                    Width="70"
+                    Height="70"
+                    Background="#FF000000"
+                    CornerRadius="1000">
+                    <materialDesign:PackIcon
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Width="50"
+                        Height="50"
+                        Margin="10,8"
+                        Foreground="White"
+                        Kind="Navigation" />
+                </Border>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,29 @@
+﻿<prism:PrismApplication
+    x:Class="NFS.Robot.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:NFS.Robot"
+    xmlns:prism="http://prismlibrary.com/">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--  PRIMARY  -->
+            <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#FF272727" />
+            <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FF272727" />
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF272727" />
+            <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#FF272727" />
+            <!--  ACCENT  -->
+            <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#FF272727" />
+            <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="#FF272727" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.indigo.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <!--  用于设置Chart2D样式  -->
+                <!--
+                <ResourceDictionary Source="/HeBianGu.Control.Chart2D;component/Theme/Default.xaml" />-->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</prism:PrismApplication>

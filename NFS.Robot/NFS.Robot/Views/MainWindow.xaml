@@ -1,0 +1,714 @@
+﻿<Window
+    x:Class="NFS.Robot.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:localTab="clr-namespace:NFS.Commons.Converter;assembly=NFS.Commons"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    Title="{Binding Title}"
+    Width="1536"
+    Height="830.9"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    MouseMove="Window_MouseMove"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None">
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="-1" />
+    </WindowChrome.WindowChrome>
+    <materialDesign:DialogHost
+        x:Name="DialogHost"
+        DialogTheme="Inherit"
+        Identifier="Root">
+        <Grid Background="#FF323232">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="85" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="380" />
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    x:Name="gdContent"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Background="#FF272727">
+                    <!--<Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>-->
+                    <TextBlock
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="Arial"
+                        FontSize="50"
+                        Foreground="#FF373737"
+                        Text="{Binding Content}" />
+                    <ContentControl
+                        x:Name="Ctrol"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        prism:RegionManager.RegionName="RegionContent"
+                        Background="#FF272727" />
+                </Grid>
+
+                <ContentControl
+                    x:Name="Right"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    prism:RegionManager.RegionName="RightRegion"
+                    Visibility="{Binding RightVisibility}" />
+                <ContentControl
+                    x:Name="Left"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    prism:RegionManager.RegionName="LeftRegion"
+                    Visibility="{Binding LeftVisibility}" />
+            </Grid>
+
+            <!--  页头  -->
+            <StackPanel
+                Margin="0,10,0,0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="../Themes/DefaultComboBoxStyle.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </StackPanel.Resources>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock
+                        Margin="30,-3,0,0"
+                        HorizontalAlignment="Left"
+                        FontFamily="Arial Black"
+                        FontSize="40"
+                        Foreground="White"
+                        Text="{Binding Title}">
+                        <TextBlock.TextDecorations>
+                            <TextDecorationCollection>
+                                <TextDecoration PenOffset="0.5" />
+                            </TextDecorationCollection>
+                        </TextBlock.TextDecorations>
+                    </TextBlock>
+                    <TextBlock
+                        Margin="20,0"
+                        Padding="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontFamily="Arial Black"
+                        FontSize="13"
+                        Foreground="#FFA29E9E"
+                        Text="{Binding TitleName}" />
+                </StackPanel>
+                <StackPanel
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="25,10"
+                        HorizontalAlignment="Left"
+                        FontSize="30"
+                        Foreground="White"
+                        Text="{Binding TitleVertical}" />
+                    <!--  System Title  -->
+                    <Button
+                        x:Name="btnFrontPage"
+                        Width="100"
+                        Height="40"
+                        materialDesign:ButtonAssist.CornerRadius="0"
+                        Background="#FF434343"
+                        BorderBrush="#FF545353"
+                        BorderThickness="0"
+                        Click="btnFrontPage_Click"
+                        Command="{Binding HomeCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                        Content="首页"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                    <Button
+                        x:Name="btnRobot"
+                        Width="100"
+                        Height="40"
+                        Margin="5,0"
+                        materialDesign:ButtonAssist.CornerRadius="0"
+                        Background="#FF434343"
+                        BorderBrush="#FF545353"
+                        BorderThickness="0"
+                        Content="机器人"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                        <!--
+                            Click="btnRobot_Click"
+                            Command="{Binding RobotCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                        -->
+                    </Button>
+                    <Popup
+                        x:Name="robotPop"
+                        AllowsTransparency="True"
+                        PlacementTarget="{Binding ElementName=btnRobot}"
+                        StaysOpen="True">
+                        <Popup.Style>
+                            <Style TargetType="Popup">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMouseOver, Mode=OneWay, ElementName=btnRobot}" Value="True">
+                                        <Setter Property="IsOpen" Value="True" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsMouseOver, Mode=OneWay, ElementName=robotPop}" Value="True">
+                                        <Setter Property="IsOpen" Value="True" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Popup.Style>
+                        <Grid
+                            Width="100"
+                            Height="Auto"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top">
+                            <Border
+                                Background="#FF3C3C3C"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                Opacity="0.5">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0" Color="#FFB6B6B6" />
+                                </Border.Effect>
+                                <StackPanel Margin="0">
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnPolicySetting"
+                                            Width="100"
+                                            Height="40"
+                                            Background="#FF3C3C3C"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnPolicySetting_Click"
+                                            Command="{Binding PolicySettingCommand}"
+                                            Content="策略设置"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                    <!--  Command="{Binding PolicyCommad}"  -->
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnLocation"
+                                            Width="100"
+                                            Height="40"
+                                            Background="#FF3C3C3C"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnLocation_Click"
+                                            Command="{Binding LocationCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                                            Content="实时位置"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                    <!--<Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnRoller"
+                                            Width="100"
+                                            Height="40"
+                                            Background="#00000000"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnRoller_Click"
+                                            Command="{Binding RollerCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                                            Content="托辊测温"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnEnvironmentData"
+                                            Width="100"
+                                            Height="40"
+                                            Background="#00000000"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnEnvironmentData_Click"
+                                            Command="{Binding EnvironmentDataCommand}"
+                                            Content="环境数据"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>-->
+                                    <!--<Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            Width="100"
+                                            Height="40"
+                                            Background="#00000000"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Content="噪声分析"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,2">
+                                        <Button
+                                            Width="100"
+                                            Height="40"
+                                            Background="#00000000"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Content="震动分析"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>-->
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                        <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <i:InvokeCommandAction Command="{Binding DataContext.MouseLeaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
+                    </Popup>
+                    <Button
+                        x:Name="btnConveyor1Title"
+                        Width="100"
+                        Height="40"
+                        materialDesign:ButtonAssist.CornerRadius="0"
+                        Background="#FF434343"
+                        BorderBrush="#FF545353"
+                        BorderThickness="0"
+                        Content="输送机"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                    <Popup
+                        x:Name="conveyorPop"
+                        AllowsTransparency="True"
+                        PlacementTarget="{Binding ElementName=btnConveyor1Title}">
+                        <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <i:InvokeCommandAction Command="{Binding DataContext.MouseLeaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
+                        <Popup.Style>
+                            <Style TargetType="Popup">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMouseOver, Mode=OneWay, ElementName=btnConveyor1Title}" Value="True">
+                                        <Setter Property="IsOpen" Value="True" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsMouseOver, Mode=OneWay, ElementName=conveyorPop}" Value="True">
+                                        <Setter Property="IsOpen" Value="True" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Popup.Style>
+                        <Grid
+                            Width="100"
+                            Height="Auto"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top">
+                            <Border
+                                Background="#FF3C3C3C"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                Opacity="0.5">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0" Color="#FFB6B6B6" />
+                                </Border.Effect>
+                                <StackPanel Margin="0">
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnRoller"
+                                            Width="100"
+                                            Height="40"
+                                            Background="#00000000"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnRoller_Click"
+                                            Command="{Binding RollerCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                                            Content="托辊测温"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnEnvironmentData"
+                                            Width="100"
+                                            Height="40"
+                                            Background="#00000000"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnEnvironmentData_Click"
+                                            Command="{Binding EnvironmentDataCommand}"
+                                            Content="环境数据"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnConveyor"
+                                            Width="100"
+                                            Height="40"
+                                            Padding="2"
+                                            Background="#FF3C3C3C"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnConveyor_Click"
+                                            Command="{Binding ConveyorCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                                            Content="输送机分析"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnRollerAnalyze"
+                                            Width="100"
+                                            Height="40"
+                                            Padding="2"
+                                            Background="#FF3C3C3C"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnRollerAnalyze_Click"
+                                            Command="{Binding RollerAnalysisCommand}"
+                                            Content="托辊分析"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnEnvironment"
+                                            Width="100"
+                                            Height="40"
+                                            Padding="2"
+                                            Background="#00000000"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnEnvironment_Click"
+                                            Command="{Binding AnalysisCommand}"
+                                            Content="环境数据分析"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnNoiseAnalysis"
+                                            Width="100"
+                                            Height="40"
+                                            Background="#00000000"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnNoiseAnalysis_Click"
+                                            Command="{Binding NoiseAnalysisCommand}"
+                                            Content="噪声分析"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnRobotVibration"
+                                            Width="100"
+                                            Height="40"
+                                            Background="#00000000"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnRobotVibration_Click"
+                                            Command="{Binding RobotVibrationCommand}"
+                                            Content="震动分析"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnMaintainRecord"
+                                            Width="100"
+                                            Height="40"
+                                            Padding="2"
+                                            Background="#00000000"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnMaintainRecord_Click"
+                                            Command="{Binding MaintainRecordCommand}"
+                                            Content="维修记录"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Popup>
+                    <Button
+                        x:Name="btnDataCenter"
+                        Width="100"
+                        Height="40"
+                        Margin="5,0"
+                        materialDesign:ButtonAssist.CornerRadius="0"
+                        Background="#FF434343"
+                        BorderBrush="#FF545353"
+                        BorderThickness="0"
+                        Click="btnDataCenter_Click"
+                        Content="系统管理"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                    <!--
+                        Command="{Binding DataCenterCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                    -->
+                    <Popup
+                        x:Name="dataCenterPop"
+                        AllowsTransparency="True"
+                        PlacementTarget="{Binding ElementName=btnDataCenter}">
+                        <Popup.Style>
+                            <Style TargetType="Popup">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMouseOver, Mode=OneWay, ElementName=btnDataCenter}" Value="True">
+                                        <Setter Property="IsOpen" Value="True" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsMouseOver, Mode=OneWay, ElementName=dataCenterPop}" Value="True">
+                                        <Setter Property="IsOpen" Value="True" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Popup.Style>
+                        <Grid
+                            Width="100"
+                            Height="Auto"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top">
+                            <Border
+                                Background="#FF3C3C3C"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                Opacity="0.5">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0" Color="#FFB6B6B6" />
+                                </Border.Effect>
+                                <StackPanel>
+                                    <Border BorderBrush="#FF676767" BorderThickness="0,0,0,1">
+                                        <Button
+                                            x:Name="btnUserCenter"
+                                            Width="100"
+                                            Height="40"
+                                            Padding="2"
+                                            Background="#FF3C3C3C"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Click="btnUserCenter_Click"
+                                            Command="{Binding UserCenterCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                                            Content="用户中心"
+                                            FontFamily="Microsoft YaHei"
+                                            FontSize="14" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Popup>
+
+                    <!--<Button
+                        x:Name="btnFullScreenVideo"
+                        Width="100"
+                        Height="40"
+                        Margin="5,0"
+                        materialDesign:ButtonAssist.CornerRadius="0"
+                        Background="#FF434343"
+                        BorderBrush="#FF545353"
+                        BorderThickness="0"
+                        Click="btnFullScreenVideo_Click"
+                        Command="{Binding FullScreenVideoCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                        Content="全屏"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}" />-->
+                    <!--<Menu
+                        Width="60"
+                        Height="40"
+                        Background="#FF3C3C3C"
+                        IsMainMenu="True">
+                        <MenuItem
+                            Width="100"
+                            Background="#FF3C3C3C"
+                            Header="File">
+                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}" />
+                            <MenuItem Header="Save As.." />
+                            <MenuItem
+                                Header="Exit"
+                                Icon="{materialDesign:PackIcon Kind=ExitToApp}"
+                                InputGestureText="Ctrl+E" />
+                            <Separator />
+                            <MenuItem
+                                Header="Excellent"
+                                IsCheckable="True"
+                                IsChecked="True" />
+                            <MenuItem Header="Rubbish" IsCheckable="True" />
+                            <MenuItem Header="Dig Deeper" InputGestureText="Ctrl+D">
+                                <MenuItem Header="Enlightenment?" IsCheckable="True" />
+                                <MenuItem Header="Disappointment" IsCheckable="True" />
+                            </MenuItem>
+                            <MenuItem Header="Look Deeper" InputGestureText="Ctrl+D">
+                                <MenuItem Header="Plain" />
+                                <MenuItem Header="Ice Cream" />
+                            </MenuItem>
+                        </MenuItem>
+                    </Menu>-->
+                    <!--<Button
+                        x:Name="btnMachineSafety"
+                        Width="100"
+                        Height="40"
+                        materialDesign:ButtonAssist.CornerRadius="0"
+                        Background="#FF434343"
+                        BorderBrush="#FF545353"
+                        BorderThickness="0"
+                        Content="人机安全"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                        ToolTip="人机安全" />-->
+                </StackPanel>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button
+                    Width="20"
+                    Height="20"
+                    Background="#FF45B9BF"
+                    BorderBrush="#FF45B9BF"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                    ToolTip="用户">
+                    <materialDesign:PackIcon
+                        Width="20"
+                        Height="20"
+                        Foreground="#FF323232"
+                        Kind="Account" />
+                </Button>
+                <TextBlock
+                    Margin="10,0"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Foreground="#FF636364"
+                    Text="欢迎您," />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Foreground="White"
+                    Text="Admin" />
+                <Button
+                    Margin="10,0"
+                    Foreground="#FF45B9BF"
+                    Style="{StaticResource MaterialDesignIconForegroundButton}"
+                    ToolTip="登出">
+                    <materialDesign:PackIcon Kind="ArrowRightBold" />
+                </Button>
+                <Button
+                    Width="40"
+                    Height="40"
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                    Background="#FF6D6D6F"
+                    FontFamily="Arial"
+                    FontSize="12"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                    ToolTip="指派">
+                    <TextBlock
+                        Margin="-10,5,-10,5"
+                        VerticalAlignment="Center"
+                        Text="指派" />
+                </Button>
+                <Button
+                    Width="40"
+                    Height="40"
+                    Margin="10"
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                    Background="#FF6D6D6F"
+                    FontFamily="Arial"
+                    FontSize="12"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                    ToolTip="广播">
+                    <TextBlock
+                        Margin="-10,5,-10,5"
+                        VerticalAlignment="Center"
+                        Text="广播" />
+                </Button>
+                <Button
+                    x:Name="btnClose"
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,25,0"
+                    HorizontalAlignment="Right"
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                    Background="White"
+                    FontFamily="Arial"
+                    FontSize="11"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                    ToolTip="关机">
+                    <materialDesign:PackIcon
+                        Width="40"
+                        Height="40"
+                        Margin="-18,-10"
+                        Foreground="#FFE20111"
+                        Kind="Power" />
+                </Button>
+            </StackPanel>
+            <!--<materialDesign:ColorZone
+            x:Name="ColorZone"
+            Padding="10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            materialDesign:ShadowAssist.ShadowDepth="Depth0"
+            Background="#FF323232"
+            BorderThickness="0"
+            Mode="PrimaryMid">
+            <DockPanel>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="Min_Click"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ToolTip}"
+                        Foreground="#FF4ABAD0"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                        ToolTip="最小化">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="20"
+                                Height="20"
+                                VerticalAlignment="Center"
+                                Kind="WindowMinimize" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        x:Name="btnMAx"
+                        Margin="5,0"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="Max_Click"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ToolTip}"
+                        Foreground="#FF4ABAD0"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                        ToolTip="最大化">
+
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                x:Name="btnIcon"
+                                Width="20"
+                                Height="20"
+                                VerticalAlignment="Center"
+                                Kind="WindowMaximize" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Height="30"
+                        HorizontalAlignment="Right"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="Close_Click"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ToolTip}"
+                        Foreground="#FF4ABAD0"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                        ToolTip="关闭">
+
+                        <materialDesign:PackIcon
+                            Width="20"
+                            Height="20"
+                            VerticalAlignment="Center"
+                            Kind="WindowClose" />
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </materialDesign:ColorZone>-->
+        </Grid>
+    </materialDesign:DialogHost>
+</Window>

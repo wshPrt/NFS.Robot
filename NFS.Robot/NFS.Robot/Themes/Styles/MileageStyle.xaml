@@ -1,0 +1,147 @@
+﻿<UserControl
+    x:Class="NFS.Robot.Views.MileageStyle"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BlendCom="http://schemas.microsoft.com/expression/2010/drawing"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NFS.Robot.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <Grid Width="Auto" Height="Auto">
+
+        <BlendCom:Arc
+            Width="75"
+            Height="75"
+            ArcThickness="60"
+            EndAngle="136"
+            StartAngle="-136"
+            Stretch="None">
+            <BlendCom:Arc.Fill>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Offset="0" Color="Transparent" />
+                </LinearGradientBrush>
+            </BlendCom:Arc.Fill>
+        </BlendCom:Arc>
+
+        <Grid Width="95" Height="95">
+            <TextBlock
+                Margin="9"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                FontSize="10"
+                Foreground="#FF565657"
+                Text="30" />
+            <TextBlock
+                Margin="0,25,15,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                FontSize="10"
+                Foreground="#FF565657"
+                Text="40" />
+            <TextBlock
+                Margin="0,0,15,20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                FontSize="10"
+                Foreground="#FF565657"
+                Text="50" />
+            <TextBlock
+                Margin="15,30,0,20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                FontSize="10"
+                Foreground="#FF565657"
+                Text="10" />
+            <TextBlock
+                Margin="15,25,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                FontSize="10"
+                Foreground="#FF565657"
+                Text="20" />
+        </Grid>
+
+        <Grid Opacity="0">
+            <Grid
+                x:Name="ClipProxy"
+                Width="90"
+                Height="90">
+                <Grid Background="Transparent" />
+                <BlendCom:Arc
+                    x:Name="ArcProxy"
+                    Width="90"
+                    Height="90"
+                    ArcThickness="175"
+                    EndAngle="{Binding Path=DegreeAngle}"
+                    Fill="Red"
+                    StartAngle="-180"
+                    Stretch="None" />
+            </Grid>
+        </Grid>
+
+        <Grid>
+
+            <BlendCom:Arc
+                Width="100"
+                Height="100"
+                Panel.ZIndex="9"
+                ArcThickness="8"
+                EndAngle="17"
+                StartAngle="-135"
+                Stretch="None">
+                <BlendCom:Arc.Stroke>
+                    <ImageBrush />
+                </BlendCom:Arc.Stroke>
+                <BlendCom:Arc.Fill>
+                    <LinearGradientBrush StartPoint="0,1" EndPoint="1,1">
+                        <GradientStop Offset="0.01" Color="#FF73BD69" />
+                    </LinearGradientBrush>
+                </BlendCom:Arc.Fill>
+            </BlendCom:Arc>
+            <BlendCom:Arc
+                Width="100"
+                Height="100"
+                ArcThickness="8"
+                EndAngle="135"
+                StartAngle="-135"
+                Stretch="None">
+                <BlendCom:Arc.Stroke>
+                    <ImageBrush />
+                </BlendCom:Arc.Stroke>
+                <BlendCom:Arc.Fill>
+                    <LinearGradientBrush StartPoint="0,1" EndPoint="1,1">
+                        <GradientStop Offset="0.01" Color="#FFBA1D06" />
+                    </LinearGradientBrush>
+                </BlendCom:Arc.Fill>
+            </BlendCom:Arc>
+
+            <TextBlock
+                x:Name="TbkValue"
+                Margin="5,30,0,45"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontFamily="Arial"
+                FontSize="20"
+                Foreground="White"
+                Text="{Binding RobotInfo.RechargeMileage}" />
+            <TextBlock
+                x:Name="txtUnit"
+                Margin="5,0,0,20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                FontSize="12"
+                Foreground="LightGray"
+                Text="km" />
+            <TextBlock
+                x:Name="TbkValue2"
+                Margin="5,80,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Foreground="#FF585859"
+                Text="续航里程" />
+        </Grid>
+    </Grid>
+</UserControl>

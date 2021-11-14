@@ -1,0 +1,137 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFS.Robot", "NFS.Robot\NFS.Robot.csproj", "{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyPlayer-RTSP.NetSDK", "EasyPlayer-RTSP.NetSDK\EasyPlayer-RTSP.NetSDK.csproj", "{4A53657A-84E8-46C7-9D23-E2C104C60D03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFS.Commons", "NFS.Commons\NFS.Commons.csproj", "{98C3C150-D283-46D9-92D7-5EFB0814AC48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFS.Model", "NFS.Model\NFS.Model.csproj", "{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1AA1F410-D20B-4737-90AF-9876BEC57121}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{36044310-E4B3-47B8-8E61-30F04C581439}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{BBB48F37-8214-40D4-AB38-DFDF33CFEAAA}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\Administrator\Desktop\Solution Items\Content\Images\Easy_1024.png = C:\Users\Administrator\Desktop\Solution Items\Content\Images\Easy_1024.png
+		C:\Users\Administrator\Desktop\Solution Items\Content\Images\Easy_32.png = C:\Users\Administrator\Desktop\Solution Items\Content\Images\Easy_32.png
+		C:\Users\Administrator\Desktop\Solution Items\Content\Images\Easylogo-old.png = C:\Users\Administrator\Desktop\Solution Items\Content\Images\Easylogo-old.png
+		C:\Users\Administrator\Desktop\Solution Items\Content\Images\Easylogo.png = C:\Users\Administrator\Desktop\Solution Items\Content\Images\Easylogo.png
+		C:\Users\Administrator\Desktop\Solution Items\Content\Images\Easylogo111.png = C:\Users\Administrator\Desktop\Solution Items\Content\Images\Easylogo111.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Include", "Include", "{AAE39B02-2FDA-46AF-B633-085809E9F054}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\Administrator\Desktop\Solution Items\Include\EasyRTSPClientAPI.h = C:\Users\Administrator\Desktop\Solution Items\Include\EasyRTSPClientAPI.h
+		C:\Users\Administrator\Desktop\Solution Items\Include\EasyTypes.h = C:\Users\Administrator\Desktop\Solution Items\Include\EasyTypes.h
+		C:\Users\Administrator\Desktop\Solution Items\Include\libEasyPlayerAPI.h = C:\Users\Administrator\Desktop\Solution Items\Include\libEasyPlayerAPI.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{A931F959-33FD-4C2F-844F-5FE0A3B1D36C}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\Administrator\Desktop\Solution Items\Lib\avcodec-57.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\avcodec-57.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\avdevice-57.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\avdevice-57.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\avfilter-6.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\avfilter-6.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\avformat-57.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\avformat-57.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\avutil-55.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\avutil-55.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\D3DRender.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\D3DRender.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\D3DX9_43.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\D3DX9_43.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\dxva2.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\dxva2.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\FFDecoder.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\FFDecoder.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\GMap.NET.Core.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\GMap.NET.Core.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\GMap.NET.Core.xml = C:\Users\Administrator\Desktop\Solution Items\Lib\GMap.NET.Core.xml
+		C:\Users\Administrator\Desktop\Solution Items\Lib\GMap.NET.WindowsPresentation.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\GMap.NET.WindowsPresentation.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\GMap.NET.WindowsPresentation.xml = C:\Users\Administrator\Desktop\Solution Items\Lib\GMap.NET.WindowsPresentation.xml
+		C:\Users\Administrator\Desktop\Solution Items\Lib\ImageOle.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\ImageOle.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\IntelHardCodec.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\IntelHardCodec.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\libEasyAACEncoder.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\libEasyAACEncoder.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\libEasyPlayer-RTSP.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\libEasyPlayer-RTSP.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\libEasyPlayer-RTSP.lib = C:\Users\Administrator\Desktop\Solution Items\Lib\libEasyPlayer-RTSP.lib
+		C:\Users\Administrator\Desktop\Solution Items\Lib\libEasyRTSPClient.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\libEasyRTSPClient.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\libgcc_s_sjlj-1.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\libgcc_s_sjlj-1.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\libgpac.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\libgpac.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\libmfxsw32.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\libmfxsw32.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\libstdc++-6.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\libstdc++-6.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\npEasyPlayerPlugin.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\npEasyPlayerPlugin.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\swresample-2.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\swresample-2.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\swscale-4.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\swscale-4.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\WPFVisifire.Charts.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\WPFVisifire.Charts.dll
+		C:\Users\Administrator\Desktop\Solution Items\Lib\Wrap.dll = C:\Users\Administrator\Desktop\Solution Items\Lib\Wrap.dll
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Debug|x64.ActiveCfg = Debug|x64
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Debug|x64.Build.0 = Debug|x64
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Debug|x86.ActiveCfg = Debug|x86
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Debug|x86.Build.0 = Debug|x86
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Release|x64.ActiveCfg = Release|x64
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Release|x64.Build.0 = Release|x64
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Release|x86.ActiveCfg = Release|x86
+		{99BC5CB7-9BBB-427E-BADD-8E59AB3FE385}.Release|x86.Build.0 = Release|x86
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Debug|x64.ActiveCfg = Debug|x64
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Debug|x64.Build.0 = Debug|x64
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Debug|x86.ActiveCfg = Debug|x86
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Debug|x86.Build.0 = Debug|x86
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Release|x64.ActiveCfg = Release|x64
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Release|x64.Build.0 = Release|x64
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Release|x86.ActiveCfg = Release|x86
+		{4A53657A-84E8-46C7-9D23-E2C104C60D03}.Release|x86.Build.0 = Release|x86
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Debug|x64.ActiveCfg = Debug|x64
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Debug|x64.Build.0 = Debug|x64
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Debug|x86.ActiveCfg = Debug|x86
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Debug|x86.Build.0 = Debug|x86
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Release|x64.ActiveCfg = Release|x64
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Release|x64.Build.0 = Release|x64
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Release|x86.ActiveCfg = Release|x86
+		{98C3C150-D283-46D9-92D7-5EFB0814AC48}.Release|x86.Build.0 = Release|x86
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Debug|x64.ActiveCfg = Debug|x64
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Debug|x64.Build.0 = Debug|x64
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Debug|x86.ActiveCfg = Debug|x86
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Debug|x86.Build.0 = Debug|x86
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Release|x64.ActiveCfg = Release|x64
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Release|x64.Build.0 = Release|x64
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Release|x86.ActiveCfg = Release|x86
+		{7FEA7FD9-630D-489E-9C97-3B35F54A1C1F}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{36044310-E4B3-47B8-8E61-30F04C581439} = {1AA1F410-D20B-4737-90AF-9876BEC57121}
+		{BBB48F37-8214-40D4-AB38-DFDF33CFEAAA} = {36044310-E4B3-47B8-8E61-30F04C581439}
+		{AAE39B02-2FDA-46AF-B633-085809E9F054} = {1AA1F410-D20B-4737-90AF-9876BEC57121}
+		{A931F959-33FD-4C2F-844F-5FE0A3B1D36C} = {1AA1F410-D20B-4737-90AF-9876BEC57121}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {08B1B796-6A29-4D13-A68A-0DCC4BFE00B5}
+	EndGlobalSection
+EndGlobal

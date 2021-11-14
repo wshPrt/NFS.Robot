@@ -1,0 +1,2978 @@
+﻿<UserControl
+    x:Class="NFS.Robot.Views.EnvironmentalAnalysis"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NFS.Robot.Views"
+    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="#FF434343"
+    Loaded="EnvironmentalAnalysis_Loaded"
+    Unloaded="EnvironmentalAnalysis_Unloaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="NavTabButtonStyle" TargetType="RadioButton">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Height" Value="28" />
+                <Setter Property="Padding" Value="5,5" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Command" Value="{Binding TabChangedCommand}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="RadioButton">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontFamily="../FontFamily/#iconfont"
+                                        FontSize="14"
+                                        Text="{TemplateBinding Tag}" />
+                                    <ContentPresenter
+                                        Grid.Column="1"
+                                        Margin="{TemplateBinding Padding}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="Background" Value="#FF45B9BF" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
+            <Style x:Key="GroupboxWithoutWhiteBorder" TargetType="{x:Type GroupBox}">
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GroupBox}">
+                            <Grid SnapsToDevicePixels="true">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="6" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="6" />
+                                </Grid.RowDefinitions>
+                                <Border
+                                    Grid.Row="1"
+                                    Grid.RowSpan="3"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="4"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="4" />
+                                <Border
+                                    Name="Header"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    Padding="0,0,10,0">
+                                    <ContentPresenter
+                                        ContentSource="Header"
+                                        RecognizesAccessKey="true"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </Border>
+                                <ContentPresenter
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="2"
+                                    Margin="{TemplateBinding Padding}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                <Border
+                                    Grid.Row="1"
+                                    Grid.RowSpan="3"
+                                    Grid.ColumnSpan="4"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="3">
+                                    <Border.OpacityMask>
+                                        <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="7">
+                                            <Binding ElementName="Header" Path="ActualWidth" />
+                                            <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                            <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                                        </MultiBinding>
+                                    </Border.OpacityMask>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+        <Grid Background="#FF434343">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="30*" />
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="7*" />
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="10*" />
+            </Grid.RowDefinitions>
+            <StackPanel
+                Grid.Row="0"
+                Margin="20,10,0,0"
+                Orientation="Horizontal">
+                <materialDesign:PackIcon
+                    Width="35"
+                    Height="35"
+                    Background="#FF434343"
+                    Foreground="#FFBBBBBB"
+                    Kind="ViewGrid" />
+                <TextBlock
+                    Margin="15,10,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Foreground="#FFBBBBBB"
+                    Text="输送机 &gt; 环境数据分析" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="../Themes/ComboxTriangleStyle.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </StackPanel.Resources>
+                <TextBlock
+                    Margin="15,20,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Foreground="#FFBBBBBB"
+                    Text="巡检线路:" />
+                <ComboBox
+                    Width="150"
+                    Height="30"
+                    Margin="15,15"
+                    Padding="10,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
+                    Background="#FF434343"
+                    BorderBrush="Gray"
+                    BorderThickness="0.5"
+                    DisplayMemberPath="LineName"
+                    FontFamily="Arial Black"
+                    FontSize="14"
+                    Foreground="#FF7F7F7F"
+                    ItemsSource="{Binding SimplifyLineList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedIndex="0"
+                    SelectedItem="{Binding CmbSimplifyItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+
+                <TextBlock
+                    Margin="15,20,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Foreground="#FFBBBBBB"
+                    Text="机器人:" />
+                <ComboBox
+                    Width="150"
+                    Height="30"
+                    Margin="15,15"
+                    Padding="10,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
+                    Background="#FF434343"
+                    BorderBrush="Gray"
+                    BorderThickness="0.5"
+                    DisplayMemberPath="RobotName"
+                    FontFamily="Arial Black"
+                    FontSize="14"
+                    Foreground="#FF7F7F7F"
+                    ItemsSource="{Binding SimplifyRobotList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedIndex="0"
+                    SelectedItem="{Binding CmbSimplifyRobotItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+            </StackPanel>
+            <Grid
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="20,0"
+                VerticalAlignment="Top"
+                Background="#FF323232">
+                <Border
+                    Margin="10"
+                    Background="#FF323232"
+                    BorderBrush="#FF767676"
+                    BorderThickness="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border
+                            x:Name="bdTemperature"
+                            Width="35"
+                            Height="200"
+                            Margin="70,40"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Background="White"
+                            CornerRadius="10">
+                            <StackPanel Panel.ZIndex="1" Orientation="Vertical">
+                                <TextBlock
+                                    Margin="0,5"
+                                    HorizontalAlignment="Center"
+                                    FontFamily="Arial"
+                                    FontSize="11"
+                                    Foreground="#FF828283"
+                                    Text="温度" />
+                                <TextBlock
+                                    Margin="0,-5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    FontFamily="Arial"
+                                    FontSize="10"
+                                    Foreground="#FF828283"
+                                    Text="(℃)" />
+                                <StackPanel Orientation="Horizontal">
+                                    <ProgressBar
+                                        Width="160"
+                                        Height="8"
+                                        Margin="5,10,0,0"
+                                        HorizontalAlignment="Left"
+                                        Orientation="Vertical"
+                                        Value="100">
+                                        <ProgressBar.Foreground>
+                                            <LinearGradientBrush ColorInterpolationMode="ScRgbLinearInterpolation" MappingMode="Absolute" StartPoint="1,1" EndPoint="100,1">
+                                                <GradientStop Color="#FF6D5975" />
+                                                <GradientStop Offset="0.388" Color="#FF77B1C8" />
+                                                <GradientStop Offset="0.558" Color="#FFDAB734" />
+                                                <GradientStop Offset="0.86" Color="#FFBB5526" />
+                                            </LinearGradientBrush>
+                                        </ProgressBar.Foreground>
+                                    </ProgressBar>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock
+                                            Margin="4,10,0,0"
+                                            HorizontalAlignment="Left"
+                                            FontFamily="Arial"
+                                            FontSize="12"
+                                            Foreground="#FFADB0B2"
+                                            Text="-25" />
+                                        <TextBlock
+                                            Margin="4,20,0,0"
+                                            HorizontalAlignment="Left"
+                                            FontFamily="Arial"
+                                            FontSize="12"
+                                            Foreground="#FFADB0B2"
+                                            Text="-20" />
+                                        <TextBlock
+                                            Margin="4,20,0,0"
+                                            HorizontalAlignment="Left"
+                                            FontFamily="Arial"
+                                            FontSize="12"
+                                            Foreground="#FFADB0B2"
+                                            Text="-10" />
+                                        <TextBlock
+                                            Margin="4"
+                                            HorizontalAlignment="Left"
+                                            FontFamily="Arial"
+                                            FontSize="12"
+                                            Foreground="#FFADB0B2"
+                                            Text="0" />
+                                        <TextBlock
+                                            Margin="4,0"
+                                            HorizontalAlignment="Left"
+                                            FontFamily="Arial"
+                                            FontSize="12"
+                                            Foreground="#FFADB0B2"
+                                            Text="10" />
+                                        <TextBlock
+                                            Margin="4,0"
+                                            HorizontalAlignment="Left"
+                                            FontFamily="Arial"
+                                            FontSize="12"
+                                            Foreground="#FFADB0B2"
+                                            Text="20" />
+                                        <TextBlock
+                                            Margin="4,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            FontFamily="Arial"
+                                            FontSize="12"
+                                            Foreground="#FFADB0B2"
+                                            Text="30" />
+                                        <TextBlock
+                                            Margin="4,2,0,0"
+                                            HorizontalAlignment="Left"
+                                            FontFamily="Arial"
+                                            FontSize="12"
+                                            Foreground="#FFADB0B2"
+                                            Text="40" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!--<Image
+                            Grid.Column="0"
+                            Width="650"
+                            Height="450"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Source="/Resource/Image/map2.png"
+                            Stretch="None" />-->
+                        <StackPanel
+                            x:Name="spMenu"
+                            Grid.Column="0"
+                            Margin="0,170,30,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Panel.ZIndex="1"
+                            Orientation="Vertical">
+                            <Button
+                                x:Name="btnTemperature"
+                                Width="55"
+                                Height="50"
+                                materialDesign:ButtonAssist.CornerRadius="15 15 0 0"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="0,0,0,1"
+                                Click="btnTemperature_Click"
+                                Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                ToolTip="温度">
+                                <StackPanel Orientation="Vertical">
+                                    <Path
+                                        x:Name="phTemperature"
+                                        Width="15"
+                                        Height="28"
+                                        VerticalAlignment="Center"
+                                        Data="M585.142857 768a109.750857 109.750857 0 0 1-219.428571 0c0-45.714286 28.562286-87.442286 73.142857-103.424V585.142857h73.142857v79.433143c44.580571 16.018286 73.142857 57.709714 73.142857 103.424z m73.142857 0a182.345143 182.345143 0 0 0-73.142857-146.285714V182.857143a109.750857 109.750857 0 0 0-219.428571 0v438.857143a182.345143 182.345143 0 0 0-73.142857 146.285714c0 101.156571 81.700571 182.857143 182.857142 182.857143s182.857143-81.700571 182.857143-182.857143z m73.142857 0c0 141.129143-114.870857 256-256 256s-256-114.870857-256-256a255.268571 255.268571 0 0 1 73.142858-178.870857V182.857143c0-101.156571 81.700571-182.857143 182.857142-182.857143s182.857143 81.700571 182.857143 182.857143v406.272A255.232 255.232 0 0 1 731.428571 768z m73.142858-329.142857v73.142857h-109.714286v-73.142857h109.714286z m0-146.285714v73.142857h-109.714286V292.571429h109.714286z m0-146.285715v73.142857h-109.714286V146.285714h109.714286z"
+                                        Fill="#FF787878"
+                                        Stretch="Fill" />
+                                    <TextBlock
+                                        x:Name="txtTemperature"
+                                        FontFamily="Arial"
+                                        FontSize="11"
+                                        Foreground="#FF787878"
+                                        Text="温度" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                x:Name="btnHumidity"
+                                Width="55"
+                                Height="50"
+                                Margin="20,0"
+                                materialDesign:ButtonAssist.CornerRadius="0"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="0,1,0,1"
+                                Click="btnHumidity_Click"
+                                Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                                <StackPanel Orientation="Vertical">
+                                    <Path
+                                        x:Name="phHumidity"
+                                        Width="15"
+                                        Height="28"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Data="M398 257.3c0 95.9-78.9 174.7-174.7 174.7-95.9 0-174.7-78.9-174.7-174.7 0-95.4 73.1-166.7 124.7-232.9C186 8.1 204.6 0 223.3 0c18.6 0 37.3 8.1 50 24.4C324.9 90.6 398 161.8 398 257.3zM192 633.3c0 52.7-43.3 96-96 96S0 686 0 633.3c0-52.4 40.2-91.6 68.5-127.9 7-8.9 17.2-13.4 27.5-13.4s20.5 4.5 27.5 13.4c28.3 36.4 68.5 75.5 68.5 127.9z"
+                                        Fill="#FF787878"
+                                        Stretch="Fill"
+                                        ToolTip="湿度" />
+                                    <TextBlock
+                                        x:Name="txtHumidity"
+                                        FontFamily="Arial"
+                                        FontSize="11"
+                                        Foreground="#FF787878"
+                                        Text="湿度" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                x:Name="btnDust"
+                                Width="55"
+                                Height="50"
+                                Margin="20,0"
+                                materialDesign:ButtonAssist.CornerRadius="0"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="0,1,0,1"
+                                Click="btnDust_Click"
+                                Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                                <StackPanel Orientation="Vertical">
+                                    <Path
+                                        x:Name="phDust"
+                                        Width="22"
+                                        Height="26"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Data="M320 256a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m384 0a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m-192 32a32 32 0 1 1 0 64 32 32 0 0 1 0-64z m-192 352a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m384 0a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m-192 32a32 32 0 1 1 0 64 32 32 0 0 1 0-64z m192-192a32 32 0 1 1 0 64 32 32 0 0 1 0-64z m-384 0a32 32 0 1 1 0 64 32 32 0 0 1 0-64z m192-32a64 64 0 1 1 0 128 64 64 0 0 1 0-128z"
+                                        Fill="#FF787878"
+                                        Stretch="Fill"
+                                        ToolTip="粉尘" />
+                                    <TextBlock
+                                        x:Name="txtDust"
+                                        FontFamily="Arial"
+                                        FontSize="11"
+                                        Foreground="#FF787878"
+                                        Text="粉尘" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                x:Name="btnCo"
+                                Width="55"
+                                Height="50"
+                                Margin="20,0"
+                                materialDesign:ButtonAssist.CornerRadius="0"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="0,1,0,1"
+                                Click="btnCo_Click"
+                                Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                                <StackPanel Orientation="Vertical">
+                                    <Path
+                                        x:Name="phCo"
+                                        Width="20"
+                                        Height="28"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Data="M242.750061 292.926061a46.545455 46.545455 0 1 0 0-93.090909 46.545455 46.545455 0 0 0 0 93.090909zM506.507636 292.926061a46.545455 46.545455 0 1 0 0-93.090909 46.545455 46.545455 0 0 0 0 93.090909zM770.265212 292.926061a46.545455 46.545455 0 1 0 0-93.090909 46.545455 46.545455 0 0 0 0 93.090909zM242.750061 556.683636a46.545455 46.545455 0 1 0 0-93.090909 46.545455 46.545455 0 0 0 0 93.090909zM506.507636 556.683636a46.545455 46.545455 0 1 0 0-93.090909 46.545455 46.545455 0 0 0 0 93.090909zM770.265212 556.683636a46.545455 46.545455 0 1 0 0-93.090909 46.545455 46.545455 0 0 0 0 93.090909zM242.750061 820.441212a46.545455 46.545455 0 1 0 0-93.090909 46.545455 46.545455 0 0 0 0 93.090909zM506.507636 820.441212a46.545455 46.545455 0 1 0 0-93.090909 46.545455 46.545455 0 0 0 0 93.090909zM770.265212 820.441212a46.545455 46.545455 0 1 0 0-93.090909 46.545455 46.545455 0 0 0 0 93.090909z"
+                                        Fill="#FF787878"
+                                        Stretch="Fill"
+                                        ToolTip="CO" />
+                                    <TextBlock
+                                        x:Name="txtCo"
+                                        FontFamily="Arial"
+                                        FontSize="11"
+                                        Foreground="#FF787878"
+                                        Text="CO" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                x:Name="btnNoise"
+                                Width="55"
+                                Height="50"
+                                Margin="20,0"
+                                materialDesign:ButtonAssist.CornerRadius="0"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="0,1,0,1"
+                                Click="btnNoise_Click"
+                                Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                                <StackPanel Orientation="Vertical">
+                                    <Path
+                                        x:Name="phNoise"
+                                        Width="20"
+                                        Height="28"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Data="M805.333333 564.010667c-24.192 19.328-41.728 33.322667-80.128 33.322666-38.357333 0-54.954667-13.269333-80.042666-33.322666-29.013333-23.168-65.066667-52.010667-133.418667-52.010667-68.309333 0-104.32 28.842667-133.290667 52.010667-25.088 20.053333-41.6 33.322667-80 33.322666-38.314667 0-54.869333-13.269333-79.914666-33.28C189.568 540.842667 153.6 512 85.333333 512v85.333333c38.272 0 54.826667 13.269333 79.872 33.28 28.970667 23.210667 64.981333 52.053333 133.248 52.053334s104.362667-28.842667 133.333334-52.053334c25.045333-20.053333 41.642667-33.28 79.957333-33.28 38.4 0 55.936 13.994667 80.128 33.322667 28.970667 23.168 65.024 52.010667 133.333333 52.010667 68.352 0 104.405333-28.842667 133.418667-52.010667 25.088-20.053333 41.685333-33.322667 80.042667-33.322667v-85.333333c-68.309333 0-104.362667 28.842667-133.333334 52.010667zM725.205333 810.666667c-38.357333 0-54.954667-13.269333-80.042666-33.322667-29.013333-23.168-65.066667-52.010667-133.418667-52.010667-68.309333 0-104.32 28.842667-133.290667 52.010667-25.088 20.053333-41.6 33.322667-80 33.322667-38.314667 0-54.869333-13.269333-79.914666-33.28C189.568 754.176 153.6 725.333333 85.333333 725.333333v85.333334c38.272 0 54.826667 13.269333 79.872 33.28 28.970667 23.210667 64.981333 52.053333 133.248 52.053333s104.362667-28.842667 133.333334-52.053333c25.045333-20.053333 41.642667-33.28 79.957333-33.28 38.4 0 55.936 13.994667 80.128 33.322666 28.970667 23.168 65.024 52.010667 133.333333 52.010667 68.352 0 104.405333-28.842667 133.418667-52.010667 25.088-20.053333 41.685333-33.322667 80.042667-33.322666v-85.333334c-68.309333 0-104.362667 28.842667-133.333334 52.010667-24.192 19.328-41.728 33.322667-80.128 33.322667zM469.333333 231.210667l89.770667 89.770666-87.765333 109.653334c12.202667-2.389333 25.429333-3.968 40.405333-3.968 68.352 0 104.405333 28.842667 133.418667 52.010666 25.088 20.053333 41.685333 33.322667 80.042666 33.322667 38.4 0 55.936-13.994667 80.128-33.322667 5.632-4.48 11.690667-9.258667 18.048-13.909333l-89.429333-89.173333 0.213333-0.213334-234.666666-234.666666a42.624 42.624 0 0 0-60.330667 0l-170.666667 170.666666 60.330667 60.330667L469.333333 231.210667z"
+                                        Fill="#FF787878"
+                                        Stretch="Fill"
+                                        ToolTip="噪声" />
+                                    <TextBlock
+                                        x:Name="txtNoise"
+                                        FontFamily="Arial"
+                                        FontSize="11"
+                                        Foreground="#FF787878"
+                                        Text="噪声" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                x:Name="btnVibration"
+                                Width="55"
+                                Height="50"
+                                Margin="20,0"
+                                materialDesign:ButtonAssist.CornerRadius="0 0 15 15"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="0,1,0,1"
+                                Click="btnVibration_Click">
+                                <StackPanel Orientation="Vertical">
+                                    <Path
+                                        x:Name="phVibration"
+                                        Width="15"
+                                        Height="28"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Data="M932.864 603.136L829.44 499.712 585.728 743.424V0H438.272v743.424L194.56 499.712 91.136 603.136 512 1024z"
+                                        Fill="#FF787878"
+                                        Stretch="Fill"
+                                        ToolTip="振动" />
+                                    <TextBlock
+                                        x:Name="txtVibration"
+                                        FontFamily="Arial"
+                                        FontSize="11"
+                                        Foreground="#FF787878"
+                                        Text="振动" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        <wpf:ChromiumWebBrowser
+                            x:Name="cwbEnvironmental"
+                            Grid.Column="0"
+                            Width="650"
+                            Height="520"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Panel.ZIndex="-1" />
+                        <Grid Grid.Column="1">
+                            <Border
+                                Width="370"
+                                Height="38"
+                                Margin="0,8,5,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top">
+                                <Border.Background>
+                                    <LinearGradientBrush ColorInterpolationMode="ScRgbLinearInterpolation" MappingMode="Absolute" StartPoint="1,1" EndPoint="100,1">
+                                        <GradientStop Color="#FF407A7D" />
+                                        <GradientStop Offset="0.688" Color="#FF3C5E60" />
+                                        <GradientStop Offset="1.3" Color="#FF3B3E3E" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock
+                                    Margin="15,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    Foreground="#FFF8FAFA"
+                                    Text="历史告警" />
+                            </Border>
+                            <DataGrid
+                                Grid.Column="1"
+                                Margin="-22,60,10,0"
+                                HorizontalAlignment="Left"
+                                AutoGenerateColumns="False"
+                                Background="#FF323232"
+                                BorderBrush="#FF3C3C3C"
+                                CanUserAddRows="False"
+                                CanUserSortColumns="True"
+                                Foreground="#FF8E8A8A"
+                                HeadersVisibility="All"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding EnvironmentalWarningList, Mode=TwoWay}"
+                                SelectionMode="Single">
+                                <DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="FontSize" Value="12" />
+                                        <Setter Property="Height" Value="25" />
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Setter Property="BorderBrush" Value="#FFA4A4A4" />
+                                        <Setter Property="BorderThickness" Value="1" />
+                                        <Setter Property="VerticalAlignment" Value="Bottom" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="DataGridColumnHeader">
+                                                    <Border
+                                                        Background="#FF3E5556"
+                                                        BorderBrush="White"
+                                                        BorderThickness="0"
+                                                        CornerRadius="0">
+                                                        <ContentPresenter
+                                                            Width="Auto"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </DataGrid.ColumnHeaderStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Width="Auto"
+                                        Binding="{Binding WarningTime}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        Header="警告时间" />
+                                    <materialDesign:DataGridTextColumn
+                                        Width="Auto"
+                                        Binding="{Binding Location}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        Header="位置" />
+                                    <DataGridTextColumn
+                                        Width="Auto"
+                                        Binding="{Binding AlertFactor}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        Header="告警因子" />
+                                    <DataGridTextColumn
+                                        Width="Auto"
+                                        Binding="{Binding AlarmValue}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        Foreground="#FFA06161"
+                                        Header="告警数值" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid
+                Grid.Row="2"
+                Height="300"
+                Margin="20,30"
+                VerticalAlignment="Top"
+                Background="#FF414141">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid
+                    Grid.Row="0"
+                    Grid.ColumnSpan="6"
+                    Margin="5,20,0,0">
+                    <Grid Grid.Row="0" Width="Auto">
+                        <Border
+                            Grid.Row="0"
+                            Width="Auto"
+                            Height="30">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                    <GradientStop />
+                                    <GradientStop Offset="0" Color="#FF3B3E3E" />
+                                    <GradientStop Offset="0.5" Color="#FF45B0B5" />
+                                    <GradientStop Offset="0.89" Color="#FF3B3E3E" />
+                                    <GradientStop Offset="10" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock
+                                Margin="15,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                Foreground="#FFF8FAFA"
+                                Text="当前环境" />
+                        </Border>
+                    </Grid>
+                </Grid>
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="5"
+                    Margin="15,0"
+                    HorizontalAlignment="Right"
+                    FontSize="14"
+                    Foreground="#FF757575"
+                    Text="2021/09/18 17:20:20" />
+                <Grid
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Width="138"
+                    Height="145"
+                    Background="#FF404445">
+                    <Border Grid.Column="0" Panel.ZIndex="1">
+                        <Border.Background>
+                            <LinearGradientBrush Opacity="0.4" StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop />
+                                <GradientStop Offset="0" Color="#FF3F4646" />
+                                <GradientStop Offset="0.55" Color="#FF4AB8BE" />
+                                <GradientStop Offset="0.9" Color="#FF3F4646" />
+                                <GradientStop Offset="10" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel Margin="0,5" Orientation="Vertical">
+                            <!--<materialDesign:PackIcon
+                                Width="100"
+                                Height="100"
+                                HorizontalAlignment="Center"
+                                Foreground="#FF12CC46"
+                                Kind="Thermometer" />-->
+                            <!--<Path
+                                Width="40"
+                                Height="70"
+                                Margin="0,15"
+                                HorizontalAlignment="Center"
+                                Data="M585.142857 768a109.750857 109.750857 0 0 1-219.428571 0c0-45.714286 28.562286-87.442286 73.142857-103.424V585.142857h73.142857v79.433143c44.580571 16.018286 73.142857 57.709714 73.142857 103.424z m73.142857 0a182.345143 182.345143 0 0 0-73.142857-146.285714V182.857143a109.750857 109.750857 0 0 0-219.428571 0v438.857143a182.345143 182.345143 0 0 0-73.142857 146.285714c0 101.156571 81.700571 182.857143 182.857142 182.857143s182.857143-81.700571 182.857143-182.857143z m73.142857 0c0 141.129143-114.870857 256-256 256s-256-114.870857-256-256a255.268571 255.268571 0 0 1 73.142858-178.870857V182.857143c0-101.156571 81.700571-182.857143 182.857142-182.857143s182.857143 81.700571 182.857143 182.857143v406.272A255.232 255.232 0 0 1 731.428571 768z m73.142858-329.142857v73.142857h-109.714286v-73.142857h109.714286z m0-146.285714v73.142857h-109.714286V292.571429h109.714286z m0-146.285715v73.142857h-109.714286V146.285714h109.714286z"
+                                Fill="#FF12CC46"
+                                Stretch="Fill" />-->
+                            <Image
+                                Width="80"
+                                Height="70"
+                                Margin="10,15,0,0"
+                                HorizontalAlignment="Center"
+                                Source="/Resource/Image/temperature.png" />
+
+                            <TextBlock
+                                Margin="-15,10"
+                                HorizontalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="30"
+                                Foreground="#FFF8FAFA"
+                                Text="25" />
+                            <TextBlock
+                                Margin="0,-35,30,0"
+                                HorizontalAlignment="Right"
+                                FontSize="16"
+                                Foreground="#FFF8FAFA"
+                                Text="℃" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Grid
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Width="138"
+                    Height="145"
+                    Background="#FF404445">
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush Opacity="0.4" StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop />
+                                <GradientStop Offset="0" Color="#FF3F4646" />
+                                <GradientStop Offset="0.55" Color="#FF4AB8BE" />
+                                <GradientStop Offset="0.9" Color="#FF3F4646" />
+                                <GradientStop Offset="10" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel Margin="0,5" Orientation="Vertical">
+                            <!--<materialDesign:PackIcon
+                                Width="100"
+                                Height="100"
+                                HorizontalAlignment="Center"
+                                Foreground="#FF009DD9"
+                                Kind="Water" />-->
+
+                            <!--<Path
+                                Width="40"
+                                Height="70"
+                                Margin="0,15"
+                                HorizontalAlignment="Center"
+                                Data="M398 257.3c0 95.9-78.9 174.7-174.7 174.7-95.9 0-174.7-78.9-174.7-174.7 0-95.4 73.1-166.7 124.7-232.9C186 8.1 204.6 0 223.3 0c18.6 0 37.3 8.1 50 24.4C324.9 90.6 398 161.8 398 257.3zM192 633.3c0 52.7-43.3 96-96 96S0 686 0 633.3c0-52.4 40.2-91.6 68.5-127.9 7-8.9 17.2-13.4 27.5-13.4s20.5 4.5 27.5 13.4c28.3 36.4 68.5 75.5 68.5 127.9z"
+                                Fill="#FF009DD9"
+                                Stretch="Fill" />-->
+                            <Image
+                                Width="100"
+                                Height="100"
+                                Source="/Resource/Image/humidity.png" />
+                            <TextBlock
+                                Margin="15,2"
+                                HorizontalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="30"
+                                Foreground="#FFF8FAFA"
+                                Text="27" />
+                            <TextBlock
+                                Margin="0,-30,35,0"
+                                HorizontalAlignment="Right"
+                                FontSize="16"
+                                Foreground="#FFF8FAFA"
+                                Text="%" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Grid
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Width="138"
+                    Height="145"
+                    Background="#FF404445">
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush Opacity="0.4" StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop />
+                                <GradientStop Offset="0" Color="#FF3F4646" />
+                                <GradientStop Offset="0.55" Color="#FF4AB8BE" />
+                                <GradientStop Offset="0.9" Color="#FF3F4646" />
+                                <GradientStop Offset="10" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel Margin="0,5,0,0" Orientation="Vertical">
+                            <!--<materialDesign:PackIcon
+                                Width="100"
+                                Height="100"
+                                HorizontalAlignment="Center"
+                                Foreground="#FFF28E1E"
+                                Kind="DotsGrid" />-->
+                            <Image
+                                Width="100"
+                                Height="100"
+                                Source="/Resource/Image/dust.png" />
+                            <!--<Path
+                                Width="60"
+                                Height="70"
+                                Margin="0,15"
+                                HorizontalAlignment="Center"
+                                Data="M320 256a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m384 0a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m-192 32a32 32 0 1 1 0 64 32 32 0 0 1 0-64z m-192 352a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m384 0a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m-192 32a32 32 0 1 1 0 64 32 32 0 0 1 0-64z m192-192a32 32 0 1 1 0 64 32 32 0 0 1 0-64z m-384 0a32 32 0 1 1 0 64 32 32 0 0 1 0-64z m192-32a64 64 0 1 1 0 128 64 64 0 0 1 0-128z"
+                                Fill="#FFF28E1E"
+                                Stretch="Fill" />-->
+                            <TextBlock
+                                Margin="35,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="30"
+                                Foreground="#FFF8FAFA"
+                                Text="25" />
+                            <TextBlock
+                                Margin="60,-25,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="16"
+                                Foreground="#FFF8FAFA"
+                                Text="mg/m³" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Grid
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Width="138"
+                    Height="145"
+                    Background="#FF404445">
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush Opacity="0.4" StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop />
+                                <GradientStop Offset="0" Color="#FF3F4646" />
+                                <GradientStop Offset="0.55" Color="#FF4AB8BE" />
+                                <GradientStop Offset="0.9" Color="#FF3F4646" />
+                                <GradientStop Offset="10" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel Margin="0,5" Orientation="Vertical">
+                            <!--<materialDesign:PackIcon
+                                Width="100"
+                                Height="100"
+                                HorizontalAlignment="Center"
+                                Foreground="#FF18A3E5"
+                                Kind="DotsGrid" />-->
+                            <Image
+                                Width="100"
+                                Height="100"
+                                HorizontalAlignment="Center"
+                                Source="/Resource/Image/CarbonMonoxide.png" />
+                            <TextBlock
+                                Margin="30,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="30"
+                                Foreground="#FFF8FAFA"
+                                Text="20" />
+                            <TextBlock
+                                Margin="0,-25,20,0"
+                                HorizontalAlignment="Right"
+                                FontSize="16"
+                                Foreground="#FFF8FAFA"
+                                Text="mg/m³" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Grid
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Width="138"
+                    Height="145"
+                    Background="#FF404445">
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush Opacity="0.4" StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop />
+                                <GradientStop Offset="0" Color="#FF3F4646" />
+                                <GradientStop Offset="0.55" Color="#FF4AB8BE" />
+                                <GradientStop Offset="0.9" Color="#FF3F4646" />
+                                <GradientStop Offset="10" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel Margin="0,5" Orientation="Vertical">
+                            <Image
+                                Width="100"
+                                Height="100"
+                                HorizontalAlignment="Center"
+                                Source="/Resource/Image/dB.png" />
+
+                            <!--<Path
+                                Width="40"
+                                Height="40"
+                                Margin="15,50,0,0"
+                                VerticalAlignment="Top"
+                                Data="M475.428571 201.142857l0 621.714286q0 14.857143-10.857143 25.714286t-25.714286 10.857143-25.714286-10.857143l-190.285714-190.285714-149.714286 0q-14.857143 0-25.714286-10.857143t-10.857143-25.714286l0-219.428571q0-14.857143 10.857143-25.714286t25.714286-10.857143l149.714286 0 190.285714-190.285714q10.857143-10.857143 25.714286-10.857143t25.714286 10.857143 10.857143 25.714286zm219.428571 310.857143q0 43.428571-24.285714 80.857143t-64.285714 53.428571q-5.714286 2.857143-14.285714 2.857143-14.857143 0-25.714286-10.571429t-10.857143-26q0-12 6.857143-20.285714t16.571429-14.285714 19.428571-13.142857 16.571429-20.285714 6.857143-32.571429-6.857143-32.571429-16.571429-20.285714-19.428571-13.142857-16.571429-14.285714-6.857143-20.285714q0-15.428571 10.857143-26t25.714286-10.571429q8.571429 0 14.285714 2.857143 40 15.428571 64.285714 53.142857t24.285714 81.142857zm146.285714 0q0 87.428571-48.571429 161.428571t-128.571429 107.714286q-7.428571 2.857143-14.285714 2.857143-15.428571 0-26.285714-10.857143t-10.857143-25.714286q0-22.285714 22.285714-33.714286 32-16.571429 43.428571-25.142857 42.285714-30.857143 66-77.428571t23.714286-99.142857-23.714286-99.142857-66-77.428571q-11.428571-8.571429-43.428571-25.142857-22.285714-11.428571-22.285714-33.714286 0-14.857143 10.857143-25.714286t25.714286-10.857143q7.428571 0 14.857143 2.857143 80 33.714286 128.571429 107.714286t48.571429 161.428571zm146.285714 0q0 131.428571-72.571429 241.428571t-193.142857 162q-7.428571 2.857143-14.857143 2.857143-14.857143 0-25.714286-10.857143t-10.857143-25.714286q0-20.571429 22.285714-33.714286 4-2.285714 12.857143-6t12.857143-6q26.285714-14.285714 46.857143-29.142857 70.285714-52 109.714286-129.714286t39.428571-165.142857-39.428571-165.142857-109.714286-129.714286q-20.571429-14.857143-46.857143-29.142857-4-2.285714-12.857143-6t-12.857143-6q-22.285714-13.142857-22.285714-33.714286 0-14.857143 10.857143-25.714286t25.714286-10.857143q7.428571 0 14.857143 2.857143 120.571429 52 193.142857 162t72.571429 241.428571z"
+                                Fill="Red"
+                                Stretch="Fill" />-->
+                            <!--<materialDesign:PackIcon
+                                Width="100"
+                                Height="100"
+                                Margin="0,-80"
+                                HorizontalAlignment="Center"
+                                Foreground="#FF12CC46"
+                                Kind="EarHearingOff" />-->
+                            <TextBlock
+                                Margin="40,5"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="30"
+                                Foreground="#FFF8FAFA"
+                                Text="35" />
+                            <TextBlock
+                                Margin="0,-40,40,0"
+                                HorizontalAlignment="Right"
+                                FontSize="16"
+                                Foreground="#FFF8FAFA"
+                                Text="dB" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Grid
+                    Grid.Row="2"
+                    Grid.Column="5"
+                    Width="138"
+                    Height="145"
+                    Background="#FF404445">
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush Opacity="0.4" StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop />
+                                <GradientStop Offset="0" Color="#FF3F4646" />
+                                <GradientStop Offset="0.55" Color="#FF4AB8BE" />
+                                <GradientStop Offset="0.9" Color="#FF3F4646" />
+                                <GradientStop Offset="10" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel Margin="0,5" Orientation="Vertical">
+                            <!--<materialDesign:PackIcon
+                                Width="100"
+                                Height="100"
+                                HorizontalAlignment="Center"
+                                Foreground="#FFECB214"
+                                Kind="ArrowDownThick" />-->
+                            <Image
+                                Width="100"
+                                Height="100"
+                                Source="/NFS.Robot;component/Resource/Image/vibration.png"
+                                Stretch="Uniform" />
+                            <TextBlock
+                                Margin="40,5"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="30"
+                                Foreground="#FFF8FAFA"
+                                Text="25" />
+                            <TextBlock
+                                Margin="0,-30,10,0"
+                                HorizontalAlignment="Right"
+                                FontSize="16"
+                                Foreground="#FFF8FAFA"
+                                Text="mg/m³" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!--  环境温度  -->
+            <Grid
+                Grid.Row="3"
+                Height="300"
+                Margin="20,0"
+                VerticalAlignment="Top"
+                Background="#FF414141">
+                <TextBlock
+                    Margin="30,20,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="16"
+                    Foreground="#FFE0E0E0"
+                    Text="环境温度" />
+                <TextBlock
+                    Margin="-250,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="500m" />
+                <TextBlock
+                    Margin="270,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="1.5km" />
+                <materialDesign:Card
+                    Width="45"
+                    Height="50"
+                    Margin="100,50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource PrimaryHueDarkBrush}"
+                    Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                    UniformCornerRadius="6">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="18"
+                            Text="55℃" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            Foreground="#FF858585"
+                            Text="500m" />
+                        <Border BorderThickness="0.5">
+                            <Border.BorderBrush>
+                                <DrawingBrush
+                                    TileMode="Tile"
+                                    Viewport="0,0,5,5"
+                                    ViewportUnits="Absolute">
+                                    <DrawingBrush.Drawing>
+                                        <DrawingGroup>
+                                            <GeometryDrawing Brush="#FF6A6A6A">
+                                                <GeometryDrawing.Geometry>
+                                                    <GeometryGroup>
+                                                        <RectangleGeometry Rect="0,0,50,50" />
+                                                        <RectangleGeometry Rect="50,50,50,50" />
+                                                    </GeometryGroup>
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingGroup>
+                                    </DrawingBrush.Drawing>
+                                </DrawingBrush>
+                            </Border.BorderBrush>
+                        </Border>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            Text="02:30" />
+                    </StackPanel>
+                </materialDesign:Card>
+                <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="0,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="65" />
+                            <TextBlock
+                                Margin="5,20,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="℃" />
+                            <TextBlock
+                                Margin="-10,35,0,0"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最高值" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="27" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="℃" />
+                            <TextBlock
+                                Margin="-15,35,0,0"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="平均值" />
+                        </StackPanel>
+
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="20" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="℃" />
+                            <TextBlock
+                                Margin="-15,35,0,0"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最低值" />
+                        </StackPanel>
+
+                    </Border>
+                </WrapPanel>
+                <StackPanel
+                    Margin="10,30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <RadioButton
+                        Content="今日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        IsChecked="True"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="7日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="30日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="90日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                </StackPanel>
+                <Grid Margin="30,100,0,0">
+                    <lvc:CartesianChart Height="Auto">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries
+                                Name="fcpoints"
+                                Title="托辊测温:"
+                                Fill="Transparent"
+                                LineSmoothness="0"
+                                PointGeometrySize="5"
+                                StrokeThickness="1"
+                                Values="10,20,30,40,50,60,70,80,90" />
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis
+                                Name="fclabels"
+                                Title="时间"
+                                LabelFormatter="{Binding FormatterDust}"
+                                Labels="{Binding EnvNoise.RecordTime}"
+                                MaxValue="24"
+                                MinValue="0"
+                                ShowLabels="True"
+                                Unit="2">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis
+                                Title="温度(℃)"
+                                FontFamily="Arial"
+                                FontSize="12"
+                                LabelFormatter="{Binding DustRecord}"
+                                Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                MaxValue="100"
+                                MinValue="0"
+                                Position="LeftBottom"
+                                ShowLabels="True"
+                                Unit="5">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+                </Grid>
+            </Grid>
+
+            <!--  环境湿度  -->
+            <Grid
+                Grid.Row="4"
+                Height="300"
+                Margin="20,30"
+                VerticalAlignment="Top"
+                Background="#FF414141">
+                <TextBlock
+                    Margin="30,20,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="16"
+                    Foreground="#FFE0E0E0"
+                    Text="环境湿度" />
+                <TextBlock
+                    Margin="-250,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="500m" />
+                <TextBlock
+                    Margin="270,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="1.5km" />
+                <materialDesign:Card
+                    Width="45"
+                    Height="50"
+                    Margin="100,50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource PrimaryHueDarkBrush}"
+                    Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                    UniformCornerRadius="6">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="18"
+                            Text="55%" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            Foreground="#FF858585"
+                            Text="500m" />
+                        <Border BorderThickness="0.5">
+                            <Border.BorderBrush>
+                                <DrawingBrush
+                                    TileMode="Tile"
+                                    Viewport="0,0,5,5"
+                                    ViewportUnits="Absolute">
+                                    <DrawingBrush.Drawing>
+                                        <DrawingGroup>
+                                            <GeometryDrawing Brush="#FF6A6A6A">
+                                                <GeometryDrawing.Geometry>
+                                                    <GeometryGroup>
+                                                        <RectangleGeometry Rect="0,0,50,50" />
+                                                        <RectangleGeometry Rect="50,50,50,50" />
+                                                    </GeometryGroup>
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingGroup>
+                                    </DrawingBrush.Drawing>
+                                </DrawingBrush>
+                            </Border.BorderBrush>
+                        </Border>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            Text="02:30" />
+                    </StackPanel>
+                </materialDesign:Card>
+                <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="0,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="65" />
+                            <TextBlock
+                                Margin="5,20,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="mg/m³" />
+                            <TextBlock
+                                Margin="-40,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最高值" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="27" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="mg/m³" />
+                            <TextBlock
+                                Margin="-40,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="平均值" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="20" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="mg/m³" />
+                            <TextBlock
+                                Margin="-40,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最低值" />
+                        </StackPanel>
+
+                    </Border>
+                </WrapPanel>
+                <StackPanel
+                    Margin="10,30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <RadioButton
+                        Content="今日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        IsChecked="True"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="7日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="30日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="90日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                </StackPanel>
+                <Grid Margin="30,100,0,0">
+                    <lvc:CartesianChart Height="Auto">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries
+                                Name="dust"
+                                Title="托辊测温:"
+                                Fill="Transparent"
+                                LineSmoothness="0"
+                                PointGeometrySize="5"
+                                StrokeThickness="1"
+                                Values="10,20,30,40,50,60,70,80,90" />
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis
+                                Name="LvTime"
+                                Title="时间"
+                                LabelFormatter="{Binding FormatterDust}"
+                                Labels="{Binding EnvNoise.RecordTime}"
+                                MaxValue="24"
+                                MinValue="0"
+                                ShowLabels="True"
+                                Unit="2">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis
+                                Title="粉尘浓度(mg/m³)"
+                                FontFamily="Arial"
+                                FontSize="12"
+                                LabelFormatter="{Binding DustRecord}"
+                                Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                MaxValue="100"
+                                MinValue="0"
+                                Position="LeftBottom"
+                                ShowLabels="True"
+                                Unit="5">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+                </Grid>
+            </Grid>
+
+            <!--  粉尘浓度  -->
+            <Grid
+                Grid.Row="5"
+                Height="300"
+                Margin="20,10"
+                VerticalAlignment="Top"
+                Background="#FF414141">
+                <TextBlock
+                    Margin="30,20,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="16"
+                    Foreground="#FFE0E0E0"
+                    Text="粉尘浓度" />
+                <TextBlock
+                    Margin="-250,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="500m" />
+                <TextBlock
+                    Margin="270,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="1.5km" />
+                <materialDesign:Card
+                    Width="47"
+                    Height="50"
+                    Margin="100,50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource PrimaryHueDarkBrush}"
+                    Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                    UniformCornerRadius="6">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="18"
+                                Text="55" />
+                            <TextBlock
+                                Margin="0,8,0,0"
+                                FontFamily="Arial"
+                                FontSize="9"
+                                Text="mg/m³" />
+                        </StackPanel>
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            Foreground="#FF858585"
+                            Text="500m" />
+                        <Border BorderThickness="0.5">
+                            <Border.BorderBrush>
+                                <DrawingBrush
+                                    TileMode="Tile"
+                                    Viewport="0,0,5,5"
+                                    ViewportUnits="Absolute">
+                                    <DrawingBrush.Drawing>
+                                        <DrawingGroup>
+                                            <GeometryDrawing Brush="#FF6A6A6A">
+                                                <GeometryDrawing.Geometry>
+                                                    <GeometryGroup>
+                                                        <RectangleGeometry Rect="0,0,50,50" />
+                                                        <RectangleGeometry Rect="50,50,50,50" />
+                                                    </GeometryGroup>
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingGroup>
+                                    </DrawingBrush.Drawing>
+                                </DrawingBrush>
+                            </Border.BorderBrush>
+                        </Border>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            Text="02:30" />
+                    </StackPanel>
+                </materialDesign:Card>
+                <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="0,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="65" />
+                            <TextBlock
+                                Margin="5,20,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="mg/m³" />
+                            <TextBlock
+                                Margin="-40,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最高值" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="27" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="mg/m³" />
+                            <TextBlock
+                                Margin="-40,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="平均值" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="20" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="mg/m³" />
+                            <TextBlock
+                                Margin="-40,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最低值" />
+                        </StackPanel>
+
+                    </Border>
+                </WrapPanel>
+                <StackPanel
+                    Margin="10,30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <RadioButton
+                        Content="今日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        IsChecked="True"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="7日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="30日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="90日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                </StackPanel>
+                <Grid Margin="30,100,0,0">
+                    <lvc:CartesianChart Height="Auto">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries
+                                Name="dust2"
+                                Title="粉尘浓度"
+                                Fill="Transparent"
+                                LineSmoothness="0"
+                                PointGeometrySize="5"
+                                StrokeThickness="1"
+                                Values="10,20,30,40,50,60,70,80,90" />
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis
+                                Name="time"
+                                Title="时间"
+                                LabelFormatter="{Binding FormatterDust}"
+                                Labels="{Binding EnvNoise.RecordTime}"
+                                MaxValue="24"
+                                MinValue="0"
+                                ShowLabels="True"
+                                Unit="2">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis
+                                Title="粉尘浓度(mg/m³)"
+                                FontFamily="Arial"
+                                FontSize="12"
+                                LabelFormatter="{Binding DustRecord}"
+                                Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                MaxValue="100"
+                                MinValue="0"
+                                Position="LeftBottom"
+                                ShowLabels="True"
+                                Unit="5">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+                </Grid>
+            </Grid>
+
+            <!--  CO浓度  -->
+            <Grid
+                Grid.Row="6"
+                Height="300"
+                Margin="20,10"
+                VerticalAlignment="Top"
+                Background="#FF414141">
+                <TextBlock
+                    Margin="30,20,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="16"
+                    Foreground="#FFE0E0E0"
+                    Text="CO浓度" />
+                <TextBlock
+                    Margin="-250,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="500m" />
+                <TextBlock
+                    Margin="270,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="1.5km" />
+                <materialDesign:Card
+                    Width="47"
+                    Height="50"
+                    Margin="100,50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource PrimaryHueDarkBrush}"
+                    Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                    UniformCornerRadius="6">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="18"
+                                Text="55" />
+                            <TextBlock
+                                Margin="0,8,0,0"
+                                FontFamily="Arial"
+                                FontSize="9"
+                                Text="mg/m³" />
+                        </StackPanel>
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            Foreground="#FF858585"
+                            Text="500m" />
+                        <Border BorderThickness="0.5">
+                            <Border.BorderBrush>
+                                <DrawingBrush
+                                    TileMode="Tile"
+                                    Viewport="0,0,5,5"
+                                    ViewportUnits="Absolute">
+                                    <DrawingBrush.Drawing>
+                                        <DrawingGroup>
+                                            <GeometryDrawing Brush="#FF6A6A6A">
+                                                <GeometryDrawing.Geometry>
+                                                    <GeometryGroup>
+                                                        <RectangleGeometry Rect="0,0,50,50" />
+                                                        <RectangleGeometry Rect="50,50,50,50" />
+                                                    </GeometryGroup>
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingGroup>
+                                    </DrawingBrush.Drawing>
+                                </DrawingBrush>
+                            </Border.BorderBrush>
+                        </Border>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            Text="02:30" />
+                    </StackPanel>
+                </materialDesign:Card>
+                <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="0,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="65" />
+                            <TextBlock
+                                Margin="5,20,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="mg/m³" />
+                            <TextBlock
+                                Margin="-40,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最高值" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="27" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="mg/m³" />
+                            <TextBlock
+                                Margin="-40,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="平均值" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="20" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="mg/m³" />
+                            <TextBlock
+                                Margin="-40,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最低值" />
+                        </StackPanel>
+
+                    </Border>
+                </WrapPanel>
+                <StackPanel
+                    Margin="10,30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <RadioButton
+                        Content="今日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        IsChecked="True"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="7日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="30日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="90日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                </StackPanel>
+                <Grid Margin="30,100,0,0">
+                    <lvc:CartesianChart Height="Auto">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries
+                                Name="dust3"
+                                Title="CO浓度"
+                                Fill="Transparent"
+                                LineSmoothness="0"
+                                PointGeometrySize="5"
+                                StrokeThickness="1"
+                                Values="10,20,30,40,50,60,70,80,90" />
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis
+                                Name="COTime"
+                                Title="时间"
+                                LabelFormatter="{Binding FormatterDust}"
+                                Labels="{Binding EnvNoise.RecordTime}"
+                                MaxValue="24"
+                                MinValue="0"
+                                ShowLabels="True"
+                                Unit="2">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis
+                                Title="CO浓度(mg/m³)"
+                                FontFamily="Arial"
+                                FontSize="12"
+                                LabelFormatter="{Binding DustRecord}"
+                                Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                MaxValue="100"
+                                MinValue="0"
+                                Position="LeftBottom"
+                                ShowLabels="True"
+                                Unit="5">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+                </Grid>
+            </Grid>
+
+            <!--  噪声强度  -->
+            <!--<Grid
+                Grid.Row="6"
+                Height="300"
+                Margin="20,10"
+                VerticalAlignment="Top"
+                Background="#FF414141">
+                <TextBlock
+                    Margin="30,20,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="16"
+                    Foreground="#FFE0E0E0"
+                    Text="噪声强度" />
+                <TextBlock
+                    Margin="-250,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="500m" />
+                <TextBlock
+                    Margin="270,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="1.5km" />
+                <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="0,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="65" />
+                            <TextBlock
+                                Margin="5,20,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="db" />
+                            <TextBlock
+                                Margin="-20,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最高值" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="27" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="db" />
+                            <TextBlock
+                                Margin="-20,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="平均值" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="20" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="db" />
+                            <TextBlock
+                                Margin="-20,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最低值" />
+                        </StackPanel>
+
+                    </Border>
+                </WrapPanel>
+                <StackPanel
+                    Margin="10,30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <RadioButton
+                        Content="今日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        IsChecked="True"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="7日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="30日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="90日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                </StackPanel>
+                <Grid Margin="30,100,0,0">
+                    <lvc:CartesianChart Height="Auto">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries
+                                Name="dust4"
+                                Title="噪声(db)"
+                                Fill="Transparent"
+                                LineSmoothness="0"
+                                PointGeometrySize="5"
+                                StrokeThickness="1"
+                                Values="10,20,30,40,50,60,70,80,90" />
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis
+                                Name="zsTime"
+                                Title="时间"
+                                LabelFormatter="{Binding FormatterDust}"
+                                Labels="{Binding EnvNoise.RecordTime}"
+                                MaxValue="24"
+                                MinValue="0"
+                                ShowLabels="True"
+                                Unit="2">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis
+                                Title="噪声(db)"
+                                FontFamily="Arial"
+                                FontSize="12"
+                                LabelFormatter="{Binding DustRecord}"
+                                Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                MaxValue="100"
+                                MinValue="0"
+                                Position="LeftBottom"
+                                ShowLabels="True"
+                                Unit="5">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+                </Grid>
+            </Grid>-->
+
+            <!--  机器人振动  -->
+            <!--<Grid
+                Grid.Row="7"
+                Height="300"
+                Margin="20,10"
+                VerticalAlignment="Top"
+                Background="#FF414141">
+                <TextBlock
+                    Margin="30,20,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="16"
+                    Foreground="#FFE0E0E0"
+                    Text="机器人振动" />
+                <TextBlock
+                    Margin="-250,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="500m" />
+                <TextBlock
+                    Margin="270,7,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Foreground="#FF898989"
+                    Text="1.5km" />
+                <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="0,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="65" />
+                            <TextBlock
+                                Margin="5,20,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="db" />
+                            <TextBlock
+                                Margin="-20,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最高值" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="27" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="db" />
+                            <TextBlock
+                                Margin="-20,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="平均值" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Width="110"
+                        Height="70"
+                        Margin="20,20,0,0"
+                        VerticalAlignment="Top"
+                        Background="#FF343434"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,10,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="40"
+                                Foreground="#FF45B9BF"
+                                Text="20" />
+                            <TextBlock
+                                Margin="5,15,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="db" />
+                            <TextBlock
+                                Margin="-20,35,0,0"
+                                HorizontalAlignment="Left"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="#FF898989"
+                                Text="最低值" />
+                        </StackPanel>
+
+                    </Border>
+                </WrapPanel>
+                <StackPanel
+                    Margin="10,30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <RadioButton
+                        Content="全部"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        IsChecked="True"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="本年"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="本季"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="本月"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="今天"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                </StackPanel>
+                <Grid Margin="30,100,0,0">
+                    <lvc:CartesianChart Height="Auto">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries
+                                Name="dust5"
+                                Title="噪声(db)"
+                                Fill="Transparent"
+                                LineSmoothness="0"
+                                PointGeometrySize="5"
+                                StrokeThickness="1"
+                                Values="10,20,30,40,50,60,70,80,90" />
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis
+                                Name="zTime"
+                                Title="时间"
+                                LabelFormatter="{Binding FormatterDust}"
+                                Labels="{Binding EnvNoise.RecordTime}"
+                                MaxValue="24"
+                                MinValue="0"
+                                ShowLabels="True"
+                                Unit="2">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis
+                                Title="速度(mm/s) 每小格代表2mm/s"
+                                FontFamily="Arial"
+                                FontSize="12"
+                                LabelFormatter="{Binding DustRecord}"
+                                Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                MaxValue="100"
+                                MinValue="0"
+                                Position="LeftBottom"
+                                ShowLabels="True"
+                                Unit="5">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1">
+                                        <lvc:Separator.Stroke>
+                                            <SolidColorBrush Color="#FF928E8E" />
+                                        </lvc:Separator.Stroke>
+                                    </lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+                </Grid>
+
+                <TextBlock
+                    Margin="30,290,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="16"
+                    Foreground="#FFE0E0E0"
+                    Text="机器人振动" />
+            </Grid>-->
+
+            <!--  输送机环境质量指数  -->
+            <Grid
+                Grid.Row="8"
+                Height="300"
+                Margin="20,10"
+                VerticalAlignment="Top"
+                Background="#FF414141">
+                <StackPanel
+                    Margin="10,30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <RadioButton
+                        Content="今日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        IsChecked="True"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="7日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="30日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="90日"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" Margin="20,50,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <WrapPanel
+                            Grid.Row="0"
+                            Margin="0,10,0,0"
+                            Orientation="Horizontal">
+                            <Border
+                                Width="5"
+                                Height="70"
+                                Background="#FF89EBF1"
+                                CornerRadius="5" />
+                            <TextBlock
+                                Margin="10,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="16"
+                                Foreground="#FFACACAC"
+                                Text="异常告警次数" />
+                            <TextBlock
+                                Margin="-105,40,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="20"
+                                Foreground="#FFCD2525"
+                                Text="6" />
+                        </WrapPanel>
+                        <WrapPanel
+                            Grid.Row="1"
+                            Margin="0,10,0,0"
+                            Orientation="Horizontal">
+                            <Border
+                                Width="5"
+                                Height="70"
+                                Background="#FF89EBF1"
+                                CornerRadius="5" />
+                            <TextBlock
+                                Margin="10,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="16"
+                                Foreground="#FFACACAC"
+                                Text="异常告时间" />
+                            <TextBlock
+                                Margin="-90,40,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="20"
+                                Foreground="White"
+                                Text="2021-09-18 15:30:00" />
+                        </WrapPanel>
+                        <WrapPanel
+                            Grid.Row="2"
+                            Margin="0,10,0,0"
+                            Orientation="Horizontal">
+                            <Border
+                                Width="5"
+                                Height="70"
+                                Background="#FF89EBF1"
+                                CornerRadius="5" />
+                            <TextBlock
+                                Margin="10,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="16"
+                                Foreground="#FFACACAC"
+                                Text="最近告警因子" />
+                            <TextBlock
+                                Margin="-105,40,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="20"
+                                Foreground="#FFCD2525"
+                                Text="co" />
+                        </WrapPanel>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <ContentControl
+                            x:Name="ctrIndex"
+                            Margin="50,15,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            prism:RegionManager.RegionName="RegionIndex"
+                            Background="#FF393939" />
+                    </Grid>
+                    <Grid
+                        Grid.Column="2"
+                        Margin="0,50,20,0"
+                        HorizontalAlignment="Right">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <WrapPanel
+                            Grid.Row="0"
+                            Margin="0,10,0,0"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="10,0"
+                                VerticalAlignment="Top"
+                                FontSize="16"
+                                Foreground="#FFACACAC"
+                                Text="环境质量最优天数" />
+                            <TextBlock
+                                Margin="-105,40,20,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                FontSize="20"
+                                Foreground="#FF278E44"
+                                Text="6" />
+                            <Border
+                                Width="5"
+                                Height="70"
+                                Background="#FFFF931B"
+                                CornerRadius="5" />
+                        </WrapPanel>
+
+                        <WrapPanel
+                            Grid.Row="1"
+                            Margin="0,10,0,0"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="10,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="16"
+                                Foreground="#FFACACAC"
+                                Text="环境质量最差日期" />
+                            <TextBlock
+                                Margin="-120,40,10,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                FontSize="20"
+                                Foreground="White"
+                                Text="2021-09-18" />
+                            <Border
+                                Width="5"
+                                Height="70"
+                                Background="#FFFF931B"
+                                CornerRadius="5" />
+                        </WrapPanel>
+                        <WrapPanel
+                            Grid.Row="2"
+                            Margin="32,10,0,0"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="10,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="16"
+                                Foreground="#FFACACAC"
+                                Text="最近告警因子" />
+                            <TextBlock
+                                Margin="-105,40,20,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                FontSize="20"
+                                Foreground="#FFCD2525"
+                                Text="co" />
+                            <Border
+                                Width="5"
+                                Height="70"
+                                Background="#FFFF931B"
+                                CornerRadius="5" />
+                        </WrapPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <!--  异常告警排行  -->
+            <Grid
+                Grid.Row="9"
+                Height="300"
+                Margin="20,10"
+                VerticalAlignment="Top"
+                Background="#FF414141">
+                <StackPanel
+                    Margin="10,30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <RadioButton
+                        Content="全部"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        IsChecked="True"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="本年"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="本季"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="本月"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                    <RadioButton
+                        Content="今天"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Foreground="White"
+                        Style="{StaticResource NavTabButtonStyle}" />
+                </StackPanel>
+
+                <Grid Margin="0,70,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid
+                        Grid.Column="0"
+                        Margin="20,0"
+                        Background="#FF414141">
+                        <Border
+                            Width="510"
+                            Height="40"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+                            <Border.Background>
+                                <LinearGradientBrush ColorInterpolationMode="ScRgbLinearInterpolation" MappingMode="Absolute" StartPoint="1,1" EndPoint="100,1">
+                                    <GradientStop Color="#FF407A7D" />
+                                    <GradientStop Offset="0.688" Color="#FF405F61" />
+                                    <GradientStop Offset="1.2" Color="#FF3F4646" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock
+                                Margin="15,0"
+                                VerticalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="#FFF8FAFA"
+                                Text="异常告警排行" />
+                        </Border>
+                        <ScrollViewer
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            HorizontalScrollBarVisibility="Hidden"
+                            VerticalScrollBarVisibility="Hidden">
+                            <DataGrid
+                                Margin="10,50,10,0"
+                                materialDesign:DataGridAssist.CornerRadius="0"
+                                materialDesign:ScrollViewerAssist.CornerRectangleVisibility="Hidden"
+                                AutoGenerateColumns="False"
+                                Background="#FF414141"
+                                BorderBrush="Gray"
+                                BorderThickness="0"
+                                CanUserAddRows="False"
+                                CanUserSortColumns="True"
+                                Foreground="White"
+                                HeadersVisibility="All"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding AlarmRankingList, Mode=TwoWay}"
+                                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                SelectionMode="Single">
+                                <DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="FontSize" Value="14" />
+                                        <Setter Property="Height" Value="30" />
+                                        <Setter Property="Foreground" Value="#FF45B2B8" />
+                                        <Setter Property="BorderBrush" Value="#FF5E5D5D" />
+                                        <Setter Property="BorderThickness" Value="1" />
+                                        <Setter Property="VerticalAlignment" Value="Bottom" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="DataGridColumnHeader">
+                                                    <Border
+                                                        Background="Transparent"
+                                                        BorderBrush="White"
+                                                        BorderThickness="0"
+                                                        CornerRadius="0">
+                                                        <ContentPresenter
+                                                            Width="Auto"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </DataGrid.ColumnHeaderStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Width="110"
+                                        Binding="{Binding Rank}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        Header="排名" />
+                                    <materialDesign:DataGridTextColumn
+                                        Width="110"
+                                        Binding="{Binding AlertFactor}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        Header="告警因子" />
+                                    <DataGridTextColumn
+                                        Width="110"
+                                        Binding="{Binding Location}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        Header="位置" />
+                                    <!--<DataGridTextColumn
+                                        Width="110"
+                                        Binding="{Binding AlarmsNumber}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                                        Header="告警数" />-->
+                                    <DataGridTemplateColumn Width="Auto" Header="告警数">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ProgressBar
+                                                        x:Name="prgValue"
+                                                        Width="72"
+                                                        Height="5"
+                                                        Margin="0,0,25,0"
+                                                        Padding="5,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Background="#FF3C3C3C"
+                                                        BorderBrush="#FF686868"
+                                                        BorderThickness="1"
+                                                        FontSize="14"
+                                                        Foreground="#FF79B6BA"
+                                                        Value="20" />
+                                                    <TextBlock
+                                                        x:Name="txtAlarmsNumber"
+                                                        HorizontalAlignment="Left"
+                                                        FontFamily="Arial"
+                                                        FontSize="14"
+                                                        Foreground="#FF858585"
+                                                        Text="{Binding AlarmsNumber}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </ScrollViewer>
+                    </Grid>
+                    <ScrollViewer
+                        Grid.Column="2"
+                        HorizontalScrollBarVisibility="Hidden"
+                        VerticalScrollBarVisibility="Hidden">
+                        <Grid Grid.Column="0" Background="#FF414141">
+                            <Border
+                                Width="510"
+                                Height="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top">
+                                <Border.Background>
+                                    <LinearGradientBrush ColorInterpolationMode="ScRgbLinearInterpolation" MappingMode="Absolute" StartPoint="1,1" EndPoint="100,1">
+                                        <GradientStop Color="#FF407A7D" />
+                                        <GradientStop Offset="0.688" Color="#FF405F61" />
+                                        <GradientStop Offset="1.2" Color="#FF3F4646" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock
+                                    Margin="15,0"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial"
+                                    FontSize="16"
+                                    Foreground="#FFF8FAFA"
+                                    Text="异常告警占比" />
+                            </Border>
+                            <Grid Margin="30,50,0,0">
+                                <lvc:CartesianChart Height="Auto">
+                                    <lvc:CartesianChart.Series>
+                                        <lvc:LineSeries
+                                            Name="dust6"
+                                            Title="噪声(db)"
+                                            Fill="Transparent"
+                                            LineSmoothness="0"
+                                            PointGeometrySize="5"
+                                            StrokeThickness="1"
+                                            Values="10,20,30,40,50,60,70,80,90" />
+                                    </lvc:CartesianChart.Series>
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis
+                                            Name="Time6"
+                                            Title="时间"
+                                            LabelFormatter="{Binding FormatterDust}"
+                                            Labels="{Binding EnvNoise.RecordTime}"
+                                            MaxValue="24"
+                                            MinValue="0"
+                                            ShowLabels="True"
+                                            Unit="2">
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator StrokeThickness="1">
+                                                    <lvc:Separator.Stroke>
+                                                        <SolidColorBrush Color="#FF928E8E" />
+                                                    </lvc:Separator.Stroke>
+                                                </lvc:Separator>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis
+                                            Title="百分比"
+                                            FontFamily="Arial"
+                                            FontSize="12"
+                                            LabelFormatter="{Binding DustRecord}"
+                                            Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                            MaxValue="100"
+                                            MinValue="0"
+                                            Position="LeftBottom"
+                                            ShowLabels="True"
+                                            Unit="5">
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator StrokeThickness="1">
+                                                    <lvc:Separator.Stroke>
+                                                        <SolidColorBrush Color="#FF928E8E" />
+                                                    </lvc:Separator.Stroke>
+                                                </lvc:Separator>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                            </Grid>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

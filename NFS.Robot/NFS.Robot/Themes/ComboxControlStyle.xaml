@@ -1,0 +1,168 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Style x:Key="ComboxStyleBtn" TargetType="ToggleButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <!--  下拉按钮内部背景色  -->
+                    <Border
+                        x:Name="Back"
+                        Background="Transparent"
+                        BorderThickness="0">
+                        <!--  下拉按钮内边框  -->
+                        <Path
+                            Name="PathFill"
+                            Width="10"
+                            Height="6"
+                            Margin="-70,0,0,0"
+                            Data="M5,0 L10,10 L0,10 z"
+                            Fill="White"
+                            RenderTransformOrigin="0.5,0.5"
+                            Stretch="Fill"
+                            StrokeThickness="0">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform />
+                                    <SkewTransform />
+                                    <RotateTransform Angle="180" />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PathFill" Property="Fill" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Combox  -->
+    <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <!--  ComBoxItem  -->
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="MinHeight" Value="22" />
+                    <Setter Property="MinWidth" Value="60" />
+                    <Setter Property="Background" Value="#FF434343" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ComboBoxItem">
+                                <Border
+                                    Name="Back"
+                                    Background="Transparent"
+                                    BorderBrush="#81D779"
+                                    BorderThickness="0,0,0,0">
+                                    <ContentPresenter
+                                        Margin="10,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        ContentSource="{Binding Source}" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Back" Property="Background" Value="LightGray" />
+                                    </Trigger>
+                                    <!--  下拉框背景色  -->
+                                    <Trigger Property="IsHighlighted" Value="True">
+                                        <Setter TargetName="Back" Property="Background" Value="Gray" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="0.3*" MaxWidth="30" />
+                        </Grid.ColumnDefinitions>
+                        <!--  文字区域背景和边线样式  -->
+
+                        <Border
+                            Grid.Column="1"
+                            BorderBrush="#5A5A5A"
+                            BorderThickness="1"
+                            CornerRadius="15">
+                            <TextBox
+                                Grid.Column="1"
+                                Width="150"
+                                Height="Auto"
+                                Padding="15,5,0,5"
+                                VerticalContentAlignment="Center"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                IsReadOnly="True"
+                                Text="{TemplateBinding Text}" />
+                        </Border>
+                        <!--  右侧下拉button设置  -->
+                        <Border
+                            Grid.Column="2"
+                            BorderBrush="#5A5A5A"
+                            CornerRadius="0,1,1,0">
+                            <ToggleButton
+                                BorderBrush="#5A5A5A"
+                                BorderThickness="3"
+                                ClickMode="Press"
+                                IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                Style="{StaticResource ComboxStyleBtn}" />
+                        </Border>
+                        <!--  弹出popup整体设置  -->
+                        <Popup
+                            x:Name="Popup"
+                            AllowsTransparency="False"
+                            Focusable="False"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            Placement="Bottom"
+                            PopupAnimation="Slide">
+                            <!--  弹出popup边框  -->
+                            <Border
+                                x:Name="DropDown"
+                                MinWidth="{TemplateBinding ActualWidth}"
+                                MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                BorderBrush="#5A5A5A"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="1"
+                                SnapsToDevicePixels="True">
+                                <Border.Effect>
+                                    <DropShadowEffect
+                                        BlurRadius="2"
+                                        Opacity="1"
+                                        ShadowDepth="0"
+                                        Color="Gray" />
+                                </Border.Effect>
+                                <!--  下拉幕布边界背景设置 MaxHeight="{TemplateBinding MaxDropDownHeight}"  -->
+                                <ScrollViewer
+                                    Margin="0,0,0,0"
+                                    Background="Gray"
+                                    BorderBrush="Gray"
+                                    BorderThickness="2"
+                                    HorizontalScrollBarVisibility="Auto"
+                                    SnapsToDevicePixels="True"
+                                    VerticalScrollBarVisibility="Auto">
+                                    <!--  StackPanel 用于显示子级，方法是将 IsItemsHost 设置为 True  -->
+                                    <StackPanel
+                                        Background="#5A5A5A"
+                                        IsItemsHost="True"
+                                        KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

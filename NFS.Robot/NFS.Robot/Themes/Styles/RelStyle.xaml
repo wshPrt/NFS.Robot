@@ -1,0 +1,142 @@
+﻿<UserControl
+    x:Class="NFS.Robot.Themes.Styles.RelStyle"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NFS.Robot.Themes.Styles"
+    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    Width="Auto"
+    Height="Auto">
+    <Grid
+        Width="Auto"
+        Height="Auto"
+        VerticalAlignment="Top">
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+            <materialDesign:PackIcon
+                Width="10"
+                Height="8"
+                Margin="10,5,0,0"
+                HorizontalAlignment="Left"
+                Background="White"
+                FontFamily="Arial"
+                FontSize="11"
+                Foreground="#FFCAC4C4"
+                Kind="AlphaH" />
+            <TextBlock
+                Margin="2,5,0,0"
+                FontFamily="Arial"
+                FontSize="10"
+                Foreground="White"
+                Text="3098" />
+            <materialDesign:PackIcon
+                Width="10"
+                Height="8"
+                HorizontalAlignment="Left"
+                Background="Transparent"
+                FontFamily="Arial"
+                FontSize="10"
+                Foreground="#FFCAC4C4"
+                Kind="Alpham" />
+        </StackPanel>
+        <!--  此处禁用datatooltip，动画速度单位是时:分:秒  -->
+        <lvc:CartesianChart
+            Width="Auto"
+            Height="Auto"
+            AnimationsSpeed="0:0:0.5"
+            DataTooltip="{x:Null}"
+            FontFamily="Arial"
+            FontSize="10"
+            Hoverable="False">
+            <!--  曲线  -->
+            <lvc:CartesianChart.Series>
+                <!--  曲线1参数  -->
+                <lvc:LineSeries
+                    Name="fcpoints"
+                    Title="-"
+                    Fill="#FF6E837C"
+                    LineSmoothness="1"
+                    PointGeometrySize="0"
+                    Stroke="Transparent"
+                    StrokeThickness="1"
+                    Values="85,70,60,80,50,30,70,80,10" />
+            </lvc:CartesianChart.Series>
+            <!--  X坐标轴  -->
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis
+                    Title=""
+                    Labels="A,B,C,D,E,F"
+                    LabelsRotation="45"
+                    ShowLabels="False">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator Stroke="#FF6E837C" StrokeThickness="1" />
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <!--  Y坐标轴  -->
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis
+                    Title="Rel"
+                    FontFamily="Arial"
+                    FontSize="4"
+                    ShowLabels="False">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator Stroke="#FF6E837C" StrokeThickness="1" />
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+        <!--<lvc:CartesianChart Height="Auto" Margin="0,0,-233,17">
+            <lvc:CartesianChart.Series>
+                <lvc:LineSeries
+                    Name="fcpoints"
+                    Title="托辊测温:"
+                    Fill="Transparent"
+                    LineSmoothness="0"
+                    PointGeometrySize="5"
+                    StrokeThickness="1"
+                    Values="10,20,30,20,50,30,70,80,90" />
+            </lvc:CartesianChart.Series>
+        -->
+        <!--<lvc:CartesianChart.AxisX>
+                <lvc:Axis
+                    Name="fclabels"
+                    Title="-"
+                    LabelFormatter="{Binding FormatterDust}"
+                    Labels="{Binding EnvNoise.RecordTime}"
+                    MaxValue="24"
+                    MinValue="0"
+                    ShowLabels="True"
+                    Unit="2">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator StrokeThickness="1">
+                            <lvc:Separator.Stroke>
+                                <SolidColorBrush Color="#FF928E8E" />
+                            </lvc:Separator.Stroke>
+                        </lvc:Separator>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis
+                    Title="Rel"
+                    FontFamily="Arial"
+                    FontSize="12"
+                    Position="LeftBottom"
+                    ShowLabels="True"
+                    Unit="5">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator StrokeThickness="1">
+                            <lvc:Separator.Stroke>
+                                <SolidColorBrush Color="#FF928E8E" />
+                            </lvc:Separator.Stroke>
+                        </lvc:Separator>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisY>-->
+        <!--
+        </lvc:CartesianChart>-->
+    </Grid>
+</UserControl>

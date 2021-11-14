@@ -1,0 +1,1123 @@
+﻿<democommon1:UserControl
+    x:Class="NFS.Robot.Views.RightHome"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:DemoControl="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+    xmlns:chart="http://schemas.syncfusion.com/wpf"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:democommon1="http://schemas.microsoft.com/netfx/2007/xaml/presentation"
+    xmlns:gif="http://wpfanimatedgif.codeplex.com"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:NFS.Robot.Views"
+    xmlns:localElectricity="clr-namespace:NFS.Robot.ViewModels"
+    xmlns:localStatus="clr-namespace:NFS.Commons.Converter;assembly=NFS.Commons"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+    xmlns:syncfusion="clr-namespace:Syncfusion.UI.Xaml.Gauges;assembly=Syncfusion.SfGauge.WPF"
+    xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="Transparent"
+    Loaded="RightHome_Loaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3" />
+        <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FFABAdB3" />
+        <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FFABAdB3" />
+        <Style x:Key="TextBoxStyle1" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="AllowDrop" Value="true" />
+            <Setter Property="FontFamily" Value="16" />
+            <Setter Property="Padding" Value="2,5,0,0" />
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
+            <Setter Property="Stylus.IsFlicksEnabled" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <!--  背景、边框  -->
+                        <Border
+                            x:Name="border"
+                            BorderBrush="#FF3C777A"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            SnapsToDevicePixels="True">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Offset="0" Color="Transparent" />
+                                    <GradientStop Offset="1" Color="Transparent" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <ScrollViewer
+                                x:Name="PART_ContentHost"
+                                Focusable="false"
+                                HorizontalScrollBarVisibility="Hidden"
+                                VerticalScrollBarVisibility="Hidden" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="border" Property="Opacity" Value="0" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Width" Value="100" />
+                                <!--<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.MouseOver.Border}" />-->
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="true">
+                                <!--<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />-->
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true" />
+                        <Condition Property="IsSelectionActive" Value="true" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="RoundedGelButton" TargetType="Button">
+            <Setter Property="Width" Value="80" />
+            <Setter Property="Height" Value="80" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Ellipse
+                                Name="GelBackground"
+                                Fill="Black"
+                                StrokeThickness="0.5">
+                                <Ellipse.Stroke>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="#ff7e7e7e" />
+                                        <GradientStop Offset="1" Color="Black" />
+                                    </LinearGradientBrush>
+                                </Ellipse.Stroke>
+                            </Ellipse>
+                            <Ellipse Margin="15,5,15,50">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="#aaffffff" />
+                                        <GradientStop Offset="1" Color="Transparent" />
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ContentPresenter
+                                Name="GelButtonContent"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{TemplateBinding Content}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="GelBackground" Property="Ellipse.Fill">
+                                    <Setter.Value>
+                                        <RadialGradientBrush>
+                                            <GradientStop Offset="0" Color="Lime" />
+                                            <GradientStop Offset="1" Color="DarkGreen" />
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="GelBackground" Property="Ellipse.Fill">
+                                    <Setter.Value>
+                                        <RadialGradientBrush>
+                                            <GradientStop Offset="0" Color="#ffcc34" />
+                                            <GradientStop Offset="1" Color="#cc9900" />
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TabItem.Style" TargetType="TabItem">
+            <!--<Setter Property="Margin" Value="0,0,0,0" />-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border
+                            Name="bd"
+                            Padding="15,0"
+                            CornerRadius="20">
+                            <ContentPresenter ContentSource="Header" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#FF3C777A" />
+                                <Setter TargetName="bd" Property="TextBlock.Foreground" Value="#fff" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TabControl.Style" TargetType="TabControl">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource TabItem.Style}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabControl">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="38" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border
+                                x:Name="headerPanel"
+                                Grid.Row="0"
+                                Padding="2"
+                                HorizontalAlignment="Left"
+                                BorderBrush="#FF3C777A"
+                                BorderThickness="1"
+                                CornerRadius="18">
+                                <StackPanel IsItemsHost="true" Orientation="Horizontal" />
+                            </Border>
+                            <Border
+                                x:Name="contentPanel"
+                                Grid.Row="1"
+                                Margin="2"
+                                BorderThickness="0">
+                                <ContentPresenter
+                                    x:Name="PART_SelectedContentHost"
+                                    Margin="{TemplateBinding Padding}"
+                                    ContentSource="SelectedContent"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <localStatus:WorkStateConverter x:Key="WorkStateConverter" />
+    </UserControl.Resources>
+    <Grid Background="#FF434343">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.55*" />
+            <RowDefinition Height="0.75*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="0.7*" />
+        </Grid.RowDefinitions>
+        <Grid
+            x:Name="gdRemind"
+            Grid.Row="0"
+            Margin="2,2,5,0"
+            Background="#FF323232">
+
+            <Image
+                Width="Auto"
+                Height="40"
+                Margin="15,8"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                gif:ImageBehavior.AnimatedSource="/NFS.Robot;component/Resource/Image/alarm.gif"
+                Visibility="Collapsed" />
+            <!--<materialDesign:PackIcon
+                Width="Auto"
+                Height="40"
+                Margin="10,10,0,0"
+                Foreground="#FFDB2E0F"
+                Kind="AlarmLight" />-->
+            <TextBlock
+                Padding="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                FontFamily="Arial"
+                FontSize="16"
+                Foreground="White"
+                Text="异常预警" />
+            <StackPanel Margin="5,55,0,0" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                        Margin="15,2"
+                        Foreground="#FFFF931B"
+                        Kind="Alert" />
+                    <TextBlock
+                        Margin="0,5"
+                        FontFamily="Arial"
+                        FontSize="12"
+                        Foreground="White"
+                        Text="第R10101100托辊磨损严重,建议更换。" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                        Margin="15,5"
+                        Foreground="#FFE54759"
+                        Kind="AlertCircle" />
+                    <TextBlock
+                        Margin="0,5"
+                        FontFamily="Arial"
+                        FontSize="13"
+                        Foreground="White"
+                        Text="第R10101100托辊磨损严重,建议更换。" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                        Margin="15,5"
+                        Foreground="#FFFF931B"
+                        Kind="Alert" />
+                    <TextBlock
+                        Margin="0,5"
+                        FontFamily="Arial"
+                        FontSize="13"
+                        Foreground="White"
+                        Text="第R10101100托辊磨损严重,建议更换。" />
+                </StackPanel>
+            </StackPanel>
+            <Button
+                Width="40"
+                Height="40"
+                Margin="-10,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                BorderThickness="0"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                ToolTip="向下">
+                <materialDesign:PackIcon
+                    Width="30"
+                    Height="30"
+                    Margin="-10,-15"
+                    Foreground="White"
+                    Kind="ChevronDoubleDown" />
+            </Button>
+        </Grid>
+        <Grid
+            x:Name="gdBattery"
+            Grid.Row="1"
+            Margin="2,3,5,0"
+            Background="#FF323232">
+            <Button
+                Width="Auto"
+                Height="40"
+                VerticalAlignment="Top"
+                materialDesign:ButtonAssist.CornerRadius="0"
+                Background="#FF3C777A"
+                Command="{Binding RefreshCommamd}"
+                FontSize="18"
+                Foreground="White"
+                Style="{StaticResource MaterialDesignFlatButton}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Padding="130"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="Arial"
+                        FontSize="14"
+                        Text="机器人列表" />
+                    <Image
+                        Width="23"
+                        Height="23"
+                        HorizontalAlignment="Right"
+                        Source="/NFS.Robot;component/Resource/Image/refresh.png" />
+                </StackPanel>
+            </Button>
+            <!--  Tab导航栏  -->
+            <TabControl
+                Margin="0,45,0,0"
+                VerticalContentAlignment="Center"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                BorderThickness="2"
+                SnapsToDevicePixels="False"
+                Style="{StaticResource TabControl.Style}"
+                TabStripPlacement="Top">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TabItem">
+                                    <Border Name="bd" CornerRadius="16">
+                                        <ContentPresenter
+                                            x:Name="ContentSite"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            ContentSource="Header" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="bd" Property="Background" Value="#FF3C777A" />
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False">
+                                            <Setter TargetName="bd" Property="Background" Value="#FF323232" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Resources>
+                <TabItem
+                    Width="80"
+                    Background="#FF323232"
+                    BorderThickness="3"
+                    Foreground="#FF16A965">
+                    <TabItem.Header>
+                        <StackPanel Height="30">
+                            <Border Background="#FF6B5747" />
+                            <TextBlock
+                                Padding="8"
+                                FontFamily="Arial"
+                                FontSize="13"
+                                Foreground="White"
+                                Text="全部" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <ListBox
+                        Width="375"
+                        HorizontalAlignment="Left"
+                        ItemsSource="{Binding DataContext.RobotOnlineList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Background="Transparent" Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    HorizontalAlignment="Left"
+                                    BorderBrush="#FF434343"
+                                    BorderThickness="0,0,0,1">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon
+                                            Margin="30,0,0,0"
+                                            Padding="30,0"
+                                            VerticalAlignment="Center"
+                                            Foreground="#FF16A965"
+                                            Kind="CheckboxBlankCircle" />
+                                        <ListBoxItem
+                                            Width="400"
+                                            Height="Auto"
+                                            Padding="10,0"
+                                            Content="{Binding RobotCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            FontFamily="Arial"
+                                            FontSize="14"
+                                            Foreground="White" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button
+                                                Width="70"
+                                                Margin="-310,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Background="#FF364F50"
+                                                BorderBrush="Transparent"
+                                                Style="{StaticResource MaterialDesignFlatAccentBgButton}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Path
+                                                        Width="30"
+                                                        Height="40"
+                                                        Margin="-20,0"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Data="M938.666667 426.666667l0-85.333333c0-46.933333-38.4-85.333333-85.333333-85.333333L128 256c-46.933333 0-85.333333 38.4-85.333333 85.333333l0 341.333333c0 46.933333 38.4 85.333333 85.333333 85.333333l725.333333 0c46.933333 0 85.333333-38.4 85.333333-85.333333l0-85.333333c23.466667 0 42.666667-19.2 42.666667-42.666667l0-85.333333C981.333333 445.866667 962.133333 426.666667 938.666667 426.666667zM896 682.666667c0 23.466667-19.2 42.666667-42.666667 42.666667L128 725.333333c-23.466667 0-42.666667-19.2-42.666667-42.666667L85.333333 341.333333c0-23.466667 19.2-42.666667 42.666667-42.666667l725.333333 0c23.466667 0 42.666667 19.2 42.666667 42.666667L896 682.666667zM128 682.666667l384 0L512 341.333333 128 341.333333 128 682.666667z"
+                                                        Fill="#FF3F9094"
+                                                        Stretch="Uniform" />
+                                                    <TextBlock
+                                                        Margin="15,0,-20,0"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        FontFamily="Arial"
+                                                        FontSize="13"
+                                                        Foreground="#FF3F9094"
+                                                        Text="{Binding Battery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button
+                                                Width="70"
+                                                Margin="-235,0"
+                                                Padding="-10,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Background="#FF364F50"
+                                                BorderBrush="Transparent"
+                                                Content="{Binding LineName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                Foreground="#FF3F9094"
+                                                Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                            <Button
+                                                Width="70"
+                                                Margin="-160,0"
+                                                Padding="-10,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Background="#FF364F50"
+                                                BorderBrush="Transparent"
+                                                Content="{Binding WorkState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource WorkStateConverter}}"
+                                                Foreground="#FFB0BC4F"
+                                                Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommamd}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Border>
+
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <!--<Border
+                            HorizontalAlignment="Left"
+                            BorderBrush="#FF434343"
+                            BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon
+                                    Margin="30,0,0,0"
+                                    Padding="30,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="#FF16A965"
+                                    Kind="CheckboxBlankCircle" />
+                                <ListBoxItem
+                                    Width="400"
+                                    Height="Auto"
+                                    Padding="10,0"
+                                    Content="Robot001"
+                                    FontFamily="Arial"
+                                    FontSize="14"
+                                    Foreground="White" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                        Width="70"
+                                        Margin="-310,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Path
+                                                Width="30"
+                                                Height="40"
+                                                Margin="-20,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Data="M938.666667 426.666667l0-85.333333c0-46.933333-38.4-85.333333-85.333333-85.333333L128 256c-46.933333 0-85.333333 38.4-85.333333 85.333333l0 341.333333c0 46.933333 38.4 85.333333 85.333333 85.333333l725.333333 0c46.933333 0 85.333333-38.4 85.333333-85.333333l0-85.333333c23.466667 0 42.666667-19.2 42.666667-42.666667l0-85.333333C981.333333 445.866667 962.133333 426.666667 938.666667 426.666667zM896 682.666667c0 23.466667-19.2 42.666667-42.666667 42.666667L128 725.333333c-23.466667 0-42.666667-19.2-42.666667-42.666667L85.333333 341.333333c0-23.466667 19.2-42.666667 42.666667-42.666667l725.333333 0c23.466667 0 42.666667 19.2 42.666667 42.666667L896 682.666667zM128 682.666667l384 0L512 341.333333 128 341.333333 128 682.666667z"
+                                                Fill="#FF3F9094"
+                                                Stretch="Uniform" />
+                                            <TextBlock
+                                                Margin="15,0,-20,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                FontFamily="Arial"
+                                                FontSize="14"
+                                                Foreground="#FF3F9094"
+                                                Text="25%" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button
+                                        Width="70"
+                                        Margin="-235,0"
+                                        Padding="-10,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Content="一号线路"
+                                        Foreground="#FF3F9094"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                    <Button
+                                        Width="70"
+                                        Margin="-160,0"
+                                        Padding="-10,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Content="巡检中"
+                                        Foreground="#FFB0BC4F"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                </StackPanel>
+                            </StackPanel>
+                            </Border>-->
+                        <!--<Border BorderBrush="#FF434343" BorderThickness="0,0,0,1">
+                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                <materialDesign:PackIcon
+                                    Margin="30,0,0,0"
+                                    Padding="30,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Foreground="#FF16A965"
+                                    Kind="CheckboxBlankCircle" />
+                                <ListBoxItem
+                                    Width="400"
+                                    Height="Auto"
+                                    Padding="10,0"
+                                    HorizontalAlignment="Left"
+                                    Content="Robot002"
+                                    FontFamily="Arial"
+                                    FontSize="14"
+                                    Foreground="White" />
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                        Width="70"
+                                        Margin="-310,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Path
+                                                Width="30"
+                                                Height="45"
+                                                Margin="-20,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Data="M938.666667 426.666667l0-85.333333c0-46.933333-38.4-85.333333-85.333333-85.333333L128 256c-46.933333 0-85.333333 38.4-85.333333 85.333333l0 341.333333c0 46.933333 38.4 85.333333 85.333333 85.333333l725.333333 0c46.933333 0 85.333333-38.4 85.333333-85.333333l0-85.333333c23.466667 0 42.666667-19.2 42.666667-42.666667l0-85.333333C981.333333 445.866667 962.133333 426.666667 938.666667 426.666667zM896 682.666667c0 23.466667-19.2 42.666667-42.666667 42.666667L128 725.333333c-23.466667 0-42.666667-19.2-42.666667-42.666667L85.333333 341.333333c0-23.466667 19.2-42.666667 42.666667-42.666667l725.333333 0c23.466667 0 42.666667 19.2 42.666667 42.666667L896 682.666667zM128 682.666667l384 0L512 341.333333 128 341.333333 128 682.666667z"
+                                                Fill="#FF3F9094"
+                                                Stretch="Uniform" />
+                                            <TextBlock
+                                                Margin="15,0,-20,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                FontFamily="Arial"
+                                                FontSize="14"
+                                                Foreground="#FF3F9094"
+                                                Text="25%" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button
+                                        Width="70"
+                                        Margin="-235,0"
+                                        Padding="-10,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Content="二号线路"
+                                        Foreground="#FF3F9094"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                    <Button
+                                        Width="70"
+                                        Margin="-160,0"
+                                        Padding="-10,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Content="待机中"
+                                        Foreground="#FF5165A3"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="#FF434343" BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon
+                                    Margin="30,0,0,0"
+                                    Padding="30,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="#FF16A965"
+                                    Kind="CheckboxBlankCircle" />
+                                <ListBoxItem
+                                    Width="400"
+                                    Height="Auto"
+                                    Padding="10,0"
+                                    Content="Robot003"
+                                    FontFamily="Arial"
+                                    FontSize="14"
+                                    Foreground="White" />
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                        Width="70"
+                                        Margin="-310,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Path
+                                                Width="30"
+                                                Height="45"
+                                                Margin="-20,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Data="M938.666667 426.666667l0-85.333333c0-46.933333-38.4-85.333333-85.333333-85.333333L128 256c-46.933333 0-85.333333 38.4-85.333333 85.333333l0 341.333333c0 46.933333 38.4 85.333333 85.333333 85.333333l725.333333 0c46.933333 0 85.333333-38.4 85.333333-85.333333l0-85.333333c23.466667 0 42.666667-19.2 42.666667-42.666667l0-85.333333C981.333333 445.866667 962.133333 426.666667 938.666667 426.666667zM896 682.666667c0 23.466667-19.2 42.666667-42.666667 42.666667L128 725.333333c-23.466667 0-42.666667-19.2-42.666667-42.666667L85.333333 341.333333c0-23.466667 19.2-42.666667 42.666667-42.666667l725.333333 0c23.466667 0 42.666667 19.2 42.666667 42.666667L896 682.666667zM128 682.666667l384 0L512 341.333333 128 341.333333 128 682.666667z"
+                                                Fill="#FFB62E2E"
+                                                Stretch="Uniform" />
+                                            <TextBlock
+                                                Margin="15,0,-20,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                FontFamily="Arial"
+                                                FontSize="14"
+                                                Foreground="#FF3F9094"
+                                                Text="10%" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button
+                                        Width="70"
+                                        Margin="-235,0"
+                                        Padding="-10,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Content="三号线路"
+                                        Foreground="#FF3F9094"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                    <Button
+                                        Width="70"
+                                        Margin="-160,0"
+                                        Padding="-10,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Content="充电中"
+                                        Foreground="#FF20C376"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="#FF434343" BorderThickness="0,0,0,1">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon
+                                    Margin="30,0,0,0"
+                                    Padding="30,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="#FF16A965"
+                                    Kind="CheckboxBlankCircle" />
+                                <ListBoxItem
+                                    Width="400"
+                                    Height="Auto"
+                                    Padding="10,0"
+                                    Content="Robot004"
+
+                                    FontFamily="Arial"
+                                    FontSize="14"
+                                    Foreground="White" />
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                        Width="70"
+                                        Margin="-310,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Path
+                                                Width="30"
+                                                Height="45"
+                                                Margin="-20,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Data="M938.666667 426.666667l0-85.333333c0-46.933333-38.4-85.333333-85.333333-85.333333L128 256c-46.933333 0-85.333333 38.4-85.333333 85.333333l0 341.333333c0 46.933333 38.4 85.333333 85.333333 85.333333l725.333333 0c46.933333 0 85.333333-38.4 85.333333-85.333333l0-85.333333c23.466667 0 42.666667-19.2 42.666667-42.666667l0-85.333333C981.333333 445.866667 962.133333 426.666667 938.666667 426.666667zM896 682.666667c0 23.466667-19.2 42.666667-42.666667 42.666667L128 725.333333c-23.466667 0-42.666667-19.2-42.666667-42.666667L85.333333 341.333333c0-23.466667 19.2-42.666667 42.666667-42.666667l725.333333 0c23.466667 0 42.666667 19.2 42.666667 42.666667L896 682.666667zM128 682.666667l384 0L512 341.333333 128 341.333333 128 682.666667z"
+                                                Fill="#FF3F9094"
+                                                Stretch="Uniform" />
+                                            <TextBlock
+                                                Margin="15,0,-20,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                FontFamily="Arial"
+                                                FontSize="14"
+                                                Foreground="#FF3F9094"
+                                                Text="25%" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button
+                                        Width="70"
+                                        Margin="-235,0"
+                                        Padding="-10,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Content="五号线路"
+                                        Foreground="#FF3F9094"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                    <Button
+                                        Width="70"
+                                        Margin="-160,0"
+                                        Padding="-10,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Background="#FF364F50"
+                                        BorderBrush="Transparent"
+                                        Content="已关机"
+                                        Foreground="#FF7D8E90"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>-->
+                    </ListBox>
+                </TabItem>
+                <TabItem Width="80">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                VerticalAlignment="Center"
+                                Foreground="#FF16A965"
+                                Kind="CheckboxBlankCircle" />
+                            <TextBlock
+                                Padding="8"
+                                HorizontalAlignment="Center"
+                                Foreground="White"
+                                Text="在线" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <ListBox
+                        Width="375"
+                        HorizontalAlignment="Left"
+                        ItemsSource="{Binding DataContext.RobotOnlineList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Background="Transparent" Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    HorizontalAlignment="Left"
+                                    BorderBrush="#FF434343"
+                                    BorderThickness="0,0,0,1">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon
+                                            Margin="30,0,0,0"
+                                            Padding="30,0"
+                                            VerticalAlignment="Center"
+                                            Foreground="#FF16A965"
+                                            Kind="CheckboxBlankCircle" />
+                                        <ListBoxItem
+                                            Width="400"
+                                            Height="Auto"
+                                            Padding="10,0"
+                                            Content="{Binding RobotCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            FontFamily="Arial"
+                                            FontSize="14"
+                                            Foreground="White" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button
+                                                Width="70"
+                                                Margin="-310,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Background="#FF364F50"
+                                                BorderBrush="Transparent"
+                                                Style="{StaticResource MaterialDesignFlatAccentBgButton}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Path
+                                                        Width="30"
+                                                        Height="40"
+                                                        Margin="-20,0"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Data="M938.666667 426.666667l0-85.333333c0-46.933333-38.4-85.333333-85.333333-85.333333L128 256c-46.933333 0-85.333333 38.4-85.333333 85.333333l0 341.333333c0 46.933333 38.4 85.333333 85.333333 85.333333l725.333333 0c46.933333 0 85.333333-38.4 85.333333-85.333333l0-85.333333c23.466667 0 42.666667-19.2 42.666667-42.666667l0-85.333333C981.333333 445.866667 962.133333 426.666667 938.666667 426.666667zM896 682.666667c0 23.466667-19.2 42.666667-42.666667 42.666667L128 725.333333c-23.466667 0-42.666667-19.2-42.666667-42.666667L85.333333 341.333333c0-23.466667 19.2-42.666667 42.666667-42.666667l725.333333 0c23.466667 0 42.666667 19.2 42.666667 42.666667L896 682.666667zM128 682.666667l384 0L512 341.333333 128 341.333333 128 682.666667z"
+                                                        Fill="#FF3F9094"
+                                                        Stretch="Uniform" />
+                                                    <TextBlock
+                                                        Margin="15,0,-20,0"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        FontFamily="Arial"
+                                                        FontSize="13"
+                                                        Foreground="#FF3F9094"
+                                                        Text="{Binding Battery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button
+                                                Width="70"
+                                                Margin="-235,0"
+                                                Padding="-10,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Background="#FF364F50"
+                                                BorderBrush="Transparent"
+                                                Content="{Binding LineName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                Foreground="#FF3F9094"
+                                                Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                            <Button
+                                                Width="70"
+                                                Margin="-160,0"
+                                                Padding="-10,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Background="#FF364F50"
+                                                BorderBrush="Transparent"
+                                                Content="{Binding WorkState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource WorkStateConverter}}"
+                                                Foreground="#FFB0BC4F"
+                                                Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <!--<TextBlock>
+                        <Run Text="tab 2 在线" />
+                        <LineBreak />
+                        <LineBreak />
+                        <Run FontStyle="Italic">
+                            在线
+                        </Run>
+                    </TextBlock>-->
+                </TabItem>
+                <TabItem
+                    Width="80"
+                    BorderBrush="Gray"
+                    BorderThickness="5">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                VerticalAlignment="Center"
+                                Foreground="#FFC8C3C3"
+                                Kind="CheckboxBlankCircle" />
+                            <TextBlock
+                                Padding="8"
+                                HorizontalAlignment="Center"
+                                Foreground="White"
+                                Text="离线" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <ListBox
+                        Width="375"
+                        HorizontalAlignment="Left"
+                        ItemsSource="{Binding DataContext.RobotOnlineList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Background="Transparent" Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    HorizontalAlignment="Left"
+                                    BorderBrush="#FF434343"
+                                    BorderThickness="0,0,0,1">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon
+                                            Margin="30,0,0,0"
+                                            Padding="30,0"
+                                            VerticalAlignment="Center"
+                                            Foreground="#FFC8C3C3"
+                                            Kind="CheckboxBlankCircle" />
+                                        <ListBoxItem
+                                            Width="400"
+                                            Height="Auto"
+                                            Padding="10,0"
+                                            Content="{Binding RobotCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            FontFamily="Arial"
+                                            FontSize="14"
+                                            Foreground="White" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button
+                                                Width="70"
+                                                Margin="-310,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Background="#FF364F50"
+                                                BorderBrush="Transparent"
+                                                Style="{StaticResource MaterialDesignFlatAccentBgButton}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Path
+                                                        Width="30"
+                                                        Height="40"
+                                                        Margin="-20,0"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Data="M938.666667 426.666667l0-85.333333c0-46.933333-38.4-85.333333-85.333333-85.333333L128 256c-46.933333 0-85.333333 38.4-85.333333 85.333333l0 341.333333c0 46.933333 38.4 85.333333 85.333333 85.333333l725.333333 0c46.933333 0 85.333333-38.4 85.333333-85.333333l0-85.333333c23.466667 0 42.666667-19.2 42.666667-42.666667l0-85.333333C981.333333 445.866667 962.133333 426.666667 938.666667 426.666667zM896 682.666667c0 23.466667-19.2 42.666667-42.666667 42.666667L128 725.333333c-23.466667 0-42.666667-19.2-42.666667-42.666667L85.333333 341.333333c0-23.466667 19.2-42.666667 42.666667-42.666667l725.333333 0c23.466667 0 42.666667 19.2 42.666667 42.666667L896 682.666667zM128 682.666667l384 0L512 341.333333 128 341.333333 128 682.666667z"
+                                                        Fill="#FF3F9094"
+                                                        Stretch="Uniform" />
+                                                    <TextBlock
+                                                        Margin="15,0,-20,0"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        FontFamily="Arial"
+                                                        FontSize="13"
+                                                        Foreground="#FF3F9094"
+                                                        Text="{Binding Battery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button
+                                                Width="70"
+                                                Margin="-235,0"
+                                                Padding="-10,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Background="#FF364F50"
+                                                BorderBrush="Transparent"
+                                                Content="{Binding LineName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                Foreground="#FF3F9094"
+                                                Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                            <Button
+                                                Width="70"
+                                                Margin="-160,0"
+                                                Padding="-10,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Background="#FF364F50"
+                                                BorderBrush="Transparent"
+                                                Content="{Binding WorkState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource WorkStateConverter}}"
+                                                Foreground="#FFB0BC4F"
+                                                Style="{StaticResource MaterialDesignFlatAccentBgButton}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <!--<TextBlock>
+                        <Run Text="tab 3 content. 离线." />
+                        <LineBreak />
+                        <LineBreak />
+                    </TextBlock>-->
+                </TabItem>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding SelectionChangedCommamd}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TabControl>
+            <TextBox
+                x:Name="txtSearch"
+                Width="115"
+                Height="35"
+                Margin="8,47"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                materialDesign:HintAssist.Hint="机器人搜索..."
+                FontFamily="Arial"
+                FontSize="14"
+                Foreground="#FF6B6B6B"
+                Style="{StaticResource TextBoxStyle1}"
+                Text="机器人搜索..." />
+            <!--<Button
+                Width="45"
+                Height="35"
+                Margin="337,47.5,0,0"
+                VerticalAlignment="Top"
+                materialDesign:ButtonAssist.CornerRadius="0"
+                Background="#FF323232"
+                BorderBrush="#FF3C777A"
+                Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                ToolTip="搜索">
+                <materialDesign:PackIcon
+                    Width="30"
+                    Height="30"
+                    Margin="-15,0"
+                    Foreground="#FFBEBABA"
+                    Kind="Magnify" />
+            </Button>-->
+            <Button
+                Width="40"
+                Height="40"
+                Margin="-10,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                BorderThickness="0"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                ToolTip="向下">
+                <materialDesign:PackIcon
+                    Width="30"
+                    Height="30"
+                    Margin="-10,-15"
+                    Foreground="White"
+                    Kind="ChevronDoubleDown" />
+            </Button>
+        </Grid>
+        <Grid
+            x:Name="gdSmallVideo"
+            Grid.Row="2"
+            Margin="5,5,5,0"
+            Background="#FF323232">
+            <WrapPanel>
+                <Image
+                    Width="380"
+                    Height="Auto"
+                    Source="/NFS.Robot;component/Resource/Image/Voice.png"
+                    Stretch="Fill" />
+                <!--<Viewbox
+                    x:Name="vbTwo"
+                    Width="380"
+                    Height="Auto"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top">
+                    <Viewbox.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Viewbox.RenderTransform>
+                    <UserControl
+                        Grid.Row="0"
+                        Width="380"
+                        Height="Auto">
+                        <Border
+                            Name="Border2"
+                            Width="380"
+                            Height="Auto"
+                            Loaded="Border2_Loaded">
+                            <Grid
+                                x:Name="Image2"
+                                Width="380"
+                                Height="Auto" />
+                        </Border>
+                    </UserControl>
+                </Viewbox>-->
+            </WrapPanel>
+        </Grid>
+        <Grid
+            x:Name="gdSwitch"
+            Grid.Row="3"
+            Margin="5,5,5,0">
+            <!--<WrapPanel>-->
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <wpf:ChromiumWebBrowser
+                x:Name="web"
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                Width="380"
+                Height="Auto"
+                HorizontalAlignment="Left" />
+
+            <MediaElement
+                Name="meFire"
+                Grid.Row="1"
+                Width="80"
+                Height="80"
+                Margin="120,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                MediaEnded="meFire_MediaEnded"
+                Source="/NFS.Robot;component/Resource/Image/robot.mp4"
+                UnloadedBehavior="Manual"
+                Visibility="Hidden" />
+            <!--<Image
+                    Width="Auto"
+                    Height="Auto"
+                    HorizontalAlignment="Right">
+                    <Image.OpacityMask>
+                        <ImageBrush ImageSource="/NFS.Robot;component/Resource/Image/map.png" Stretch="Fill" />
+                    </Image.OpacityMask>
+                </Image>-->
+            <!--</WrapPanel>-->
+        </Grid>
+    </Grid>
+</democommon1:UserControl>

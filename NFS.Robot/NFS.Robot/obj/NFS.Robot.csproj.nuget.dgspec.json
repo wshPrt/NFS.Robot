@@ -1,0 +1,202 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Robot\\NFS.Robot.csproj": {}
+  },
+  "projects": {
+    "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Commons\\NFS.Commons.csproj": {
+      "restore": {
+        "projectUniqueName": "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Commons\\NFS.Commons.csproj",
+        "projectName": "NFS.Commons",
+        "projectPath": "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Commons\\NFS.Commons.csproj",
+        "frameworks": {
+          "net48": {
+            "projectReferences": {
+              "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Model\\NFS.Model.csproj": {
+                "projectPath": "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Model\\NFS.Model.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net48": {}
+      }
+    },
+    "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Model\\NFS.Model.csproj": {
+      "restore": {
+        "projectUniqueName": "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Model\\NFS.Model.csproj",
+        "projectName": "NFS.Model",
+        "projectPath": "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Model\\NFS.Model.csproj",
+        "frameworks": {
+          "net48": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net48": {}
+      }
+    },
+    "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Robot\\NFS.Robot.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Robot\\NFS.Robot.csproj",
+        "projectName": "NFS.Robot",
+        "projectPath": "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Robot\\NFS.Robot.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Robot\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "D:\\Software\\Visual Studio 2019\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "projectReferences": {
+              "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Commons\\NFS.Commons.csproj": {
+                "projectPath": "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Commons\\NFS.Commons.csproj"
+              },
+              "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Model\\NFS.Model.csproj": {
+                "projectPath": "E:\\work\\work\\FS\\NFS.Robot1113\\NFS.Robot\\NFS.Model\\NFS.Model.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "dependencies": {
+            "CefSharp.Wpf": {
+              "target": "Package",
+              "version": "[94.4.50, )"
+            },
+            "DryIoc.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[5.1.0, )"
+            },
+            "HeBianGu.Base.WpfBase": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "HeBianGu.Common.LocalConfig": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            },
+            "HeBianGu.Control.Chart2D": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            },
+            "HeBianGu.Control.Panel": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            },
+            "HeBianGu.General.WpfControlLib": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "LibVLCSharp.WPF": {
+              "target": "Package",
+              "version": "[3.6.1, )"
+            },
+            "LiveCharts.Wpf": {
+              "target": "Package",
+              "version": "[0.9.7, )"
+            },
+            "MaterialDesignColors": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "MaterialDesignThemes": {
+              "target": "Package",
+              "version": "[4.2.1, )"
+            },
+            "Microsoft.DependencyValidation.Analyzers": {
+              "target": "Package",
+              "version": "[0.11.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Maps.MapControl.WPF": {
+              "target": "Package",
+              "version": "[1.0.0.3, )"
+            },
+            "NLog": {
+              "target": "Package",
+              "version": "[4.7.11, )"
+            },
+            "NLog.Config": {
+              "target": "Package",
+              "version": "[4.7.11, )"
+            },
+            "NLog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[1.7.4, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "Prism.DryIoc": {
+              "target": "Package",
+              "version": "[8.1.97, )"
+            },
+            "Prism.Wpf": {
+              "target": "Package",
+              "version": "[8.1.97, )"
+            },
+            "VideoLAN.LibVLC.Windows": {
+              "target": "Package",
+              "version": "[3.0.16, )"
+            },
+            "Vlc.DotNet.Wpf": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "WebSocketSharp": {
+              "target": "Package",
+              "version": "[1.0.3-rc11, )"
+            },
+            "WpfAnimatedGif": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,658 @@
+﻿<UserControl
+    x:Class="NFS.Robot.Views.AddTactics"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NFS.Robot.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    Width="830"
+    d:DesignHeight="700"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <Grid x:Name="gdStrategy">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="26" />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="24"
+                Foreground="#FF373737"
+                Text="添加巡检策略" />
+            <Border
+                Width="900"
+                VerticalAlignment="Bottom"
+                BorderBrush="#FFDEDEDE"
+                BorderThickness="0,2,0,0" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="../Themes/ComboxTriangleStyle.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </StackPanel.Resources>
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="巡检路线：" />
+            <ComboBox
+                Width="200"
+                Height="40"
+                Margin="10,8"
+                Padding="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="0.5"
+                FontFamily="Arial Black"
+                FontSize="14"
+                Foreground="#FF7F7F7F"
+                SelectedIndex="0"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                <ComboBoxItem>一号路线</ComboBoxItem>
+                <ComboBoxItem>二号路线</ComboBoxItem>
+                <ComboBoxItem>三号路线</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="15,20,0,0"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="机器人：" />
+            <ComboBox
+                Width="200"
+                Height="40"
+                Margin="10,8"
+                Padding="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="0.5"
+                FontFamily="Arial Black"
+                FontSize="14"
+                Foreground="#FF7F7F7F"
+                SelectedIndex="0"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                <ComboBoxItem>robot001</ComboBoxItem>
+                <ComboBoxItem>robot002</ComboBoxItem>
+                <ComboBoxItem>robot003</ComboBoxItem>
+                <ComboBoxItem>robot004</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="巡检模式：" />
+            <ComboBox
+                Width="200"
+                Height="40"
+                Margin="10,8"
+                Padding="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="0.5"
+                FontFamily="Arial Black"
+                FontSize="14"
+                Foreground="#FF7F7F7F"
+                SelectedIndex="0"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                <ComboBoxItem>自动巡检</ComboBoxItem>
+                <ComboBoxItem>手动巡检</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+
+        <!--<TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="120,3,0,0"
+            VerticalAlignment="Bottom"
+            FontSize="14"
+            Foreground="Gray"
+            Text="巡检起始点设置为 距起点"
+            Visibility="Hidden" />
+        <StackPanel
+            Grid.Row="4"
+            Grid.Column="0"
+            Orientation="Horizontal"
+            Visibility="Hidden">
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="巡检区间：" />
+            <TextBox
+                Width="200"
+                Height="40"
+                Margin="10,5"
+                Padding="10,10"
+                VerticalAlignment="Top"
+                AcceptsReturn="True"
+                BorderBrush="#FFC4C4C4"
+                FontSize="14"
+                Foreground="#FF878787"
+                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+            <TextBlock
+                Margin="10,20"
+                HorizontalAlignment="Center"
+                FontSize="14"
+                Foreground="Gray"
+                Text="米" />
+        </StackPanel>
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="95,3"
+            VerticalAlignment="Bottom"
+            FontSize="14"
+            Foreground="Gray"
+            Text="巡检终止点设置为 距起点"
+            Visibility="Hidden" />
+        <StackPanel
+            Grid.Row="4"
+            Grid.Column="1"
+            Orientation="Horizontal"
+            Visibility="Hidden">
+            <TextBox
+                Width="200"
+                Height="40"
+                Margin="90,0,0,0"
+                Padding="10,10"
+                VerticalAlignment="Top"
+                AcceptsReturn="True"
+                BorderBrush="#FFC4C4C4"
+                FontSize="14"
+                Foreground="#FF878787"
+                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+            <TextBlock
+                Margin="15,20"
+                HorizontalAlignment="Left"
+                FontSize="14"
+                Foreground="Gray"
+                Text="米" />
+        </StackPanel>-->
+
+        <StackPanel
+            x:Name="spInspection"
+            Grid.Row="3"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="巡检周期：" />
+            <RadioButton
+                x:Name="rbEveryday"
+                Width="Auto"
+                Margin="10,5"
+                Background="#FF45B9BF"
+                Click="rbEveryday_Click"
+                Content="每天"
+                FontFamily="Arial"
+                FontSize="14" />
+            <RadioButton
+                x:Name="rbWeekly"
+                Width="Auto"
+                Margin="10,5"
+                Background="#FF45B9BF"
+                Click="rbWeekly_Click"
+                Content="每周"
+                FontFamily="Arial"
+                FontSize="14" />
+        </StackPanel>
+        <StackPanel
+            x:Name="spWeekly"
+            Grid.Row="4"
+            Grid.ColumnSpan="3"
+            Orientation="Horizontal">
+            <CheckBox
+                Width="Auto"
+                Margin="120,0,0,0"
+                Background="Gray"
+                Content="周一"
+                FontFamily="Arial"
+                FontSize="14" />
+            <CheckBox
+                Width="Auto"
+                Margin="5"
+                Background="Gray"
+                Content="周二"
+                FontFamily="Arial"
+                FontSize="14" />
+            <CheckBox
+                Width="Auto"
+                Margin="5"
+                Background="Gray"
+                Content="周三"
+                FontFamily="Arial"
+                FontSize="14" />
+            <CheckBox
+                Width="Auto"
+                Margin="5"
+                Background="Gray"
+                Content="周四"
+                FontFamily="Arial"
+                FontSize="14" />
+            <CheckBox
+                Width="Auto"
+                Margin="5"
+                Background="Gray"
+                Content="周五"
+                FontFamily="Arial"
+                FontSize="14" />
+            <CheckBox
+                Width="Auto"
+                Margin="5"
+                Background="Gray"
+                Content="周六"
+                FontFamily="Arial"
+                FontSize="14" />
+            <CheckBox
+                Width="Auto"
+                Margin="5"
+                Background="Gray"
+                Content="周日"
+                FontFamily="Arial"
+                FontSize="14" />
+        </StackPanel>
+        <StackPanel
+            x:Name="spStartEnd"
+            Grid.Row="5"
+            Grid.ColumnSpan="3"
+            Orientation="Horizontal">
+            <ListBox>
+                <ListBoxItem x:Name="lstMinus">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="125,20,0,0"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="Gray"
+                                Text="开始" />
+                            <ComboBox
+                                Width="100"
+                                Height="40"
+                                Margin="10,8"
+                                Padding="10,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Center"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="0.5"
+                                FontFamily="Arial Black"
+                                FontSize="14"
+                                Foreground="#FF7F7F7F"
+                                SelectedIndex="0"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                                <ComboBoxItem>12:00</ComboBoxItem>
+                                <ComboBoxItem>11:00</ComboBoxItem>
+                            </ComboBox>
+                            <TextBlock
+                                Margin="10,20,0,0"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="Gray"
+                                Text="结束" />
+                            <ComboBox
+                                Width="100"
+                                Height="40"
+                                Margin="10,8"
+                                Padding="10,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Center"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="0.5"
+                                FontFamily="Arial Black"
+                                FontSize="14"
+                                Foreground="#FF7F7F7F"
+                                SelectedIndex="0"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                                <ComboBoxItem>13:14</ComboBoxItem>
+                                <ComboBoxItem>12:14</ComboBoxItem>
+                            </ComboBox>
+                            <TextBlock
+                                Margin="50,20,0,0"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="Gray"
+                                Text="区间" />
+                            <TextBox
+                                Width="76"
+                                Height="40"
+                                Margin="10,0,0,0"
+                                Padding="10,10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                AcceptsReturn="True"
+                                BorderBrush="#FFC4C4C4"
+                                FontSize="14"
+                                Foreground="#FF878787"
+                                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                Text="100"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto" />
+                            <TextBlock
+                                Margin="5"
+                                VerticalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="Gray"
+                                Text="至" />
+                            <TextBox
+                                Width="76"
+                                Height="40"
+                                Padding="10,10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                AcceptsReturn="True"
+                                BorderBrush="#FFC4C4C4"
+                                FontSize="14"
+                                Foreground="#FF878787"
+                                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                Text="100"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto" />
+                            <TextBlock
+                                Margin="10,20,0,0"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="Gray"
+                                Text="米" />
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Margin="15"
+                                Foreground="Red"
+                                Kind="MinusCircle" />
+                            <Border Grid.Row="1" Width="300" />
+                        </StackPanel>
+                        <Border
+                            Grid.Row="1"
+                            Width="670"
+                            Margin="110,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            BorderBrush="#FFDEDEDE"
+                            BorderThickness="0,2,0,0" />
+                    </Grid>
+                </ListBoxItem>
+                <ListBoxItem x:Name="lstAdd">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <TextBlock
+                                Margin="125,20,0,0"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="Gray"
+                                Text="开始" />
+                            <ComboBox
+                                Width="100"
+                                Height="40"
+                                Margin="10,8"
+                                Padding="10,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Center"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="0.5"
+                                FontFamily="Arial Black"
+                                FontSize="14"
+                                Foreground="#FF7F7F7F"
+                                SelectedIndex="0"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                                <ComboBoxItem>12:00</ComboBoxItem>
+                                <ComboBoxItem>11:00</ComboBoxItem>
+                            </ComboBox>
+                            <TextBlock
+                                Margin="10,20,0,0"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="Gray"
+                                Text="结束" />
+                            <ComboBox
+                                Width="100"
+                                Height="40"
+                                Margin="10,8"
+                                Padding="10,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Center"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="0.5"
+                                FontFamily="Arial Black"
+                                FontSize="14"
+                                Foreground="#FF7F7F7F"
+                                SelectedIndex="0"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                                <ComboBoxItem>13:14</ComboBoxItem>
+                                <ComboBoxItem>12:14</ComboBoxItem>
+                            </ComboBox>
+                            <TextBlock
+                                Margin="50,20,0,0"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="Gray"
+                                Text="区间" />
+                            <TextBox
+                                Width="76"
+                                Height="40"
+                                Margin="10,0,0,0"
+                                Padding="10,10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                AcceptsReturn="True"
+                                BorderBrush="#FFC4C4C4"
+                                FontSize="14"
+                                Foreground="#FF878787"
+                                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                Text="100"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto" />
+                            <TextBlock
+                                Margin="5"
+                                VerticalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="Gray"
+                                Text="至" />
+                            <TextBox
+                                Width="76"
+                                Height="40"
+                                Padding="10,10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                AcceptsReturn="True"
+                                BorderBrush="#FFC4C4C4"
+                                FontSize="14"
+                                Foreground="#FF878787"
+                                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                Text="100"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto" />
+                            <TextBlock
+                                Margin="10,20,0,0"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="Gray"
+                                Text="米" />
+                            <materialDesign:PackIcon
+                                Width="26"
+                                Height="26"
+                                Margin="12"
+                                Foreground="#FF45B9BF"
+                                Kind="PlusCircle" />
+                        </StackPanel>
+                        <Border
+                            Grid.Row="1"
+                            Width="670"
+                            Margin="110,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            BorderBrush="#FFDEDEDE"
+                            BorderThickness="0,2,0,0" />
+                    </Grid>
+                </ListBoxItem>
+            </ListBox>
+        </StackPanel>
+
+        <StackPanel
+            x:Name="spSpeed"
+            Grid.Row="7"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="巡检速度：" />
+            <TextBox
+                Width="200"
+                Height="40"
+                Margin="10,5"
+                Padding="10,10"
+                VerticalAlignment="Top"
+                AcceptsReturn="True"
+                BorderBrush="#FFC4C4C4"
+                FontSize="14"
+                Foreground="#FF878787"
+                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+            <TextBlock
+                Margin="10,20"
+                HorizontalAlignment="Left"
+                FontSize="14"
+                Foreground="Gray"
+                Text="m/s" />
+        </StackPanel>
+        <StackPanel
+            x:Name="spStart"
+            Grid.Row="7"
+            Grid.Column="1"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="100,20,0,0"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="立即启用：" />
+            <ComboBox
+                Width="200"
+                Height="40"
+                Margin="0,8"
+                Padding="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="0.5"
+                FontFamily="Arial Black"
+                FontSize="14"
+                Foreground="#FF7F7F7F"
+                SelectedIndex="0"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                <ComboBoxItem>是</ComboBoxItem>
+                <ComboBoxItem>否</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <Button
+            x:Name="btnCancel"
+            Grid.Row="11"
+            Grid.Column="0"
+            Width="170"
+            Height="45"
+            Margin="100,0,0,0"
+            VerticalAlignment="Top"
+            materialDesign:ButtonAssist.CornerRadius="2"
+            Background="White"
+            BorderBrush="LightGray"
+            BorderThickness="1"
+            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+            Content="取消"
+            Foreground="Black"
+            Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+        <Button
+            x:Name="btnDefine"
+            Grid.Row="11"
+            Grid.Column="1"
+            Width="170"
+            Height="45"
+            Margin="50,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            materialDesign:ButtonAssist.CornerRadius="2"
+            Background="#FF4ABAD0"
+            BorderBrush="Transparent"
+            Content="确定"
+            Foreground="White"
+            Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+    </Grid>
+</UserControl>

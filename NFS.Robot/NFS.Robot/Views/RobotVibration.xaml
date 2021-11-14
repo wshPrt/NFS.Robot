@@ -1,0 +1,522 @@
+﻿<UserControl
+    x:Class="NFS.Robot.Views.RobotVibration"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NFS.Robot.Views"
+    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="NavTabButtonStyle" TargetType="RadioButton">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Padding" Value="5,5" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Command" Value="{Binding TabChangedCommand}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontFamily="../FontFamily/#iconfont"
+                                    FontSize="14"
+                                    Text="{TemplateBinding Tag}" />
+                                <ContentPresenter
+                                    Grid.Column="1"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#FF45B9BF" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+        <Grid Background="#FF434343">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel
+                Grid.Row="0"
+                Margin="20,10,0,0"
+                Orientation="Horizontal">
+                <materialDesign:PackIcon
+                    Width="35"
+                    Height="35"
+                    Background="#FF434343"
+                    Foreground="#FFBBBBBB"
+                    Kind="ViewGrid" />
+                <TextBlock
+                    Margin="15,10,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Foreground="#FFBBBBBB"
+                    Text="输送机分析 &gt; 振动分析" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="15,20,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Foreground="#FFBBBBBB"
+                    Text="巡检线路:" />
+                <ComboBox
+                    Width="150"
+                    Height="30"
+                    Margin="30,15"
+                    Padding="10,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
+                    Background="#FF434343"
+                    BorderBrush="Gray"
+                    BorderThickness="0.5"
+                    DisplayMemberPath="LineName"
+                    FontFamily="Arial Black"
+                    FontSize="14"
+                    Foreground="#FF7F7F7F"
+                    ItemsSource="{Binding SimplifyLineList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedIndex="0"
+                    SelectedItem="{Binding CmbSimplifyItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+                <TextBlock
+                    Margin="15,20,0,0"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Foreground="#FFBBBBBB"
+                    Text="机器人:" />
+                <ComboBox
+                    Width="150"
+                    Height="30"
+                    Margin="20,15"
+                    Padding="10,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
+                    Background="#FF434343"
+                    BorderBrush="Gray"
+                    BorderThickness="0.5"
+                    DisplayMemberPath="RobotName"
+                    FontFamily="Arial Black"
+                    FontSize="14"
+                    Foreground="#FF7F7F7F"
+                    ItemsSource="{Binding SimplifyRobotList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedIndex="0"
+                    SelectedItem="{Binding CmbSimplifyRobotItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+            </StackPanel>
+            <Grid
+                Grid.Row="1"
+                Margin="20,0"
+                Background="#FF323232">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <!--  振幅  -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="10,10"
+                    BorderBrush="#FF928C8C"
+                    BorderThickness="1">
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Height="300"
+                        Margin="20,10"
+                        VerticalAlignment="Top"
+                        Background="#FF323232">
+                        <TextBlock
+                            Margin="30,5,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="#FFE0E0E0"
+                            Text="振幅" />
+                        <Grid Margin="30,40">
+                            <lvc:CartesianChart Height="Auto">
+                                <lvc:CartesianChart.Series>
+                                    <lvc:LineSeries
+                                        Name="dustAmplitude"
+                                        Fill="Transparent"
+                                        LineSmoothness="1"
+                                        PointGeometrySize="5"
+                                        StrokeThickness="1"
+                                        Values="10,20,30,40,50,60,70,80,90" />
+                                </lvc:CartesianChart.Series>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis
+                                        Name="zsTimeAmplitude"
+                                        Title="频率"
+                                        FontFamily="Arial Black"
+                                        FontSize="16"
+                                        Foreground="White"
+                                        LabelFormatter="{Binding FormatterDust}"
+                                        Labels="{Binding EnvNoise.RecordTime}"
+                                        ShowLabels="True"
+                                        Unit="0">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator StrokeThickness="1">
+                                                <lvc:Separator.Stroke>
+                                                    <SolidColorBrush Color="#FF928E8E" />
+                                                </lvc:Separator.Stroke>
+                                            </lvc:Separator>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis
+                                        FontFamily="Arial"
+                                        FontSize="12"
+                                        LabelFormatter="{Binding DustRecord}"
+                                        Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                        MaxValue="100"
+                                        MinValue="0"
+                                        Position="LeftBottom"
+                                        ShowLabels="True">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator StrokeThickness="1">
+                                                <lvc:Separator.Stroke>
+                                                    <SolidColorBrush Color="#FF928E8E" />
+                                                </lvc:Separator.Stroke>
+                                            </lvc:Separator>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <!--  位移  -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="10,10"
+                    BorderBrush="#FF928C8C"
+                    BorderThickness="1">
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Height="300"
+                        Margin="20,10"
+                        VerticalAlignment="Top"
+                        Background="#FF323232">
+                        <TextBlock
+                            Margin="30,5,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="#FFE0E0E0"
+                            Text="位移" />
+                        <Grid Margin="30,40">
+                            <lvc:CartesianChart Height="Auto">
+                                <lvc:CartesianChart.Series>
+                                    <lvc:LineSeries
+                                        Name="dustWaveform"
+                                        Fill="Transparent"
+                                        LineSmoothness="1"
+                                        PointGeometrySize="5"
+                                        StrokeDashArray="5"
+                                        StrokeThickness="1"
+                                        Values="10,20,30,40,50,60,70,80,90" />
+                                </lvc:CartesianChart.Series>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis
+                                        Name="zsTimeWaveform"
+                                        Title="频率"
+                                        FontFamily="Arial Black"
+                                        FontSize="16"
+                                        Foreground="White"
+                                        LabelFormatter="{Binding FormatterDust}"
+                                        Labels="{Binding EnvNoise.RecordTime}"
+                                        ShowLabels="True"
+                                        Unit="0">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator StrokeThickness="1">
+                                                <lvc:Separator.Stroke>
+                                                    <SolidColorBrush Color="#FF928E8E" />
+                                                </lvc:Separator.Stroke>
+                                            </lvc:Separator>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis
+                                        FontFamily="Arial"
+                                        FontSize="12"
+                                        LabelFormatter="{Binding DustRecord}"
+                                        Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                        MaxValue="25"
+                                        MinValue="-25"
+                                        Position="LeftBottom"
+                                        ShowLabels="True"
+                                        Unit="25">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator StrokeThickness="1">
+                                                <lvc:Separator.Stroke>
+                                                    <SolidColorBrush Color="#FF928E8E" />
+                                                </lvc:Separator.Stroke>
+                                            </lvc:Separator>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <!--  垂直振动频谱  -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="10,10"
+                    BorderBrush="#FF928C8C"
+                    BorderThickness="1">
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Height="300"
+                        Margin="20,10"
+                        VerticalAlignment="Top"
+                        Background="#FF323232">
+                        <TextBlock
+                            Margin="30,5,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="#FFE0E0E0"
+                            Text="垂直振动频谱" />
+                        <Grid Margin="30,40">
+                            <lvc:CartesianChart Height="Auto">
+                                <lvc:CartesianChart.Series>
+                                    <lvc:LineSeries
+                                        Name="dustFrequency"
+                                        Fill="Transparent"
+                                        LineSmoothness="1"
+                                        PointGeometrySize="5"
+                                        StrokeThickness="1"
+                                        Values="10,20,30,40,50,60,70,80,90" />
+                                </lvc:CartesianChart.Series>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis
+                                        Name="zsTimeFrequency"
+                                        Title="频率"
+                                        FontFamily="Arial Black"
+                                        FontSize="16"
+                                        Foreground="White"
+                                        LabelFormatter="{Binding FormatterDust}"
+                                        Labels="{Binding EnvNoise.RecordTime}"
+                                        ShowLabels="True"
+                                        Unit="0">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator StrokeThickness="1">
+                                                <lvc:Separator.Stroke>
+                                                    <SolidColorBrush Color="#FF928E8E" />
+                                                </lvc:Separator.Stroke>
+                                            </lvc:Separator>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis
+                                        FontFamily="Arial"
+                                        FontSize="12"
+                                        LabelFormatter="{Binding DustRecord}"
+                                        Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                        Position="LeftBottom"
+                                        ShowLabels="True">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator StrokeThickness="1">
+                                                <lvc:Separator.Stroke>
+                                                    <SolidColorBrush Color="#FF928E8E" />
+                                                </lvc:Separator.Stroke>
+                                            </lvc:Separator>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <!--  水平振动频谱  -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="10,10"
+                    BorderBrush="#FF928C8C"
+                    BorderThickness="1">
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Height="300"
+                        Margin="20,10"
+                        VerticalAlignment="Top"
+                        Background="#FF323232">
+                        <TextBlock
+                            Margin="30,5,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="#FFE0E0E0"
+                            Text="水平振动频谱" />
+                        <Grid Margin="30,40">
+                            <lvc:CartesianChart Height="Auto">
+                                <lvc:CartesianChart.Series>
+                                    <lvc:LineSeries
+                                        Name="dustLevel"
+                                        Fill="Transparent"
+                                        LineSmoothness="1"
+                                        PointGeometrySize="5"
+                                        StrokeThickness="1"
+                                        Values="10,20,30,40,50,60,70,80,90" />
+                                </lvc:CartesianChart.Series>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis
+                                        Name="zsTimeLevel"
+                                        Title="频率"
+                                        FontFamily="Arial Black"
+                                        FontSize="16"
+                                        Foreground="White"
+                                        LabelFormatter="{Binding FormatterDust}"
+                                        Labels="{Binding EnvNoise.RecordTime}"
+                                        ShowLabels="True"
+                                        Unit="0">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator StrokeThickness="1">
+                                                <lvc:Separator.Stroke>
+                                                    <SolidColorBrush Color="#FF928E8E" />
+                                                </lvc:Separator.Stroke>
+                                            </lvc:Separator>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis
+                                        FontFamily="Arial"
+                                        FontSize="12"
+                                        LabelFormatter="{Binding DustRecord}"
+                                        Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                        Position="LeftBottom"
+                                        ShowLabels="True">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator StrokeThickness="1">
+                                                <lvc:Separator.Stroke>
+                                                    <SolidColorBrush Color="#FF928E8E" />
+                                                </lvc:Separator.Stroke>
+                                            </lvc:Separator>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <!--  时域波形  -->
+                <Border
+                    Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    Margin="10,10"
+                    BorderBrush="#FF928C8C"
+                    BorderThickness="1">
+                    <Grid
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Height="300"
+                        Margin="20,10"
+                        VerticalAlignment="Top"
+                        Background="#FF323232">
+                        <TextBlock
+                            Margin="30,5,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="#FFE0E0E0"
+                            Text="时域波形" />
+                        <Grid Margin="30,40">
+                            <lvc:CartesianChart Height="Auto">
+                                <lvc:CartesianChart.Series>
+                                    <lvc:LineSeries
+                                        Name="dustTimeDomain"
+                                        Fill="Transparent"
+                                        LineSmoothness="1"
+                                        PointGeometrySize="5"
+                                        StrokeThickness="1"
+                                        Values="10,20,30,40,50,60,70,80,90" />
+                                </lvc:CartesianChart.Series>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis
+                                        Name="zsTimeDomain"
+                                        Title="频率"
+                                        FontFamily="Arial Black"
+                                        FontSize="16"
+                                        Foreground="White"
+                                        LabelFormatter="{Binding FormatterDust}"
+                                        Labels="{Binding EnvNoise.RecordTime}"
+                                        ShowLabels="True"
+                                        Unit="0">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator StrokeThickness="1">
+                                                <lvc:Separator.Stroke>
+                                                    <SolidColorBrush Color="#FF928E8E" />
+                                                </lvc:Separator.Stroke>
+                                            </lvc:Separator>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis
+                                        FontFamily="Arial"
+                                        FontSize="12"
+                                        LabelFormatter="{Binding DustRecord}"
+                                        Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                                        Position="LeftBottom"
+                                        ShowLabels="True">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator StrokeThickness="1">
+                                                <lvc:Separator.Stroke>
+                                                    <SolidColorBrush Color="#FF928E8E" />
+                                                </lvc:Separator.Stroke>
+                                            </lvc:Separator>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

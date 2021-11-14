@@ -1,0 +1,130 @@
+﻿<UserControl
+    x:Class="NFS.Robot.Views.StrategySetting"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NFS.Robot.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="#FF323232"
+    mc:Ignorable="d">
+    <Grid>
+        <Border
+            Width="800"
+            BorderBrush="#FF868585"
+            BorderThickness="0,5,0,0" />
+        <DataGrid
+            Margin="0,7"
+            materialDesign:DataGridAssist.CornerRadius="0"
+            AutoGenerateColumns="False"
+            Background="#FF323232"
+            CanUserAddRows="False"
+            HeadersVisibility="All">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Height" Value="40" />
+                    <Setter Property="Foreground" Value="#FFBBB6B6" />
+                    <Setter Property="BorderBrush" Value="#FF5E5D5D" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridColumnHeader">
+                                <Border
+                                    Background="#FF5E5D5D"
+                                    BorderBrush="LightGray"
+                                    BorderThickness="0.2"
+                                    CornerRadius="0">
+                                    <ContentPresenter
+                                        Width="Auto"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="80"
+                    Binding="{Binding Code}"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                    Header="序号" />
+                <materialDesign:DataGridTextColumn
+                    Width="80"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                    Header="巡检路线" />
+                <DataGridTextColumn
+                    Width="80"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                    Header="巡检机器人" />
+                <materialDesign:DataGridTextColumn
+                    Width="80"
+                    Binding="{Binding Numeric}"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
+                    Header="巡检速度" />
+                <materialDesign:DataGridComboBoxColumn
+                    Width="80"
+                    Header="巡检区间"
+                    IsEditable="True"
+                    ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Foods}"
+                    SelectedValueBinding="{Binding Food}" />
+                <DataGridTextColumn
+                    Width="80"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                    Header="巡检模式" />
+                <DataGridTextColumn
+                    Width="80"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                    Header="巡检状态" />
+                <DataGridTextColumn
+                    Width="80"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                    Header="立即启用" />
+                <DataGridTemplateColumn Width="80" Header="操作">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button
+                                    x:Name="Edit"
+                                    Width="Auto"
+                                    Height="30"
+                                    Margin="0,0,25,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Background="#FF4ABAD0"
+                                    BorderThickness="0"
+                                    Click="Edit_Click"
+                                    Content="编辑"
+                                    FontSize="14" />
+                                <Button
+                                    x:Name="Del"
+                                    Width="68"
+                                    Height="30"
+                                    Margin="24,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Background="#FFF84B4B"
+                                    BorderThickness="0"
+                                    Click="Del_Click"
+                                    Content="删除"
+                                    FontSize="14" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,814 @@
+﻿<UserControl
+    x:Class="NFS.Robot.Views.FullScreenVideo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NFS.Robot.Views"
+    xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+    Width="1150"
+    Height="800"
+    Loaded="FullScreenVideo_Loaded"
+    Unloaded="FullScreenVideo_Unloaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <!--  竖向  -->
+        <Style x:Key="ListBoxStyle1" TargetType="{x:Type ListBox}">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="MiddleCoiumn" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="5"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                FontStyle="Italic"
+                                Text="Country:" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="5"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Text="{Binding Name}" />
+                            <Border
+                                Grid.Column="2"
+                                Margin="4,0"
+                                BorderThickness="2"
+                                CornerRadius="4">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="#aaa" />
+                                        <GradientStop Offset="1" Color="#222" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Grid>
+                                    <Rectangle>
+                                        <Rectangle.Fill>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Offset="0" Color="#444" />
+                                                <GradientStop Offset="1" Color="#fff" />
+                                            </LinearGradientBrush>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                    <Image
+                                        Width="48"
+                                        Margin="2,2,2,1"
+                                        Source="{Binding ImagePath}" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Grid.IsSharedSizeScope" Value="True" />
+        </Style>
+        <!--  横向  -->
+        <Style
+            x:Key="ListBoxStyle2"
+            BasedOn="{StaticResource ListBoxStyle1}"
+            TargetType="{x:Type ListBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <StackPanel
+                                Name="StackPanel1"
+                                IsItemsHost="True"
+                                Orientation="Horizontal" />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <!--  平铺  -->
+        <Style x:Key="ListBoxStyle3" TargetType="{x:Type ListBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <WrapPanel IsItemsHost="True" />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
+                            <Image
+                                Grid.Row="0"
+                                Width="48"
+                                Margin="2,2,2,1"
+                                Source="{Binding ImagePath}" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Margin="5"
+                                HorizontalAlignment="Center"
+                                FontSize="14"
+                                Text="{Binding Name}" />
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#FF323232">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    x:Name="btnVideo"
+                    Width="30"
+                    Height="30"
+                    Margin="30,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    materialDesign:ButtonAssist.CornerRadius="0"
+                    Background="#FF323232"
+                    BorderBrush="#FF6D6D6F"
+                    BorderThickness="3"
+                    FontFamily="Arial"
+                    FontSize="11"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                    ToolTip="播放">
+                    <materialDesign:PackIcon
+                        Width="30"
+                        Height="30"
+                        Margin="-16,-10"
+                        Foreground="#FF6D6D6F"
+                        Kind="Stop" />
+                </Button>
+                <Button
+                    x:Name="btnPause"
+                    Width="30"
+                    Height="30"
+                    Margin="-15,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    materialDesign:ButtonAssist.CornerRadius="0"
+                    Background="#FF323232"
+                    BorderBrush="#FF6D6D6F"
+                    BorderThickness="3"
+                    FontFamily="Arial"
+                    FontSize="11"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                    ToolTip="暂停">
+                    <materialDesign:PackIcon
+                        Width="30"
+                        Height="30"
+                        Margin="-16,-10"
+                        Foreground="#FF6D6D6F"
+                        Kind="Pause" />
+                </Button>
+                <Button
+                    x:Name="btnFour"
+                    Width="30"
+                    Height="30"
+                    Margin="30,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    materialDesign:ButtonAssist.CornerRadius="0"
+                    Background="#FF323232"
+                    BorderBrush="#FF6D6D6F"
+                    BorderThickness="3"
+                    FontFamily="Arial"
+                    FontSize="11"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                    ToolTip="1/4">
+                    <materialDesign:PackIcon
+                        Width="30"
+                        Height="22"
+                        Margin="-16,-10"
+                        Foreground="#FF6D6D6F"
+                        Kind="ViewGrid" />
+                </Button>
+                <Button
+                    x:Name="btNIne"
+                    Width="30"
+                    Height="30"
+                    Margin="-10,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    materialDesign:ButtonAssist.CornerRadius="0"
+                    Background="#FF323232"
+                    BorderBrush="#FF6D6D6F"
+                    BorderThickness="3"
+                    FontFamily="Arial"
+                    FontSize="11"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                    ToolTip="1/9">
+                    <materialDesign:PackIcon
+                        Width="30"
+                        Height="22"
+                        Margin="-16,-10"
+                        Foreground="#FF6D6D6F"
+                        Kind="DotsGrid" />
+                </Button>
+            </StackPanel>
+            <Button
+                x:Name="btnZoomOut"
+                Width="30"
+                Height="30"
+                Margin="10,5"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                materialDesign:ButtonAssist.CornerRadius="0"
+                Background="#FF323232"
+                BorderBrush="#FF6D6D6F"
+                BorderThickness="3"
+                FontFamily="Arial"
+                FontSize="11"
+                Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                ToolTip="缩小">
+                <materialDesign:PackIcon
+                    Width="30"
+                    Height="22"
+                    Margin="-16,-10"
+                    Foreground="#FF6D6D6F"
+                    Kind="ArrowCollapse" />
+            </Button>
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Background="#FF777D85"
+            Opacity="0.5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!--  机器人列表  -->
+            <ListBox
+                Grid.Row="1"
+                Grid.Column="0"
+                Width="160"
+                Margin="0,-80,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Background="#FF75767B"
+                Opacity="0.5">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="OverridesDefaultStyle" Value="True" />
+                        <Setter Property="SnapsToDevicePixels" Value="True" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="Height" Value="40" />
+                        <Setter Property="FontFamily" Value="Arial" />
+                        <Setter Property="FontSize" Value="14" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Border
+                                        x:Name="border"
+                                        Margin="2"
+                                        BorderBrush="LightGray"
+                                        BorderThickness="0,0,0,0.2"
+                                        CornerRadius="0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <ContentPresenter
+                                                Margin="10,0,0,0"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                            <materialDesign:PackIcon
+                                                Width="30"
+                                                Height="30"
+                                                Margin="40,2"
+                                                HorizontalAlignment="Right"
+                                                Kind="Airplane" />
+                                        </StackPanel>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter TargetName="border" Property="Background" Value="#FF678994" />
+                                            <Setter TargetName="border" Property="BorderBrush" Value="#FF46679A" />
+                                            <Setter TargetName="border" Property="BorderThickness" Value="0,0,0,0.5" />
+                                        </Trigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsMouseOver" Value="True" />
+                                                <Condition Property="IsSelected" Value="False" />
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter TargetName="border" Property="Background" Value="#FF678994" />
+                                                <Setter TargetName="border" Property="BorderBrush" Value="#FF46679A" />
+                                                <Setter TargetName="border" Property="BorderThickness" Value="0,0,0,0.5" />
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBoxItem>Robot001</ListBoxItem>
+                <ListBoxItem>Robot002</ListBoxItem>
+                <ListBoxItem>Robot003</ListBoxItem>
+                <ListBoxItem>Robot004</ListBoxItem>
+            </ListBox>
+
+            <Grid
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Margin="200,0,250,0">
+                <Image
+                    Width="Auto"
+                    Source="/Resource/Image/Infrared.png"
+                    Stretch="Fill" />
+            </Grid>
+            <Grid Grid.Row="0" Grid.Column="2">
+                <StackPanel
+                    Margin="15,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <StackPanel.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="../Themes/LineComboxStyle.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </StackPanel.Resources>
+                    <ComboBox
+                        x:Name="cmbLine"
+                        Width="120"
+                        Height="30"
+                        Margin="10,0"
+                        Background="Transparent"
+                        DisplayMemberPath="LineName"
+                        FontFamily="Arial"
+                        FontSize="12"
+                        Foreground="#FF4ABAD0"
+                        ItemsSource="{Binding RouteFormList}"
+                        SelectedIndex="0"
+                        SelectedItem="{Binding CmbRouteItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="Arial"
+                        FontSize="12"
+                        Foreground="White"
+                        Text="Y00021,运行中" />
+                </StackPanel>
+                <StackPanel
+                    Margin="0,100,20,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Image
+                        Width="45"
+                        Height="25"
+                        Source="/NFS.Robot;component/Resource/Image/speed.png" />
+                    <TextBlock
+                        Margin="10"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontFamily="Arial"
+                        FontSize="12"
+                        Foreground="White"
+                        Text="6m/s" />
+                </StackPanel>
+
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="0">
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                    <Button
+                        Width="35"
+                        Height="35"
+                        VerticalAlignment="Top"
+                        materialDesign:ButtonAssist.CornerRadius="0"
+                        BorderThickness="0"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/NFS.Robot;component/Resource/Image/plane.png" Stretch="None" />
+                        </Button.Background>
+                    </Button>
+                    <TextBlock
+                        Margin="-8,8,0,0"
+                        FontSize="11"
+                        Foreground="White"
+                        Text="Robot001" />
+                    <Button
+                        Width="25"
+                        Height="25"
+                        Margin="5,-2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        materialDesign:ButtonAssist.CornerRadius="0"
+                        BorderThickness="0"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/NFS.Robot;component/Resource/Image/mark.png" Stretch="None" />
+                        </Button.Background>
+                    </Button>
+                    <TextBlock
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Left"
+                        FontSize="11"
+                        Foreground="#FF3E8589"
+                        Text="600m" />
+                    <TextBlock
+                        Margin="0,8,0,0"
+                        FontSize="11"
+                        Foreground="White"
+                        Text="/5000m" />
+                    <Button
+                        Width="35"
+                        Height="35"
+                        Margin="5,8,0,0"
+                        VerticalAlignment="Top"
+                        materialDesign:ButtonAssist.CornerRadius="0"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                        <materialDesign:PackIcon
+                            Width="20"
+                            Height="20"
+                            Margin="-20,-20"
+                            Kind="AlphaMBox" />
+                    </Button>
+                    <TextBlock
+                        Margin="-18,8,0,0"
+                        HorizontalAlignment="Left"
+                        FontSize="11"
+                        Foreground="White"
+                        Text="自动巡检" />
+                    <Button
+                        Width="35"
+                        Height="35"
+                        Margin="-8,-2"
+                        VerticalAlignment="Top"
+                        materialDesign:ButtonAssist.CornerRadius="0"
+                        BorderThickness="0"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                        ToolTip="左右">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/NFS.Robot;component/Resource/Image/leftRightSwitch.png" Stretch="None" />
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+                <WrapPanel Margin="10,60">
+                    <Border
+                        Width="120"
+                        Height="120"
+                        HorizontalAlignment="Left"
+                        BorderBrush="White"
+                        BorderThickness="3"
+                        CornerRadius="1000">
+                        <Border
+                            Width="100"
+                            Height="100"
+                            HorizontalAlignment="Left"
+                            Background="Transparent"
+                            CornerRadius="1000">
+                            <materialDesign:PackIcon
+                                Width="115"
+                                Height="105"
+                                Foreground="#FF6D6D6F"
+                                Kind="Airplane" />
+                        </Border>
+                    </Border>
+                    <WrapPanel
+                        Margin="15,-15"
+                        VerticalAlignment="Top"
+                        Orientation="Vertical">
+                        <StackPanel Margin="5" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="20"
+                                Height="20"
+                                VerticalAlignment="Center"
+                                Background="White"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="#FF727070"
+                                Kind="AlphaH" />
+                            <TextBlock
+                                Margin="5"
+                                VerticalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="3098" />
+                            <TextBlock
+                                VerticalAlignment="Top"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="M" />
+                        </StackPanel>
+                        <StackPanel Margin="0,5" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="30"
+                                Height="30"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="White"
+                                Kind="ChevronLeft" />
+                            <TextBlock
+                                Margin="5"
+                                VerticalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="30" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="°" />
+                        </StackPanel>
+                        <StackPanel Margin="5" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="20"
+                                Height="20"
+                                VerticalAlignment="Center"
+                                Background="White"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="#FF727070"
+                                Kind="AlphaT" />
+                            <TextBlock
+                                Margin="5"
+                                VerticalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="30" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="Hours" />
+                        </StackPanel>
+                        <StackPanel Margin="5" Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="20"
+                                Height="20"
+                                VerticalAlignment="Center"
+                                Background="White"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="#FF727070"
+                                Kind="AlphaL" />
+                            <TextBlock
+                                Margin="5"
+                                VerticalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="130" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="Km" />
+                        </StackPanel>
+                    </WrapPanel>
+                </WrapPanel>
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="1">
+                <WrapPanel
+                    Margin="0,100"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal">
+
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="25" />
+                            <TextBlock
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="℃" />
+                        </StackPanel>
+                        <materialDesign:PackIcon
+                            Width="30"
+                            Height="40"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="#FF5FCEFF"
+                            Kind="Thermometer" />
+                    </StackPanel>
+
+                    <StackPanel Margin="10,0" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="25" />
+                            <TextBlock
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="mg/m³" />
+                        </StackPanel>
+                        <materialDesign:PackIcon
+                            Width="30"
+                            Height="40"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            Foreground="White"
+                            Kind="HeadDotsHorizontalOutline" />
+                    </StackPanel>
+
+                    <StackPanel Margin="10,0" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="75" />
+                            <TextBlock
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="%" />
+                        </StackPanel>
+                        <materialDesign:PackIcon
+                            Width="30"
+                            Height="40"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            Foreground="#FFFFAA44"
+                            Kind="BatteryCharging" />
+                    </StackPanel>
+
+                    <StackPanel Margin="10,0" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="1" />
+                            <TextBlock
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="m/s" />
+                        </StackPanel>
+                        <Border
+                            Width="35"
+                            Height="35"
+                            Margin="0,5"
+                            Background="#FFB16CE7"
+                            CornerRadius="5">
+                            <materialDesign:PackIcon
+                                Width="35"
+                                Height="35"
+                                Margin="0,5"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="#FFB16CE7"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                Foreground="White"
+                                Kind="Speedometer" />
+                        </Border>
+
+                    </StackPanel>
+
+                    <StackPanel Margin="10,0" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="17" />
+                            <TextBlock
+                                FontFamily="Arial"
+                                FontSize="14"
+                                Foreground="White"
+                                Text="Km" />
+                        </StackPanel>
+                        <materialDesign:PackIcon
+                            Width="40"
+                            Height="40"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            Foreground="#FF13227A"
+                            Kind="RoadVariant" />
+                    </StackPanel>
+                </WrapPanel>
+            </Grid>
+            <Grid
+                Grid.Row="2"
+                Grid.Column="2"
+                Background="#FFF8EFE2">
+                <!--<TabControl>
+                    <TabItem>
+                        <ItemsControl ItemsSource="{Binding Datas}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Left" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ListBox>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid
+                                                    Background="#FFF8EFE2"
+                                                    Columns="14"
+                                                    Rows="8">
+                                                </UniformGrid>
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                    </ListBox>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </TabItem>
+                </TabControl>-->
+
+                <!--<ContentControl
+                        x:Name="Ctrol"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        prism:RegionManager.RegionName="RegionContent"
+                        Background="#FF272727" />-->
+                <!--<Image
+                    Width="Auto"
+                    Height="Auto"
+                    Source="../Resource/Image/Right.png" />-->
+                <wpf:ChromiumWebBrowser
+                    x:Name="web"
+                    Width="Auto"
+                    Height="Auto" />
+                <Canvas>
+                    <Canvas.Background>
+                        <VisualBrush
+                            TileMode="Tile"
+                            Viewbox="0,0,50,50"
+                            ViewboxUnits="Absolute"
+                            Viewport="0,0,50,50"
+                            ViewportUnits="Absolute">
+                            <VisualBrush.Visual>
+                                <Rectangle
+                                    Width="50"
+                                    Height="50"
+                                    Stroke="Black"
+                                    StrokeDashArray="0.5"
+                                    StrokeThickness="0.5" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Canvas.Background>
+                </Canvas>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

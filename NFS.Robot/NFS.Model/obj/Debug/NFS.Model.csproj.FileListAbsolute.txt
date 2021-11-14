@@ -1,0 +1,15 @@
+D:\vsCode\NFS.Robot\NFS.Model\bin\Debug\NFS.Model.dll
+D:\vsCode\NFS.Robot\NFS.Model\bin\Debug\NFS.Model.pdb
+D:\vsCode\NFS.Robot\NFS.Model\bin\Debug\Microsoft.Xaml.Behaviors.dll
+D:\vsCode\NFS.Robot\NFS.Model\bin\Debug\Prism.dll
+D:\vsCode\NFS.Robot\NFS.Model\bin\Debug\Prism.Wpf.dll
+D:\vsCode\NFS.Robot\NFS.Model\bin\Debug\Microsoft.Xaml.Behaviors.pdb
+D:\vsCode\NFS.Robot\NFS.Model\bin\Debug\Microsoft.Xaml.Behaviors.xml
+D:\vsCode\NFS.Robot\NFS.Model\bin\Debug\Prism.pdb
+D:\vsCode\NFS.Robot\NFS.Model\bin\Debug\Prism.xml
+D:\vsCode\NFS.Robot\NFS.Model\bin\Debug\Prism.Wpf.pdb
+D:\vsCode\NFS.Robot\NFS.Model\bin\Debug\Prism.Wpf.xml
+D:\vsCode\NFS.Robot\NFS.Model\obj\Debug\NFS.Model.csproj.CoreCompileInputs.cache
+D:\vsCode\NFS.Robot\NFS.Model\obj\Debug\NFS.Model.dll
+D:\vsCode\NFS.Robot\NFS.Model\obj\Debug\NFS.Model.pdb
+D:\vsCode\NFS.Robot\NFS.Model\obj\Debug\NFS.Model.csproj.CopyComplete

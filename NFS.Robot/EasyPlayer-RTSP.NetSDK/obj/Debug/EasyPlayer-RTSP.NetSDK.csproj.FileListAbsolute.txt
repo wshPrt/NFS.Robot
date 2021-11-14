@@ -1,0 +1,5 @@
+D:\vsCode\NFS.Robot\EasyPlayer-RTSP.NetSDK\bin\Debug\EasyPlayer-RTSP.NetSDK.dll
+D:\vsCode\NFS.Robot\EasyPlayer-RTSP.NetSDK\bin\Debug\EasyPlayer-RTSP.NetSDK.pdb
+D:\vsCode\NFS.Robot\EasyPlayer-RTSP.NetSDK\obj\Debug\EasyPlayer-RTSP.NetSDK.csproj.CoreCompileInputs.cache
+D:\vsCode\NFS.Robot\EasyPlayer-RTSP.NetSDK\obj\Debug\EasyPlayer-RTSP.NetSDK.dll
+D:\vsCode\NFS.Robot\EasyPlayer-RTSP.NetSDK\obj\Debug\EasyPlayer-RTSP.NetSDK.pdb

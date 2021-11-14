@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" http-equiv="X-UA-Compatible" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible">
+    <title>实时位置(腾讯)</title>
+</head>
+<script charset="utf-8" src="https://map.qq.com/api/gljs?v=1.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"></script>
+<script charset="utf-8" src="https://map.qq.com/api/gljs?libraries=tools,geometry&v=1.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"></script>
+
+<style type="text/css">
+    html,
+    body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #container {
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .anchorBL {
+        display: none;
+    }
+
+    .logo-text {
+        display: none;
+        position: absolute;
+    }
+
+    .lblPosition {
+        position: absolute;
+        left: 4rem;
+        background: white;
+        z-index: 1;
+        color: navy;
+        top: 18px
+    }
+
+    .keyword {
+        position: absolute;
+        left: 0rem;
+        width: 150px;
+        height: 26px;
+        z-index: 1;
+        top: 18px;
+    }
+
+    .toolItem {
+        position: absolute;
+        width: 30px;
+        height: 23px;
+        z-index: 1;
+        top: 16px;
+        left: 30rem;
+        float: left;
+        margin: 1px;
+        padding: 4px;
+        border-radius: 3px;
+        background-size: 27px 27px;
+        background-position: 4px 4px;
+        background-repeat: no-repeat;
+        box-shadow: 0 1px 2px 0 #E4E7EF;
+        background-color: #ffffff;
+        border: 1px solid #ffffff;
+    }
+
+        .toolItem:hover {
+            border-color: #789CFF;
+        }
+
+    .active {
+        border-color: #D5DFF2;
+        background-color: #D5DFF2;
+    }
+
+    #marker {
+        position: absolute;
+        background-image: url('https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/marker_editor.png');
+    }
+
+    .lblLength {
+        position: absolute;
+        left: 34rem;
+        z-index: 1;
+        background: white;
+        color: navy;
+        top: 18px
+    }
+
+    .lblLengthNumner {
+        position: absolute;
+        left: 40rem;
+        z-index: 999 !important;
+        background: white;
+        color: red;
+        top: 18px
+    }
+
+    .amap-logo {
+        display: none;
+    }
+
+    .amap-copyright {
+        bottom: -100px;
+        display: none;
+    }
+
+    .tmap-scale-control {
+        display: none;
+    }
+
+    #info {
+        position: absolute;
+        z-index: 1;
+        left: 1rem;
+        top: 100px;
+        font-size: 14px;
+        background: #FFF;
+        width: 250px;
+        padding: 10px;
+        border-radius: 3px;
+        top: 5px;
+    }
+
+    #btnGet {
+        position: absolute;
+        z-index: 1;
+        left: 26rem;
+        top: 23px;
+        color: red;
+    }
+</style>
+
+<body onload="initMap()">
+    <div id="container"></div>
+    <div id="toolControl">
+        <div class="toolItem active" id="marker" title="点标记"></div>
+    </div>
+    <div id="info">当前坐标为：<span id="position_info"></span></div>
+
+    <div id='mapContainer'></div>
+    <script type="text/javascript">
+        var center = new TMap.LatLng(30.457096, 114.474608);
+        //初始化地图
+        var map = new TMap.Map("container", {
+            zoom: 15,
+            center: center
+        });
+
+        measureTool = new TMap.tools.MeasureTool({
+            map: map
+        });
+
+        var path = [
+            new TMap.LatLng(30.457045, 114.474608),
+            new TMap.LatLng(30.458038, 114.473219),
+            new TMap.LatLng(30.458735, 114.470254),
+            new TMap.LatLng(30.458735, 114.470254),
+            new TMap.LatLng(30.458735, 114.470254),
+            new TMap.LatLng(30.46322, 114.45641),
+            new TMap.LatLng(30.465352, 114.455831),
+            new TMap.LatLng(30.467461, 114.457094),
+            new TMap.LatLng(30.46787, 114.460121),
+            new TMap.LatLng(30.467008, 114.461673)
+        ];
+        function measure() {
+            document.getElementById('measure').innerText = '点击这里测量结束';
+            measureTool.measureDistance().then((res) => {
+                //测量结束，将结果显示到页中
+                alert("测量结果为：" + res.totalDistance + "米");
+                document.getElementById('measure').innerText = '点击这里开始测量';
+            });
+        }
+
+        var polylineLayer = new TMap.MultiPolyline({
+            map, // 绘制到目标地图
+            // 折线样式定义
+            styles: {
+                'style_blue': new TMap.PolylineStyle({
+                    'color': '#32CD32', //线填充色
+                    'width': 10, //折线宽度
+                    'borderWidth': 2, //边线宽度
+                    'borderColor': '#FFF', //边线颜色
+                    'lineCap': 'round' //线端头方式
+                })
+            },
+            geometries: [{
+                styleId: 'style_blue',
+                paths: path
+            }],
+        });
+
+        var marker = new TMap.MultiMarker({
+            map,
+            styles: {
+                'car-down': new TMap.MarkerStyle({
+                    'width': 50,
+                    'height': 50,
+                    'anchor': {
+                        x: 10,
+                        y: 20,
+                    },
+                    'faceTo': 'map',
+                    'rotate': 180,
+                    'src': 'http://m.qpic.cn/psc?/V52RIunW33rh3b430UqV1NtBbX2tBYlS/45NBuzDIW489QBoVep5mcTKL2ByEcU5PvOVag30g2xTJJLFwK7Xyi.svbnIbITsvRm9HihzfLcPu3PiRl9DfGKJpCi4jw2elEqmS8W4H954!/b&bo=MwA2AAAAAAADFzc!&rf=viewer_4',
+                    position: center, //设置信息框位置
+                    content: '正常',
+                }),
+                "start": new TMap.MarkerStyle({
+                    "width": 50,
+                    "height": 70,
+                    "anchor": { x: 16, y: 32 },
+                    "src": 'http://m.qpic.cn/psc?/V52RIunW33rh3b430UqV1NtBbX2tBYlS/45NBuzDIW489QBoVep5mcSaKlieYTQOm*hYypnQNS.p6ZqUuvXLgsIsNF4Sj66Kr3sSVthdqmATTwMJPKqItG7ybZxnFQvZiLf842HvQNog!/b&bo=KAA9AAAAAAADFyc!&rf=viewer_4'
+                }),
+                "end": new TMap.MarkerStyle({
+                    "width": 50,
+                    "height": 70,
+                    "anchor": { x: 16, y: 32 },
+                    "src": 'http://m.qpic.cn/psc?/V52RIunW33rh3b430UqV1NtBbX2tBYlS/45NBuzDIW489QBoVep5mcTKL2ByEcU5PvOVag30g2xTdXDCM4hpK49IAmjnlBHUdDM0XXC0xKlRvZAIiYhx2lffaV.jjbEAonTqJQsf.RYg!/b&bo=KAA9AAAAAAADFyc!&rf=viewer_4'
+                })
+            },
+            geometries: [{
+                id: 'car',
+                styleId: 'car-down',
+                position: new TMap.LatLng(30.457045, 114.474608),
+            }, {
+                "id": 'start',
+                "styleId": 'start',
+                "position": new TMap.LatLng(30.457045, 114.474608)
+            }, {
+                "id": 'end',
+                "styleId": 'end',
+                "position": new TMap.LatLng(30.467008, 114.461673)
+            }]
+        });
+        marker.moveAlong({
+            'car': {
+                path
+                , speed: 500
+            }
+        },
+            {
+                autoRotation: true
+            })
+
+        let fastLatlng = 0
+        let countM = 0; // 移动总米数
+        let walkStop = 100; // 移动米数停止
+        marker.on('moving', function (a) {
+            let passedLatLngs = a.car.passedLatLngs;
+            if (passedLatLngs.length >= 2) {
+                if (fastLatlng == 0) {
+                    fastLatlng = passedLatLngs[0];
+                }
+
+                let lastLatlng = passedLatLngs[passedLatLngs.length - 1]
+
+
+                var startPoint = new TMap.LatLng(fastLatlng.lat, fastLatlng.lng);
+                var endPoint = new TMap.LatLng(lastLatlng.lat, lastLatlng.lng);
+                var path = [startPoint, endPoint]
+                var distance = TMap.geometry.computeDistance(path);
+                countM += distance
+                fastLatlng = lastLatlng
+
+                if (parseInt(countM) >= walkStop) {
+                    this.pauseMove()
+                }
+
+            }
+
+        })
+
+
+        function moveing() {
+            if (document.getElementById('moveValue').value != '') {
+                walkStop += parseInt(document.getElementById('moveValue').value);
+                marker.resumeMove();
+            }
+
+        }
+        //对应位置传参数到js
+        function place() {
+            var txt = document.getElementById("inputValue");
+            alert(txt.value);
+            //根据输入的距离，传递对应的坐标
+            //通过传递的值改变
+            marker.moveAlong({
+                'car': {
+                    txt,
+                    speed: 100
+                }
+            })
+        }
+
+        // 切换激活图层
+        // 标记坐标
+        var map, editor, activeType = 'marker';
+        document.getElementById('toolControl').addEventListener('click', (e) => {
+            let id = e.target.id;
+            if (id !== 'toolControl') {
+                document.getElementById(activeType).className = "toolItem";
+                document.getElementById(id).className = "toolItem active";
+                activeType = id;
+
+                editor.setActiveOverlay(id);
+            }
+        });
+
+        function initMap() {
+            // 初始化几何图形及编辑器
+            editor = new TMap.tools.GeometryEditor({
+                map, // 编辑器绑定的地图对象
+                overlayList: [ // 可编辑图层
+                    {
+                        overlay: new TMap.MultiMarker({
+                            map
+                        }),
+                        id: 'marker'
+                    }
+                ],
+                actionMode: TMap.tools.constants.EDITOR_ACTION.DRAW, // 编辑器的工作模式
+                activeOverlayId: 'marker', // 激活图层
+                snappable: true // 开启吸附
+            });
+            // 监听绘制结束事件，获取绘制几何图形
+            editor.on('draw_complete', (geometry) => {
+                console.log(geometry);
+            });
+        }
+
+        //实时显示地图坐标(根据鼠标移动变化坐标值)
+        var position = document.getElementById("position_info");
+        //绑定点击事件
+        map.on("mousemove", function (evt) {
+            var lat = evt.latLng.getLat().toFixed(6);
+            var lng = evt.latLng.getLng().toFixed(6);
+            position_info.innerHTML = lat + "," + lng;
+            lalat = lat + ",";
+            lalLng = lng;
+        })
+    </script>
+
+</body>
+
+</html>

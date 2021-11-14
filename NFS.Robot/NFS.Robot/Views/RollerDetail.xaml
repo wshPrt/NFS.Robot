@@ -1,0 +1,464 @@
+﻿<UserControl
+    x:Class="NFS.Robot.Views.RollerDetail"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NFS.Robot.Views"
+    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    Width="750"
+    Height="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="80" />
+                <RowDefinition Height="15*" />
+            </Grid.RowDefinitions>
+            <WrapPanel
+                Grid.Row="0"
+                Margin="25,25,0,0"
+                Orientation="Horizontal">
+                <TextBlock
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontFamily="Arial Black"
+                    FontSize="18"
+                    Text="托辊详情页面" />
+                <TextBlock
+                    Margin="15,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Foreground="#FFBBBBBB"
+                    Text="(托辊编号:" />
+                <TextBlock
+                    Margin="5,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Foreground="#FFBBBBBB"
+                    Text="R00001)" />
+                <Button
+                    x:Name="btnClose"
+                    Grid.Row="0"
+                    Width="30"
+                    Height="30"
+                    Margin="420,-5,0,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ToolTip}"
+                    FontFamily="Arial"
+                    FontSize="11"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                    ToolTip="关闭">
+                    <materialDesign:PackIcon
+                        Width="25"
+                        Height="30"
+                        Margin="-18,-10"
+                        Foreground="#FF7A7A7A"
+                        Kind="Close" />
+                </Button>
+            </WrapPanel>
+            <Border
+                Grid.Row="1"
+                Width="800"
+                Margin="0,-20,0,0"
+                VerticalAlignment="Top"
+                BorderBrush="LightGray"
+                BorderThickness="0,2,0,0" />
+            <TextBlock
+                Grid.Row="1"
+                Margin="25,0,0,0"
+                FontFamily="Arial Black"
+                FontSize="18"
+                Text="历史告警" />
+            <Grid
+                Grid.Row="2"
+                Width="700"
+                Margin="25,20,0,0"
+                HorizontalAlignment="Left"
+                Background="#FFEFEFEF">
+                <lvc:CartesianChart Height="Auto">
+                    <lvc:CartesianChart.Series>
+                        <lvc:LineSeries
+                            Name="fcpoints"
+                            Title="托辊测温:"
+                            Fill="Transparent"
+                            LineSmoothness="0"
+                            PointGeometrySize="5"
+                            StrokeThickness="1"
+                            Values="10,20,30,40,50,60,70,80,90" />
+                    </lvc:CartesianChart.Series>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis
+                            Name="fclabels"
+                            Title="时间"
+                            LabelFormatter="{Binding FormatterDust}"
+                            Labels="{Binding EnvNoise.RecordTime}"
+                            MaxValue="24"
+                            MinValue="0"
+                            ShowLabels="True"
+                            Unit="2">
+                            <lvc:Axis.Separator>
+                                <lvc:Separator StrokeThickness="1">
+                                    <lvc:Separator.Stroke>
+                                        <SolidColorBrush Color="#FF928E8E" />
+                                    </lvc:Separator.Stroke>
+                                </lvc:Separator>
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis
+                            Title="起"
+                            FontFamily="Arial"
+                            FontSize="12"
+                            LabelFormatter="{Binding DustRecord}"
+                            Labels="{Binding EnvNoise.Record, Mode=TwoWay}"
+                            MaxValue="100"
+                            MinValue="0"
+                            Position="LeftBottom"
+                            ShowLabels="True"
+                            Unit="5">
+                            <lvc:Axis.Separator>
+                                <lvc:Separator StrokeThickness="1">
+                                    <lvc:Separator.Stroke>
+                                        <SolidColorBrush Color="#FF928E8E" />
+                                    </lvc:Separator.Stroke>
+                                </lvc:Separator>
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+            </Grid>
+            <StackPanel
+                Grid.Row="3"
+                Margin="0,20"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="25,0,0,0"
+                    FontFamily="Arial Black"
+                    FontSize="18"
+                    Text="历史为温度" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Foreground="#FFBBBBBB"
+                    Text="(2021-09-01" />
+                <TextBlock
+                    Margin="5,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Foreground="#FFBBBBBB"
+                    Text="到" />
+                <TextBlock
+                    Margin="5,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="14"
+                    Foreground="#FFBBBBBB"
+                    Text="2021-09-30)" />
+                <ComboBox
+                    x:Name="cmbStartTime"
+                    Width="125"
+                    Height="34"
+                    Margin="280,0,0,0"
+                    Padding="15,5"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    BorderBrush="#FFBBBBBB"
+                    BorderThickness="1.5"
+                    FontFamily="Arial"
+                    FontSize="16"
+                    Foreground="Black"
+                    IsEnabled="{Binding Path=IsChecked, ElementName=OutlinedComboBoxEnabledCheckBox}"
+                    ItemsSource="{Binding ShortStringList}"
+                    SelectedIndex="0"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                    <ComboBoxItem>2021年9月</ComboBoxItem>
+                    <ComboBoxItem>2021年8月</ComboBoxItem>
+                    <ComboBoxItem>2021年7月</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <Border
+                Grid.Row="4"
+                Margin="25,-10,75,0"
+                Background="#FFEFEFEF">
+                <WrapPanel Orientation="Vertical">
+                    <WrapPanel Orientation="Horizontal">
+                        <Border
+                            Width="130"
+                            Height="100"
+                            Margin="15,0,0,0"
+                            Background="#FFEFEFEF"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            CornerRadius="2">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial"
+                                    FontSize="12"
+                                    Foreground="#FFBBBBBB"
+                                    Text="平均高温" />
+                                <TextBlock
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial Black"
+                                    FontSize="23"
+                                    Foreground="#FF323232"
+                                    Text="50℃" />
+                            </StackPanel>
+                        </Border>
+                        <Border
+                            Width="130"
+                            Height="100"
+                            Margin="5,20"
+                            Background="#FFEFEFEF"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            CornerRadius="2">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial"
+                                    FontSize="12"
+                                    Foreground="#FFBBBBBB"
+                                    Text="平均低温" />
+                                <TextBlock
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial Black"
+                                    FontSize="23"
+                                    Foreground="#FF323232"
+                                    Text="10℃" />
+                            </StackPanel>
+                        </Border>
+                        <Border
+                            Width="130"
+                            Height="100"
+                            Margin="0,20"
+                            Background="#FFEFEFEF"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            CornerRadius="2">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial"
+                                    FontSize="12"
+                                    Foreground="#FFBBBBBB"
+                                    Text="最高温度" />
+                                <TextBlock
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial Black"
+                                    FontSize="23"
+                                    Foreground="#FF323232"
+                                    Text="70℃" />
+                            </StackPanel>
+                        </Border>
+                        <Border
+                            Width="130"
+                            Height="100"
+                            Margin="5,20"
+                            Background="#FFEFEFEF"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            CornerRadius="2">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial"
+                                    FontSize="12"
+                                    Foreground="#FFBBBBBB"
+                                    Text="最低温度" />
+                                <TextBlock
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial Black"
+                                    FontSize="23"
+                                    Foreground="#FF323232"
+                                    Text="30℃" />
+                            </StackPanel>
+                        </Border>
+                        <Border
+                            Width="130"
+                            Height="100"
+                            Margin="0,20"
+                            Background="#FFEFEFEF"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            CornerRadius="2">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial"
+                                    FontSize="12"
+                                    Foreground="#FFBBBBBB"
+                                    Text="托辊正常工作天数" />
+                                <TextBlock
+                                    Margin="0,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial Black"
+                                    FontSize="23"
+                                    Foreground="#FF323232"
+                                    Text="28" />
+                            </StackPanel>
+                        </Border>
+                    </WrapPanel>
+
+                    <StackPanel
+                        Grid.Row="4"
+                        Margin="20,0"
+                        HorizontalAlignment="Left">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Arial"
+                            FontSize="11"
+                            Foreground="#FFF95454"
+                            Text="数据分析:自2021-09-01到2021-09-30,托辊R00001正常工作28天,其中2021-09-01和2021-09-10这两天出现超温,分别为60℃和59℃......" />
+                    </StackPanel>
+                    <WrapPanel Grid.Row="4" Margin="20,20,0,0">
+                        <Border
+                            Width="665"
+                            Height="Auto"
+                            Background="#FFE9E8E8"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <StackPanel Margin="10" Orientation="Vertical">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Arial Black"
+                                    FontSize="15"
+                                    Foreground="#FF333333"
+                                    Text="详细数据" />
+                                <Border
+                                    Width="665"
+                                    Margin="0,10,0,0"
+                                    BorderBrush="#FFCECDCD"
+                                    BorderThickness="1" />
+                                <ScrollViewer VerticalScrollBarVisibility="Disabled">
+                                    <DataGrid
+                                        Grid.Row="1"
+                                        Width="Auto"
+                                        Height="Auto"
+                                        Margin="0,1"
+                                        HorizontalAlignment="Left"
+                                        materialDesign:DataGridAssist.CellPadding="0 18 2 15"
+                                        materialDesign:DataGridAssist.CornerRadius="0"
+                                        AutoGenerateColumns="False"
+                                        Background="#FFE9E8E8"
+                                        BorderBrush="#FFD1D1D1"
+                                        BorderThickness="0"
+                                        CanUserSortColumns="True"
+                                        Foreground="#FFC0C0C0"
+                                        HorizontalScrollBarVisibility="Hidden"
+                                        IsReadOnly="True"
+                                        ItemsSource="{Binding RollerDetailList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedItem="{Binding SelectedRow}"
+                                        SelectionMode="Extended"
+                                        VerticalScrollBarVisibility="Hidden">
+                                        <DataGrid.ColumnHeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader">
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                                <Setter Property="FontSize" Value="12" />
+                                                <Setter Property="Height" Value="40" />
+                                                <Setter Property="Foreground" Value="#FF848484" />
+                                                <Setter Property="BorderBrush" Value="#FF5E5D5D" />
+                                                <Setter Property="BorderThickness" Value="0" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="DataGridColumnHeader">
+                                                            <Border
+                                                                Background="#FFD1D1D1"
+                                                                BorderBrush="LightGray"
+                                                                BorderThickness="0"
+                                                                CornerRadius="0">
+                                                                <ContentPresenter
+                                                                    Width="Auto"
+                                                                    HorizontalAlignment="Center"
+                                                                    VerticalAlignment="Center" />
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </DataGrid.ColumnHeaderStyle>
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn
+                                                Width="60"
+                                                Binding="{Binding Date, Mode=TwoWay}"
+                                                Header="日期" />
+                                            <DataGridTextColumn
+                                                Width="70"
+                                                Binding="{Binding HighestTemperature, Mode=TwoWay}"
+                                                Header="最高温度" />
+                                            <DataGridTextColumn
+                                                Width="70"
+                                                Binding="{Binding LowestTemperature, Mode=TwoWay}"
+                                                Header="最低温度" />
+                                            <DataGridTextColumn
+                                                Width="70"
+                                                Binding="{Binding Count, Mode=TwoWay}"
+                                                Header="测温次数" />
+                                            <DataGridTextColumn
+                                                Width="100"
+                                                Binding="{Binding Average, Mode=TwoWay}"
+                                                Header="平均温度" />
+                                            <DataGridTextColumn
+                                                Width="100"
+                                                Binding="{Binding LastTemperatureTime, Mode=TwoWay}"
+                                                Header="最后测温时间" />
+                                            <DataGridTextColumn
+                                                Width="100"
+                                                Binding="{Binding LastTemperature, Mode=TwoWay}"
+                                                Header="最后测温温度" />
+                                            <DataGridTextColumn
+                                                Width="80"
+                                                Binding="{Binding CurrentState, Mode=TwoWay}"
+                                                Header="当天状态" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </ScrollViewer>
+                            </StackPanel>
+                        </Border>
+                    </WrapPanel>
+                </WrapPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

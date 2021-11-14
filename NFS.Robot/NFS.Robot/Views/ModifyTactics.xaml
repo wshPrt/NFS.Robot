@@ -1,0 +1,298 @@
+﻿<UserControl
+    x:Class="NFS.Robot.Views.ModifyTactics"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NFS.Robot.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="532"
+    d:DesignWidth="700"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <!--<materialDesign:DialogHost Identifier="ModifyItem">-->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="20" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="80" />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="24"
+                Foreground="#FF373737"
+                Text="修改巡检策略" />
+            <Border
+                Width="900"
+                VerticalAlignment="Bottom"
+                BorderBrush="#FFDEDEDE"
+                BorderThickness="0,2,0,0" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="../Themes/ComboxTriangleStyle.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </StackPanel.Resources>
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="巡检路线：" />
+            <ComboBox
+                Width="200"
+                Height="40"
+                Margin="10,8"
+                Padding="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="0.5"
+                FontFamily="Arial Black"
+                FontSize="14"
+                Foreground="#FF7F7F7F"
+                SelectedIndex="0"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                <ComboBoxItem>一号线路</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="机器人：" />
+            <ComboBox
+                Width="200"
+                Height="40"
+                Margin="-5,8"
+                Padding="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="0.5"
+                FontFamily="Arial Black"
+                FontSize="14"
+                Foreground="#FF7F7F7F"
+                SelectedIndex="0"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                <ComboBoxItem>robot001</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="巡检模式：" />
+            <ComboBox
+                Width="200"
+                Height="40"
+                Margin="10,8"
+                Padding="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="0.5"
+                FontFamily="Arial Black"
+                FontSize="14"
+                Foreground="#FF7F7F7F"
+                SelectedIndex="0"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                <ComboBoxItem>自动巡检</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="120,3"
+            VerticalAlignment="Bottom"
+            FontSize="14"
+            Foreground="Gray"
+            Text="巡检起始点设置为 距起点" />
+        <StackPanel
+            Grid.Row="4"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="巡检区间：" />
+            <TextBox
+                Width="200"
+                Height="40"
+                Margin="10,8,0,0"
+                Padding="10,10"
+                VerticalAlignment="Top"
+                AcceptsReturn="True"
+                BorderBrush="#FFC4C4C4"
+                FontSize="14"
+                Foreground="#FF878787"
+                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+            <TextBlock
+                Margin="10,20"
+                HorizontalAlignment="Center"
+                FontSize="14"
+                Foreground="Gray"
+                Text="米" />
+        </StackPanel>
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="90,3"
+            VerticalAlignment="Bottom"
+            FontSize="14"
+            Foreground="Gray"
+            Text="巡检终止点设置为 距起点" />
+        <StackPanel
+            Grid.Row="4"
+            Grid.Column="1"
+            Orientation="Horizontal">
+            <TextBox
+                Width="200"
+                Height="40"
+                Margin="90,0,0,0"
+                Padding="10,10"
+                VerticalAlignment="Top"
+                AcceptsReturn="True"
+                BorderBrush="#FFC4C4C4"
+                FontSize="14"
+                Foreground="#FF878787"
+                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+            <TextBlock
+                Margin="15,20"
+                HorizontalAlignment="Left"
+                FontSize="14"
+                Foreground="Gray"
+                Text="米" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="5"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="15,20"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="巡检速度：" />
+            <TextBox
+                Width="200"
+                Height="40"
+                Margin="10,10,0,0"
+                Padding="10,10"
+                VerticalAlignment="Top"
+                materialDesign:ButtonAssist.CornerRadius="5"
+                AcceptsReturn="True"
+                BorderBrush="#FFC4C4C4"
+                FontSize="14"
+                Foreground="#FF878787"
+                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+            <TextBlock
+                Margin="10,20"
+                HorizontalAlignment="Left"
+                FontSize="14"
+                Foreground="Gray"
+                Text="m/s" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="5"
+            Grid.Column="1"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="10,20,0,0"
+                FontFamily="Arial Black"
+                FontSize="16"
+                Text="立即启用：" />
+            <ComboBox
+                Width="200"
+                Height="40"
+                Margin="0,8"
+                Padding="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="0.5"
+                FontFamily="Arial Black"
+                FontSize="14"
+                Foreground="#FF7F7F7F"
+                SelectedIndex="0"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                <ComboBoxItem>是</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <Button
+            x:Name="btnCancel"
+            Grid.Row="7"
+            Grid.Column="0"
+            Width="170"
+            Height="45"
+            VerticalAlignment="Top"
+            materialDesign:ButtonAssist.CornerRadius="2"
+            Background="White"
+            BorderBrush="Gray"
+            BorderThickness="1"
+            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+            Content="取消"
+            Foreground="Black"
+            Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+        <Button
+            x:Name="btnDefine"
+            Grid.Row="7"
+            Grid.Column="1"
+            Width="170"
+            Height="45"
+            Margin="50,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            materialDesign:ButtonAssist.CornerRadius="2"
+            Background="#FF4ABAD0"
+            BorderBrush="Transparent"
+            Content="确定"
+            Foreground="White"
+            Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+    </Grid>
+    <!--</materialDesign:DialogHost>-->
+</UserControl>

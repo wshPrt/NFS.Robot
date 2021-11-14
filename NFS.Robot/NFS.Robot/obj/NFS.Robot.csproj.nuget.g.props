@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
+    <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
+    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Administrator\.nuget\packages\;D:\Software\Visual Studio 2019\Shared\NuGetPackages</NuGetPackageFolders>
+    <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.11.1</NuGetToolVersion>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <SourceRoot Include="C:\Users\Administrator\.nuget\packages\" />
+    <SourceRoot Include="D:\Software\Visual Studio 2019\Shared\NuGetPackages\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)cef.redist.x86\94.4.5\buildTransitive\cef.redist.x86.props" Condition="Exists('$(NuGetPackageRoot)cef.redist.x86\94.4.5\buildTransitive\cef.redist.x86.props')" />
+    <Import Project="$(NuGetPackageRoot)cef.redist.x64\94.4.5\buildTransitive\cef.redist.x64.props" Condition="Exists('$(NuGetPackageRoot)cef.redist.x64\94.4.5\buildTransitive\cef.redist.x64.props')" />
+    <Import Project="$(NuGetPackageRoot)cefsharp.common\94.4.50\buildTransitive\CefSharp.Common.props" Condition="Exists('$(NuGetPackageRoot)cefsharp.common\94.4.50\buildTransitive\CefSharp.Common.props')" />
+  </ImportGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgMicrosoft_Xaml_Behaviors_Wpf Condition=" '$(PkgMicrosoft_Xaml_Behaviors_Wpf)' == '' ">C:\Users\Administrator\.nuget\packages\microsoft.xaml.behaviors.wpf\1.1.31</PkgMicrosoft_Xaml_Behaviors_Wpf>
+    <PkgNLog_Config Condition=" '$(PkgNLog_Config)' == '' ">C:\Users\Administrator\.nuget\packages\nlog.config\4.7.11</PkgNLog_Config>
+    <PkgMicrosoft_DependencyValidation_Analyzers Condition=" '$(PkgMicrosoft_DependencyValidation_Analyzers)' == '' ">C:\Users\Administrator\.nuget\packages\microsoft.dependencyvalidation.analyzers\0.11.0</PkgMicrosoft_DependencyValidation_Analyzers>
+    <PkgMaterialDesignThemes Condition=" '$(PkgMaterialDesignThemes)' == '' ">C:\Users\Administrator\.nuget\packages\materialdesignthemes\4.2.1</PkgMaterialDesignThemes>
+    <PkgLiveCharts_Wpf Condition=" '$(PkgLiveCharts_Wpf)' == '' ">C:\Users\Administrator\.nuget\packages\livecharts.wpf\0.9.7</PkgLiveCharts_Wpf>
+  </PropertyGroup>
+</Project>
